@@ -1,0 +1,18 @@
+.logo {
+	display: inline-block;
+	color: $oc-grape-8;
+	font-size: 1.5rem;
+	user-select: none;
+	cursor: default;
+
+	span {
+		color: $oc-gray-5;
+	}
+
+	&:hover {
+		span {
+			color: $oc-grape-5;
+			font-weight: 600;
+		}
+	}
+}

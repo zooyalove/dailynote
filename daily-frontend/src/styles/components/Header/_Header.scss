@@ -17,7 +17,9 @@
         padding-right: 1rem;
         color: $oc-gray-5;
         font-size: 1rem;
+        z-index: 10;
 
+        @import 'Logo';
         @import 'Weather';
     }
 }

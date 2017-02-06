@@ -1,23 +1,21 @@
-import React, { Component } from 'react';
-import Weather from './Weather';
+import React from 'react';
+export { default as Weather } from './Weather';
+export { default as Logo } from './Logo';
 
-class Header extends Component {
+const Header = ({children}) => {
 
-    render() {
-        return (
-            <div>
-                <div className="header-wrapper">
-                    <div className="header">
-                        안녕하세요....일일장부(Daily Note) 개발 프로젝트입니다.^^;;
-                        <Weather />
-                    </div>
-                </div>
-                <div className="header-spacer">
+    return (
+        <div>
+            <div className="header-wrapper">
+                <div className="header">
+                    {children}
                 </div>
             </div>
+            <div className="header-spacer">
+            </div>
+        </div>
 
-        );
-    }
+    );
 }
 
 export default Header;

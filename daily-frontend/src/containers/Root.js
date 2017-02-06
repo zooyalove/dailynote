@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import App from './App';
+import { Router, browserHistory } from 'react-router';
+import routes from '../routes';
 
 class Root extends Component {
 
   render() {
-    return <App />
+    return (
+    	<Router routes={routes} history={browserHistory}/>
+    );
   }
 }
 
