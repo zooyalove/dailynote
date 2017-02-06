@@ -13,6 +13,7 @@
         height: 4rem;
         line-height: 4rem;
         margin: 0 auto;
+        position: relative;
         padding-left: 1rem;
         padding-right: 1rem;
         color: $oc-gray-5;
@@ -21,6 +22,12 @@
 
         @import 'Logo';
         @import 'Weather';
+    }
+
+    @include media("<desktop") {
+        .header {
+            width: 100%;
+        }
     }
 }
 
