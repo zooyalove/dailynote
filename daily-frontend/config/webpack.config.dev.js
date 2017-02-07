@@ -121,6 +121,16 @@ module.exports = {
           name: 'static/media/[name].[hash:8].[ext]'
         }
       },
+      //React Hot Module JSX config
+      {
+        test: /\.jsx?$/,
+        loader: 'react-hot',
+        // loaders: [
+        //   'react-hot',
+        //   'jsx?harmony'
+        // ],
+        include: paths.appSrc
+      },
       // Process JS with Babel.
       {
         test: /\.(js|jsx)$/,

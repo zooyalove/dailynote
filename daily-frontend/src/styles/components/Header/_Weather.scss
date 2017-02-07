@@ -1,8 +1,27 @@
 .weather-wrapper {
     position: absolute;
+    display: inline-block;
+    height: 4rem;
     right: 1rem;
+    line-height: 1rem!important;
+    color: $oc-gray-6;
 
     @include media("<phone") {
-        display: none;
+        .weather-wrapper {
+            display: none;
+        }
+    }
+    
+    .weather {
+        position: relative;
+        padding: 0.5rem 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+
+        &:hover {
+            border-radius: 1rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: $oc-gray-0;
+        }
     }
 }

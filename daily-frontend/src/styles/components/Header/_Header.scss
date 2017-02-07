@@ -22,6 +22,7 @@
 
         @import 'Logo';
         @import 'Weather';
+        @import 'WIcon';
     }
 
     @include media("<desktop") {
