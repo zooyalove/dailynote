@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as weather from '../redux/modules/header/weather';
+
 import Header, { Weather, Logo, WIcon } from '../components/Header/Header';
+
 
 class App extends Component {
     render() {
@@ -21,5 +27,16 @@ class App extends Component {
         );
     }
 }
+
+App = connect(
+    state => ({
+        status: {
+            weather: state.header.weather
+        }
+    }),
+    dispatch => ({
+        WeatherActions: bindActionCreators(weather, dispatch)
+    })
+)(App);
 
 export default App;
