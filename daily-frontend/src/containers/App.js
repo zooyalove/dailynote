@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import * as weather from '../redux/modules/header/weather';
 
-import Header, { Weather, Logo, WIcon } from '../components/Header/Header';
+import Header, { Weather, Logo, WIcon } from '../components/Header';
 
 
 class App extends Component {

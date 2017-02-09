@@ -1,7 +1,4 @@
 import React from 'react';
-export { default as Weather } from './Weather';
-export { default as Logo } from './Logo';
-export { default as WIcon } from './WIcon';
 
 const Header = ({children}) => {
 
