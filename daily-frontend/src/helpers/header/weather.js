@@ -49,45 +49,92 @@ const convertGoogleMapToKmaGrid = ({lat, lng}) => {
 	return rs;
 };
 
+// const getKmaWeatherInfo = (nx, ny) => {
+// 	return axios.get('/api/weather/info', {
+// 		params: {
+// 			x: nx,
+// 			y: ny
+// 		}
+// 	}).then(response => {
+// 		let data = response.data.response;
+		
+// 		if(data.header.resultMsg === "OK") {
+// 			let body = data.body;
+// 			console.log(body);
+// 			return body;
+// 		}
+// 	});
+// };
+
+// const getGoogleMapGeometry = async (cityname) => {
+// 	return axios.get(GOOGLE_MAP_URL, {
+// 		params: {
+// 			key: GOOGLE_MAP_API_KEY,
+// 			address: cityname
+// 		}
+// 	}).then((response) => {
+// 		let data = response.data;
+
+// 		if (data.status === "OK") {
+// 			const { nx, ny } = convertGoogleMapToKmaGrid(data.results[0].geometry.location);
+
+// 			const data1 = await getKmaWeatherInfo(nx, ny);
+// 			return data1;
+// 		}
+// 	});
+// };
+
 const getKmaWeatherInfo = (nx, ny) => {
-	axios.get('/api/weather/info', {
+	return axios.get('/api/weather/info', {
 		params: {
 			x: nx,
 			y: ny
 		}
-	}).then(response => {
-		let data = response.data.response;
-		
-		if(data.header.resultMsg === "OK") {
-			let body = data.body;
-			console.log(body);
-		}
 	});
+	// .then(response => {
+	// 	let data = response.data.response;
+		
+	// 	if(data.header.resultMsg === "OK") {
+	// 		let body = data.body;
+	// 		console.log(body);
+	// 		return body;
+	// 	}
+	// });
 };
 
 const getGoogleMapGeometry = (cityname) => {
-	axios.get(GOOGLE_MAP_URL, {
+	return axios.get(GOOGLE_MAP_URL, {
 		params: {
 			key: GOOGLE_MAP_API_KEY,
 			address: cityname
 		}
-	}).then((response) => {
-		let data = response.data;
-
-		if (data.status === "OK") {
-			const { nx, ny } = convertGoogleMapToKmaGrid(data.results[0].geometry.location);
-
-			getKmaWeatherInfo(nx, ny);
-		}
 	});
-};
+	// .then((response) => {
+	// 	let data = response.data;
 
+	// 	if (data.status === "OK") {
+	// 		const { nx, ny } = convertGoogleMapToKmaGrid(data.results[0].geometry.location);
+
+	// 		const data1 = await getKmaWeatherInfo(nx, ny);
+	// 		return data1;
+	// 	}
+	// });
+};
 
 const weatherHelper = (function() {
 
 	return {
-		getWeatherInfo: (cityname) => {
-			getGoogleMapGeometry(cityname);
+
+		getWeatherInfo: async (cityname) => {
+
+			const geocode = await getGoogleMapGeometry(cityname);
+			console.log(geocode);
+			if (geocode.data.status === "OK") {
+				const { nx, ny } = convertGoogleMapToKmaGrid(geocode.data.results[0].geometry.location);
+
+				const weather_info = await getKmaWeatherInfo(nx, ny);
+				console.log(weather_info);
+			}
 		}
 	};
 })();
