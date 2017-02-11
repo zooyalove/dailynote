@@ -121,16 +121,6 @@ module.exports = {
           name: 'static/media/[name].[hash:8].[ext]'
         }
       },
-      //React Hot Module JSX config
-      {
-        test: /\.jsx?$/,
-        loader: 'react-hot',
-        // loaders: [
-        //   'react-hot',
-        //   'jsx?harmony'
-        // ],
-        include: paths.appSrc
-      },
       // Process JS with Babel.
       {
         test: /\.(js|jsx)$/,
@@ -143,8 +133,6 @@ module.exports = {
           // It enables caching results in ./node_modules/.cache/babel-loader/
           // directory for faster rebuilds.
           cacheDirectory: true
-          //presets: ['es2015', 'react']
-          //plugins: ['react-hot-loader','babel']
         }
       },
       // "postcss" loader applies autoprefixer to our CSS.
