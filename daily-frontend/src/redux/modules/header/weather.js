@@ -10,16 +10,18 @@ export const openWeatherDetail = createAction(WEATHER_DETAIL_OPEN);
 export const closeWeatherDetail = createAction(WEATHER_DETAIL_CLOSE);
 
 const initialState = Map({
+	cityname: '경상북도 구미시 지산동',
+	visible: false,
 	weatherDetail: Map({
-		open: false
+		data: null
 	})
 });
 
 export default handleActions({
 	[WEATHER_DETAIL_OPEN]: (state, action) => (
-		state.setIn(['weatherDetail', 'open'], true)
+		state.set('visible', true)
 	),
 	[WEATHER_DETAIL_CLOSE]: (state, action) => (
-		state.setIn(['weatherDetail', 'open'], false)
+		state.set('visible', false)
 	)
 }, initialState);
