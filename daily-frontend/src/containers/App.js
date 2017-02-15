@@ -1,23 +1,67 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 import * as weather from '../redux/modules/header/weather';
+import weatherHelper from '../helpers/header/weather';
 
 import Header, { Weather, Logo, WIcon } from '../components/Header';
 
 
 class App extends Component {
+    componentWillMount() {
+        const { handleWeatherDate } = this;
+        const today = new Date();
+        let month = ''+(today.getMonth()+1);
+        let day = ''+today.getDate();
+        let week = today.getDay();
+
+        if (month.length === 1) month = '0'+month;
+        if (day.length === 1) day = '0'+day;
+
+        handleWeatherDate({month, day, week});
+    }
+
+    handleWeatherDate = ({ month, day, week }) => {
+        const { WeatherAction } = this.props;
+        const weekends = ['일', '월', '화', '수', '목', '금', '토'];
+
+        let date = month+'.'+day+'.('+weekends[week]+')';
+
+        WeatherAction.setWeatherDetail(date);
+    }
+
     render() {
-    	const { children } = this.props;
+    	const { children, status: { weather } } = this.props;
+
+        const cityname = weather.get('cityname');
+        var last_cityname;
+
+        if (cityname.indexOf(' ') > -1) last_cityname = cityname.split(' ').reverse();
+
+        last_cityname = last_cityname ? last_cityname[0] : cityname;
 
         return (
         	<div>
             	<Header>
             		<Logo />
             		<Weather>
-						<b style={{marginRight:'0.5rem'}}>02.08.(수) 현재 구미의 날씨는</b>
-						<WIcon name="day-rain"/>
+						{
+                            (!weather.getIn(['weatherDetail', 'data']) || weather.get('fetching')) && (
+                                <Dimmer active inverted>
+                                    <Loader size='mini' inverted />
+                                </Dimmer>
+                            )
+                        }
+                        { 
+                            ( !!weather.getIn(['weatherDetail', 'data']) && !weather.get('fetching')) && (
+                                <div>
+                                    <b style={{marginRight:'0.5rem'}}>{weather.get('date')} 현재 {last_cityname}의 날씨는</b>
+                                    <WIcon name="day-rain"/>
+                                </div>
+                            )
+                        }
 					</Weather>
             	</Header>
             	<div className="content-wrapper">
@@ -35,7 +79,7 @@ App = connect(
         }
     }),
     dispatch => ({
-        WeatherActions: bindActionCreators(weather, dispatch)
+        WeatherAction: bindActionCreators(weather, dispatch)
     })
 )(App);
 

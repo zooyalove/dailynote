@@ -40,7 +40,7 @@ module.exports = {
     // the line below with these two lines if you prefer the stock client:
     // require.resolve('webpack-dev-server/client') + '?/',
     // require.resolve('webpack/hot/dev-server'),
-    require.resolve('react-dev-utils/webpackHotDevClient') + '?http://0.0.0.0:3000',
+    require.resolve('react-dev-utils/webpackHotDevClient'),// + '?http://0.0.0.0:3000',
     // We ship a few polyfills by default:
     require.resolve('./polyfills'),
     // Finally, this is your app's code:
@@ -63,6 +63,7 @@ module.exports = {
     publicPath: publicPath
   },
   resolve: {
+    root: paths.appSrc,
     // This allows you to set a fallback for where Webpack should look for modules.
     // We read `NODE_PATH` environment variable in `paths.js` and pass paths here.
     // We use `fallback` instead of `root` because we want `node_modules` to "win"

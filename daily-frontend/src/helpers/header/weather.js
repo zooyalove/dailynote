@@ -1,7 +1,5 @@
 import axios from 'axios';
-
-const GOOGLE_MAP_URL = 'https://maps.googleapis.com/maps/api/geocode/json';
-const GOOGLE_MAP_API_KEY = 'AIzaSyCBtxU6oknSRXToFIFH1e4dcxs_bmd8RyA';
+import { GOOGLE_MAP_API_KEY, GOOGLE_MAP_URL } from './google_config';
 
 const RE = 6371.00877; // 지구 반경(km)
 const GRID = 5.0; // 격자 간격(km)
