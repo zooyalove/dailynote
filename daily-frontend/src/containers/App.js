@@ -11,7 +11,15 @@ import Header, { Weather, Logo, WIcon } from '../components/Header';
 
 class App extends Component {
     componentWillMount() {
-        const { handleWeatherDate } = this;
+        const { handleWeatherData } = this;
+
+        handleWeatherData();
+    }
+
+    handleWeatherData = async () => {
+        const { WeatherAction, status: { weather } } = this.props;
+        const weekends = ['일', '월', '화', '수', '목', '금', '토'];
+
         const today = new Date();
         let month = ''+(today.getMonth()+1);
         let day = ''+today.getDate();
@@ -20,16 +28,27 @@ class App extends Component {
         if (month.length === 1) month = '0'+month;
         if (day.length === 1) day = '0'+day;
 
-        handleWeatherDate({month, day, week});
-    }
-
-    handleWeatherDate = ({ month, day, week }) => {
-        const { WeatherAction } = this.props;
-        const weekends = ['일', '월', '화', '수', '목', '금', '토'];
-
         let date = month+'.'+day+'.('+weekends[week]+')';
 
-        WeatherAction.setWeatherDetail(date);
+        let weather_data = null;
+        let geometry_loc;
+
+        if (!weather.getIn(['weatherDetail', 'data'])) {
+            const geocode = await weatherHelper.getGoogleMapGeometry(weather.get('cityname'));
+            console.log(geocode);
+
+            if (geocode.data.status === "OK") {
+                geometry_loc = geocode.data.results[0].geometry.location;
+                weather_data = await weatherHelper.getKmaWeatherInfo(geometry_loc);
+            } else { // Error occurred
+
+            }
+        } else { // Reload
+            geometry_loc = weather.get('location');
+            weather_data = await weatherHelper.getKmaWeatherInfo(geometry_loc);
+        }
+
+        WeatherAction.setWeatherDetail({ geometry_loc, date, weather_data });
     }
 
     render() {

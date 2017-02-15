@@ -13,6 +13,7 @@ export const closeWeatherDetail = createAction(WEATHER_DETAIL_CLOSE);
 
 const initialState = Map({
 	cityname: '경상북도 구미시 지산동',
+	location: null,
 	date: '',
 	fetching: true,
 	visible: false,
@@ -23,10 +24,17 @@ const initialState = Map({
 
 export default handleActions({
 	[WEATHER_DETAIL_SET]: (state, action) => {
-		const date = action.payload;
+		const { geometry_loc, date, weather_data } = action.payload;
+		console.log(weather_data);
 
-		console.log('redux date', date);
-		return state.set('date', date);
+		return state.merge({
+			location: geometry_loc,
+			date,
+			fetching: false,
+			weatherDetail: Map({
+				data: weather_data.data.response.body.items.item
+			})
+		});
 	},
 	[WEATHER_DETAIL_OPEN]: (state, action) => (
 		state.set('visible', true)

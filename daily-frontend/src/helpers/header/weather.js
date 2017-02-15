@@ -47,9 +47,41 @@ const convertGoogleMapToKmaGrid = ({lat, lng}) => {
 	return rs;
 };
 
+const translateData = (data) => {
+	/**
+	 * # 동네예보(ForecastSpaceData), 초단기실황(ForecastGrib) 공통사항
+	 * RN1(1시간), R06(6시간) 강수량(mm) => [0(0.1미만), 1(1미만), 5(1~4), 10(5~9),
+	 * 									  20(10~19), 40(20~39), 70(40~69), 100(70이상)]
+	 * SKY 하늘상태			=> [1(맑음), 2(구름조금), 3(구름많음), 4(흐림)]
+	 * UUU 동서바람(m/s)	=> 동(+), 서(-)
+	 * VVV 남북바람(m/s)	=> 북(+), 남(-)
+	 * REH 습도(%)
+	 * PTY 강수형태			=> [0(없음), 1(비), 2(비/눈 - 진눈개비), 3(눈)]
+	 * LGT 낙뢰			 => [0, 1]
+	 * VEC 풍향			 => [45(NNE), 90(NEE), 135(ESE), 180(SES), 225(SSW), 270(SWW), 315(WNW), 360(NWN)]
+	 * WSD 풍속
+	 * 
+	 * # 동네예보
+	 * POP 강수확률(%)
+	 * R06 6시간 강수량(mm)
+	 * S06 6시간 신 적설(cm)
+	 * T3H 3시간 기온(섭씨온도)
+	 * TMN 일최저기온(   "  )
+	 * TMX 일최고기온(   "  )
+	 * 
+	 * # 초단기실황
+	 * T1H 기온(섭씨온도)
+	 * RN1 1시간 강수량(mm)
+	 */
+	let forecast_data = {};
+	
+	return forecast_data;
+};
+
 const weatherHelper = (function() {
 
 	return {
+		translateData: translateData,
 
 		getGoogleMapGeometry: async (cityname) => {
 			const googlemap_info = await axios.get(GOOGLE_MAP_URL, {
