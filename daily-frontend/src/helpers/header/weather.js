@@ -73,8 +73,54 @@ const translateData = (data) => {
 	 * T1H 기온(섭씨온도)
 	 * RN1 1시간 강수량(mm)
 	 */
-	let forecast_data = {};
+
+	// 일단 초단기실황(ForecastGrib)만 먼저 적용한다.
+
+	/**
+	 * 기본 데이터 구조
+	 * 
+	 * [
+	 * 	  {"baseDate":20151013, "baseTime":1600,"category":"LGT","nx":55,"ny":127,"obsrValue":0},
+	 * 		.
+	 * 		.
+	 * 		.
+	 * ]
+	 * 
+	 * redux weatherDetail 구조
+	 * 
+	 * 		weatherDetail: {
+	 * 			"baseDate": 20151013,
+	 * 			"baseTime": 1600,
+	 * 			"data": {
+	 * 				"LGT": 0,
+	 * 				"RN1": 5,
+	 * 				"SKY": 0,
+	 * 				.
+	 * 				.
+	 * 				.
+	 * 			}
+	 * 		}
+	 */
+
+	let forecast_data = {
+		baseDate: 0,
+		baseTime: "",
+		data: {}
+	};
 	
+	let isStart = false;
+	data.forEach((items) => {
+		//console.log(items);
+		
+		if (!isStart) {
+			forecast_data.baseDate = items.baseDate;
+			forecast_data.baseTime = items.baseTime;
+			isStart = true;
+		}
+
+		forecast_data.data[items.category] = items.obsrValue;
+	});
+
 	return forecast_data;
 };
 

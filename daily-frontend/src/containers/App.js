@@ -17,9 +17,11 @@ class App extends Component {
     }
 
     handleWeatherData = async () => {
-        const { WeatherAction, status: { weather } } = this.props;
+        const { WeatherActions, status: { weather } } = this.props;
         const weekends = ['일', '월', '화', '수', '목', '금', '토'];
 
+        WeatherActions.fetchingWeatherDetail();
+        
         const today = new Date();
         let month = ''+(today.getMonth()+1);
         let day = ''+today.getDate();
@@ -35,7 +37,7 @@ class App extends Component {
 
         if (!weather.getIn(['weatherDetail', 'data'])) {
             const geocode = await weatherHelper.getGoogleMapGeometry(weather.get('cityname'));
-            console.log(geocode);
+            //console.log(geocode);
 
             if (geocode.data.status === "OK") {
                 geometry_loc = geocode.data.results[0].geometry.location;
@@ -48,7 +50,11 @@ class App extends Component {
             weather_data = await weatherHelper.getKmaWeatherInfo(geometry_loc);
         }
 
-        WeatherAction.setWeatherDetail({ geometry_loc, date, weather_data });
+        let data = weatherHelper.translateData(weather_data.data.response.body.items.item);
+        console.log(data);
+        
+
+        WeatherActions.setWeatherDetail({ geometry_loc, date, data });
     }
 
     render() {
@@ -98,7 +104,7 @@ App = connect(
         }
     }),
     dispatch => ({
-        WeatherAction: bindActionCreators(weather, dispatch)
+        WeatherActions: bindActionCreators(weather, dispatch)
     })
 )(App);
 
