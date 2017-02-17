@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Dimmer, Loader } from 'semantic-ui-react';
+import { Loader } from 'semantic-ui-react';
 
 import * as weather from '../redux/modules/header/weather';
 import weatherHelper from '../helpers/header/weather';
 
-import Header, { Weather, Logo, WIcon, WeatherDetail } from '../components/Header';
+import Header, { Weather, Logo, WeatherDetail } from '../components/Header';
 
 
 class App extends Component {
@@ -85,24 +85,18 @@ class App extends Component {
             		<Weather cn={weather.get('visible') ? 'over' : ''}>
 						{
                             (!weather.getIn(['weatherDetail', 'data']) || weather.get('fetching')) && (
-                                <Dimmer active inverted>
-                                    <Loader size='mini' inverted />
-                                </Dimmer>
+                                <Loader size='mini' inverted />
                             )
                         }
                         {
                             ( !!weather.getIn(['weatherDetail', 'data']) && !weather.get('fetching')) && (
-                                <div onClick={handleHide}>
-                                    <b style={{marginRight:'0.5rem'}}>
-                                        {weather.get('date')} 현재 {last_cityname}의 날씨는
-                                    </b>
-                                    <WIcon name="day-rain"/>
-                                    {
-                                        (weather.get('visible') && (
-                                            <WeatherDetail />
-                                        ))
-                                    }
-                                </div>
+                                <WeatherDetail
+                                    cityname={last_cityname}
+                                    date={weather.get('date')}
+                                    data=""
+                                    visible={weather.get('visible')}
+                                    onClick={handleHide}
+                                />
                             )
                         }
 					</Weather>

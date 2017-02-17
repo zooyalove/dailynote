@@ -20,7 +20,8 @@ const initialState = Map({
 	fetching: false,
 	visible: false,
 	weatherDetail: Map({
-		data: null
+		data: null,
+		transData: null
 	})
 });
 

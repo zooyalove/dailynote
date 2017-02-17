@@ -47,6 +47,10 @@ const convertGoogleMapToKmaGrid = ({lat, lng}) => {
 	return rs;
 };
 
+const vecTo16 = (vec) => (
+	parseInt(((vec + 22.5 * 0.5)/22.5), 10)
+);
+
 const translateData = (data) => {
 	/**
 	 * # 동네예보(ForecastSpaceData), 초단기실황(ForecastGrib) 공통사항
@@ -58,7 +62,9 @@ const translateData = (data) => {
 	 * REH 습도(%)
 	 * PTY 강수형태			=> [0(없음), 1(비), 2(비/눈 - 진눈개비), 3(눈)]
 	 * LGT 낙뢰			 => [0, 1]
-	 * VEC 풍향			 => [45(NNE), 90(NEE), 135(ESE), 180(SES), 225(SSW), 270(SWW), 315(WNW), 360(NWN)]
+	 * VEC 풍향			 => [0(N), 1(NNE), 2(NE), 3(ENE), 4(E), 5(ESE), 6(SE), 7(SSE), 8(S),
+	 * 						  9(SSW), 10(SW), 11(WSW), 12(W), 13(WNW), 14(NW), 15(NNW), 16(N)]
+	 *     16방위 계산방법   => (풍향값 + 22.5 * 0.5) / 22.5 = 변환값(소수점 이하 버림)
 	 * WSD 풍속
 	 * 
 	 * # 동네예보
@@ -102,10 +108,14 @@ const translateData = (data) => {
 	 * 		}
 	 */
 
+	const VEC = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
+				'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'N'];
+
 	let forecast_data = {
 		baseDate: 0,
 		baseTime: "",
-		data: {}
+		data: {},
+		transData: {}
 	};
 	
 	let isStart = false;
@@ -120,6 +130,10 @@ const translateData = (data) => {
 
 		forecast_data.data[items.category] = items.obsrValue;
 	});
+
+	forecast_data.transData['WIND'] = VEC[vecTo16(forecast_data.data.VEC)];
+	console.log(forecast_data.transData.WIND);
+	
 
 	return forecast_data;
 };
