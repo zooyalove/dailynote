@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 class Weather extends Component {
     render() {
-        const { children } = this.props;
+        const { children, cn } = this.props;
         
         return (
             <div className="weather-wrapper">
-                <div className="weather">
+                <div className={`weather ${cn}`}>
                     {children}
                 </div>
             </div>

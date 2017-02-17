@@ -6,7 +6,7 @@ import { Dimmer, Loader } from 'semantic-ui-react';
 import * as weather from '../redux/modules/header/weather';
 import weatherHelper from '../helpers/header/weather';
 
-import Header, { Weather, Logo, WIcon } from '../components/Header';
+import Header, { Weather, Logo, WIcon, WeatherDetail } from '../components/Header';
 
 
 class App extends Component {
@@ -57,8 +57,19 @@ class App extends Component {
         WeatherActions.setWeatherDetail({ geometry_loc, date, data });
     }
 
+    handleHide = (e) => {
+        const { WeatherActions, status: { weather } } = this.props;
+
+        if (!weather.get('visible')) {
+            WeatherActions.openWeatherDetail();
+        } else {
+            WeatherActions.closeWeatherDetail();
+        }
+    }
+
     render() {
     	const { children, status: { weather } } = this.props;
+        const { handleHide } = this;
 
         const cityname = weather.get('cityname');
         var last_cityname;
@@ -71,7 +82,7 @@ class App extends Component {
         	<div>
             	<Header>
             		<Logo />
-            		<Weather>
+            		<Weather cn={weather.get('visible') ? 'over' : ''}>
 						{
                             (!weather.getIn(['weatherDetail', 'data']) || weather.get('fetching')) && (
                                 <Dimmer active inverted>
@@ -79,11 +90,18 @@ class App extends Component {
                                 </Dimmer>
                             )
                         }
-                        { 
+                        {
                             ( !!weather.getIn(['weatherDetail', 'data']) && !weather.get('fetching')) && (
-                                <div>
-                                    <b style={{marginRight:'0.5rem'}}>{weather.get('date')} 현재 {last_cityname}의 날씨는</b>
+                                <div onClick={handleHide}>
+                                    <b style={{marginRight:'0.5rem'}}>
+                                        {weather.get('date')} 현재 {last_cityname}의 날씨는
+                                    </b>
                                     <WIcon name="day-rain"/>
+                                    {
+                                        (weather.get('visible') && (
+                                            <WeatherDetail />
+                                        ))
+                                    }
                                 </div>
                             )
                         }
