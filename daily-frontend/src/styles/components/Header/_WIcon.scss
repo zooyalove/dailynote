@@ -1,4 +1,19 @@
 .wi.ic {
-    font-size: 1.2rem;
     color: $oc-orange-7;
 }
+
+.wi.ic.normal {
+        font-size: 1.2rem!important;
+    }
+
+.wi.ic.middle {
+   	    font-size: 2rem!important;
+    }
+
+.wi.ic.big {
+   	    font-size: 3rem!important;
+    }
+
+.wi.ic.huge {
+   	    font-size: 4rem!important;
+    }

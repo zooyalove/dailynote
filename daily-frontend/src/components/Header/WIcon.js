@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class WIcon extends Component {
-
-    render() {
-        const { name } = this.props;
-
-        return (
-            <i className={`wi wi-${name} ic`}></i>
-        );
-    }
-}
+const WIcon = ({ name, size }) => {
+	size = (!size || size === '') ? 'normal' : size;
+    return (
+        <i className={`wi wi-${name} ic ${size}`} />
+    );
+};
 
 export default WIcon;

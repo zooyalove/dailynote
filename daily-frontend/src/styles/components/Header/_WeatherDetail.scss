@@ -1,5 +1,26 @@
 .weather-detail {
-	padding-top: 0.5rem;
-	margin-top: 0.5rem;
+	padding-top: 2rem;
+	padding-bottom: 1rem;
+	margin-top: 1rem;
 	border-top: 1px solid $oc-gray-4;
+
+	.detail-wrapper {
+		display: inline-block;
+
+		.weather-sky {
+			display: inline-block;
+			float: left;
+		}
+
+		.weather-temp {
+			float: left;
+			margin-left: 1.2rem;
+			border-left: 1px solid $oc-gray-4;
+			padding-left: 1rem;
+
+			p span {
+				font-size: 3.5rem;
+			}
+		}
+	}
 }
