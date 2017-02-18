@@ -3,20 +3,32 @@ import WIcon from './WIcon';
 
 const WeatherDetail = ({cityname, date, data, visible, onClick}) => {
 	return (
-		<div onClick={onClick}>
-			<b style={{marginRight:'0.5rem'}}>
-				{date} 현재 {cityname}의 날씨는
-			</b>
-			<WIcon name="day-rain" />
+		<div className="weather-detail-wrapper" onClick={onClick}>
+			<div className="weather-light-info">
+				<b>
+					{date} 현재 {cityname}의 날씨는
+				</b>
+				<WIcon name="day-rain" />
+			</div>
 			{ visible && (
-				<div className="weather-detail">
-					<div className="detail-wrapper">
+				<div className="weather-detail-info">
+					<div className="weather-detail">
 						<div className="weather-sky">
 							<WIcon name="day-rain" size="huge" />
 						</div>
-						<div className="weather-temp">
-							<div>
-								<p><WIcon name="thermometer" size="big" /> <span>25</span><WIcon name="celsius" size="big" /></p>
+						<div className="weather-temp-hum">
+							<div className="temperature">
+								<p>
+									<WIcon name="thermometer" size="middle" />
+									<span>{data.TEMP}</span>
+									<WIcon name="celsius" size="middle" />
+								</p>
+							</div>
+							<div className="humidity">
+								<p>
+									<WIcon name="humidity" size="middle" />
+									<span>{data.HUM}%</span>
+								</p>
 							</div>
 						</div>
 					</div>

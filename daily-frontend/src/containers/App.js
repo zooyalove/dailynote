@@ -37,7 +37,6 @@ class App extends Component {
 
         if (!weather.getIn(['weatherDetail', 'data'])) {
             const geocode = await weatherHelper.getGoogleMapGeometry(weather.get('cityname'));
-            //console.log(geocode);
 
             if (geocode.data.status === "OK") {
                 geometry_loc = geocode.data.results[0].geometry.location;
@@ -93,7 +92,7 @@ class App extends Component {
                                 <WeatherDetail
                                     cityname={last_cityname}
                                     date={weather.get('date')}
-                                    data=""
+                                    data={weather.getIn(['weatherDetail', 'transData'])}
                                     visible={weather.get('visible')}
                                     onClick={handleHide}
                                 />

@@ -131,9 +131,13 @@ const translateData = (data) => {
 		forecast_data.data[items.category] = items.obsrValue;
 	});
 
-	forecast_data.transData['WIND'] = VEC[vecTo16(forecast_data.data.VEC)];
+	forecast_data.transData = {
+		TEMP: forecast_data.data.T1H,
+		HUM: forecast_data.data.REH,
+		WIND: VEC[vecTo16(forecast_data.data.VEC)]
+	};
+
 	console.log(forecast_data.transData.WIND);
-	
 
 	return forecast_data;
 };
