@@ -45,12 +45,14 @@ class App extends Component {
 
             }
         } else { // Reload
-            geometry_loc = weather.get('location');
+            let lat = weather.getIn(['location', 'lat']);
+            let lng = weather.getIn(['location', 'lng']);
+            geometry_loc = {lat, lng}
             weather_data = await weatherHelper.getKmaWeatherInfo(geometry_loc);
         }
+        console.log(weather_data);
 
         let data = weatherHelper.translateData(weather_data.data.response.body.items.item);
-        console.log(data);
         
 
         WeatherActions.setWeatherDetail({ geometry_loc, date, data });
@@ -68,7 +70,7 @@ class App extends Component {
 
     render() {
     	const { children, status: { weather } } = this.props;
-        const { handleHide } = this;
+        const { handleWeatherData, handleHide } = this;
 
         const cityname = weather.get('cityname');
         var last_cityname;
@@ -84,18 +86,19 @@ class App extends Component {
             		<Weather cn={weather.get('visible') ? 'over' : ''}>
 						{
                             (!weather.getIn(['weatherDetail', 'data']) || weather.get('fetching')) && (
-                                <Loader size='mini' inverted />
+                                <Loader size='mini' inverted active />
                             )
                         }
-                        {
-                            ( !!weather.getIn(['weatherDetail', 'data']) && !weather.get('fetching')) && (
+                        {                            
+                            (!!weather.getIn(['weatherDetail', 'data'])) && (
                                 <WeatherDetail
                                     cityname={last_cityname}
                                     date={weather.get('date')}
                                     data={weather.getIn(['weatherDetail', 'transData'])}
+                                    fetching={weather.get('feting')}
                                     visible={weather.get('visible')}
-                                    onClick={handleHide}
-                                />
+                                    onReload={handleWeatherData}
+                                    onHide={handleHide} />
                             )
                         }
 					</Weather>

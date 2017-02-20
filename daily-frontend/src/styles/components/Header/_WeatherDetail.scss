@@ -3,6 +3,7 @@
 
 	.weather-light-info {
 		padding: 1rem;
+		cursor: pointer;
 
 		b {
 			margin-right: 0.5rem;
@@ -10,7 +11,7 @@
 	}
 
 	.weather-detail-info {
-		padding: 2rem 1rem;
+		padding: 2rem 1rem 0.5rem;
 		border-top: 1px solid $oc-gray-4;
 
 		.weather-detail {
@@ -38,9 +39,27 @@
 					margin-left: 0.5rem;
 				}
 
+				.temperature, .humidity {
+					text-align: left;
+				}
+
 				.temperature + .humidity {
 					padding-top: 1rem;
 				}
+			}
+		}
+	}
+	.weather-date {
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+		border-top: 1px solid $oc-gray-4;
+
+		.weather-basetime {
+			text-align: right;
+
+			.reload-btn {
+				margin-left: 0.5rem;
+				margin-right: 0.5rem;
 			}
 		}
 	}

@@ -132,6 +132,7 @@ const translateData = (data) => {
 	});
 
 	forecast_data.transData = {
+		BASETIME: forecast_data.baseTime,
 		TEMP: forecast_data.data.T1H,
 		HUM: forecast_data.data.REH,
 		WIND: VEC[vecTo16(forecast_data.data.VEC)]

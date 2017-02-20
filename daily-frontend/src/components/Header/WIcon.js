@@ -1,9 +1,9 @@
 import React from 'react';
 
-const WIcon = ({ name, size }) => {
+const WIcon = ({ name, size, time }) => {
 	size = (!size || size === '') ? 'normal' : size;
     return (
-        <i className={`wi wi-${name} ic ${size}`} />
+        <i className={`wi wi-${name} ${time} ${size}`} />
     );
 };
 

@@ -1,19 +1,27 @@
-.wi.ic {
-    color: $oc-orange-7;
+.wi.day {
+    color: $oc-red-7;
 }
 
-.wi.ic.normal {
-        font-size: 1.2rem!important;
-    }
+.wi.night {
+	color: $oc-yellow-5;
+}
 
-.wi.ic.middle {
-   	    font-size: 2rem!important;
-    }
+.wi.mini {
+	font-size: 0.8rem;
+}
 
-.wi.ic.big {
-   	    font-size: 3rem!important;
-    }
+.wi.normal {
+    font-size: 1.2rem;
+}
 
-.wi.ic.huge {
-   	    font-size: 4rem!important;
-    }
+.wi.middle {
+    font-size: 2rem;
+}
+
+.wi.big {
+    font-size: 3rem;
+}
+
+.wi.huge {
+    font-size: 4rem;
+}
