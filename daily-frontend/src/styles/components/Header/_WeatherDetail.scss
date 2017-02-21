@@ -87,6 +87,13 @@
 				margin-right: 0.5rem;
 				font-size: 0.7rem;
 			}
+			.reload-btn.day {
+				box-shadow:0 0 0 1px rgba(240, 62, 62, .5) inset;
+			}
+			.reload-btn.night {
+				color: rgba(252, 196, 19, .9)!important;
+				box-shadow: 0 0 0 1px rgba(252, 196, 19, .5) inset;
+			}
 		}
 	}
 }

@@ -4,13 +4,18 @@ import { Button } from 'semantic-ui-react';
 
 const WeatherDetail = ({ cityname, date, data, fetching, visible, onHide, onReload }) => {
 	const daytime = (data.BASETIME > 500 && data.BASETIME < 2000) ? 'day' : 'night';
-	let btime = (data.BASETIME < 1000) ? '0'+data.BASETIME : ''+data.BASETIME;
+	
+	let btime = ''+data.BASETIME;
 
 	const basetime = (data.BASETIME < 1300) ? '오전 '+parseInt(btime.substr(0, 2), 10)+':'+btime.substr(2, 2)
 							: '오후 '+(parseInt(btime.substr(0, 2), 10)-12)+':'+btime.substr(2, 2);
 
 	const basedate = (''+data.BASEDATE).substr(4, 2)+'/'+(''+data.BASEDATE).substr(6, 2);
-	let wind = data.WIND.replace("N", "북").replace("S", "남").replace("W", "서").replace("E", "동");
+
+	const wind = data.WIND.replace(/N/gi, "북")
+						.replace(/S/gi, "남")
+						.replace(/W/gi, "서")
+						.replace(/E/gi, "동");
 
 	return (
 		<div className={`weather-detail-wrapper ${daytime}`}>
@@ -51,10 +56,10 @@ const WeatherDetail = ({ cityname, date, data, fetching, visible, onHide, onRelo
 						<div className="weather-basetime">
 							<span className="reload-time">Updated from {basedate} {basetime}</span>
 							<Button
-								className="reload-btn"
+								className={`reload-btn ${daytime}`}
 								basic
 								circular
-								color='orange'
+								//color='orange'
 								icon="refresh"
 								loading={fetching}
 								onClick={() => {

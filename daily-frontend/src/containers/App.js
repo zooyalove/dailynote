@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Loader } from 'semantic-ui-react';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 import * as weather from '../redux/modules/header/weather';
 import weatherHelper from '../helpers/header/weather';
@@ -85,7 +85,9 @@ class App extends Component {
             		<Weather cn={weather.get('visible') ? 'over' : ''}>
 						{
                             (!weather.getIn(['weatherDetail', 'data']) || weather.get('fetching')) && (
-                                <Loader size='mini' inverted active />
+                                <Dimmer active inverted>
+                                    <Loader size='mini' inverted active />
+                                </Dimmer>
                             )
                         }
                         {                            
