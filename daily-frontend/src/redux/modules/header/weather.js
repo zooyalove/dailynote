@@ -32,7 +32,6 @@ export default handleActions({
 
 	[WEATHER_DETAIL_SET]: (state, action) => {
 		const { geometry_loc, date, data } = action.payload;
-		console.log(data);
 
 		return state.merge({
 			location: geometry_loc,

@@ -120,7 +120,6 @@ const translateData = (data) => {
 	
 	let isStart = false;
 	data.forEach((items) => {
-		//console.log(items);
 		
 		if (!isStart) {
 			forecast_data.baseDate = items.baseDate;
@@ -132,13 +131,13 @@ const translateData = (data) => {
 	});
 
 	forecast_data.transData = {
+		BASEDATE: forecast_data.baseDate,
 		BASETIME: forecast_data.baseTime,
 		TEMP: forecast_data.data.T1H,
 		HUM: forecast_data.data.REH,
-		WIND: VEC[vecTo16(forecast_data.data.VEC)]
+		WIND: VEC[vecTo16(forecast_data.data.VEC)],
+		WSPEED: forecast_data.data.WSD
 	};
-
-	console.log(forecast_data.transData.WIND);
 
 	return forecast_data;
 };
@@ -171,17 +170,6 @@ const weatherHelper = (function() {
 
 			return kma_info;
 		}
-		// getWeatherInfo: async (cityname) => {
-
-		// 	const geocode = await getGoogleMapGeometry(cityname);
-		// 	console.log(geocode);
-		// 	if (geocode.data.status === "OK") {
-		// 		const { nx, ny } = ;
-
-		// 		const weather_info = await getKmaWeatherInfo(nx, ny);
-		// 		console.log(weather_info);
-		// 	}
-		// }
 	};
 })();
 

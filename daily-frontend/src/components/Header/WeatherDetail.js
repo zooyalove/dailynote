@@ -2,14 +2,19 @@ import React from 'react';
 import WIcon from './WIcon';
 import { Button } from 'semantic-ui-react';
 
-const WeatherDetail = ({ cityname, date, data, visible, onHide, onReload }) => {
+const WeatherDetail = ({ cityname, date, data, fetching, visible, onHide, onReload }) => {
 	const daytime = (data.BASETIME > 500 && data.BASETIME < 2000) ? 'day' : 'night';
 	let btime = (data.BASETIME < 1000) ? '0'+data.BASETIME : ''+data.BASETIME;
+
 	const basetime = (data.BASETIME < 1300) ? '오전 '+parseInt(btime.substr(0, 2), 10)+':'+btime.substr(2, 2)
 							: '오후 '+(parseInt(btime.substr(0, 2), 10)-12)+':'+btime.substr(2, 2);
+
+	const basedate = (''+data.BASEDATE).substr(4, 2)+'/'+(''+data.BASEDATE).substr(6, 2);
+	let wind = data.WIND.replace("N", "북").replace("S", "남").replace("W", "서").replace("E", "동");
+
 	return (
-		<div className="weather-detail-wrapper">
-			<div className="weather-light-info" onClick={onHide}>
+		<div className={`weather-detail-wrapper ${daytime}`}>
+			<div className={`weather-light-info ${visible ? 'over' : ''}`}  onClick={onHide}>
 				<b>
 					{date} 현재 {cityname}의 날씨는
 				</b>
@@ -37,20 +42,23 @@ const WeatherDetail = ({ cityname, date, data, visible, onHide, onReload }) => {
 									</p>
 								</div>
 							</div>
+							<div className="weather-extras">
+								<div className="extra"><WIcon time={daytime} name="strong-wind" /> {wind}풍 {data.WSPEED}m/s</div>
+							</div>
 						</div>
 					</div>
 					<div className="weather-date">
 						<div className="weather-basetime">
-							Update {basetime}
+							<span className="reload-time">Updated from {basedate} {basetime}</span>
 							<Button
 								className="reload-btn"
-								circular
 								basic
-								size="mini"
+								circular
+								color='orange'
 								icon="refresh"
-								onClick={(e) => {
+								loading={fetching}
+								onClick={() => {
 									onReload();
-									console.log('Reload click');
 								}}
 							/>
 						</div>

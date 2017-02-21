@@ -10,7 +10,7 @@ import Header, { Weather, Logo, WeatherDetail } from '../components/Header';
 
 
 class App extends Component {
-    componentWillMount() {
+    componentDidMount() {
         const { handleWeatherData } = this;
 
         handleWeatherData();
@@ -50,7 +50,6 @@ class App extends Component {
             geometry_loc = {lat, lng}
             weather_data = await weatherHelper.getKmaWeatherInfo(geometry_loc);
         }
-        console.log(weather_data);
 
         let data = weatherHelper.translateData(weather_data.data.response.body.items.item);
         
@@ -95,7 +94,7 @@ class App extends Component {
                                     cityname={last_cityname}
                                     date={weather.get('date')}
                                     data={weather.getIn(['weatherDetail', 'transData'])}
-                                    fetching={weather.get('feting')}
+                                    fetching={weather.get('fetching')}
                                     visible={weather.get('visible')}
                                     onReload={handleWeatherData}
                                     onHide={handleHide} />
