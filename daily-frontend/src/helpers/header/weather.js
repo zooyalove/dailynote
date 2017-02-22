@@ -49,16 +49,23 @@ const convertGoogleMapToKmaGrid = ({lat, lng}) => {
 
 const weather_status = {	// key 기본구조 : 하늘상태, 강수형태, 낙뢰, 바람형태(3단계)
 	'1000': ['sunny', 'clear'], '1001': 'light-wind', '1002': 'windy',
-	'1010': 'lighting', '1011': 'lighting', '1012': 'lighting',
-	'1100': 'rain', '1101': 'rain-wind', '1102': 'rain-wind',
-	'1110': '', '1111': '', '1112': '',
-	'1200': '', '1201': '', '1202': '',
-	'1210': '', '1211': '', '1212': '',
-	'1300': '', '1301': '', '1302': '',
-	'1310': '', '1311': '', '1312': '',
+	'1010': 'lighting', 		'1011': 'lighting',   '1012': 'lighting',
 
-	'2000': '', '2001': '', '2002': '',
-	'2010': '', '2011': '', '2012': '',
+	'1100': 'rain', '1101': 'rain-wind', '1102': 'rain-wind',
+	'1110': 'thunderstorm', '1111': 'thunderstorm', '1112': 'thunderstorm',
+	'1200': 'sleet', '1201': 'sleet', '1202': 'sleet',
+	'1210': 'sleet-storm', '1211': 'sleet-storm', '1212': 'sleet-storm',
+	'1300': 'snow', '1301': 'snow-wind', '1302': 'snow-wind',
+	'1310': 'snow-thunderstorm', '1311': 'snow-thunderstorm', '1312': 'snow-thunderstorm',
+
+	'2000': 'cloudy', '2001': 'cloudy-windy', '2002': 'cloudy-gusts',
+	'2010': 'lighting', '2011': 'lighting', '2012': 'lighting',
+	'2100': 'rain', '2101': 'rain-wind', '2102': 'rain-wind',
+	'2110': '', '2111': '', '2112': '',
+	'2200': '', '2201': '', '2202': '',
+	'2210': '', '2211': '', '2212': '',
+	'2300': '', '2301': '', '2302': '',
+	'2310': '', '2311': '', '2312': '',
 };
 
 const vecTo16 = (vec) => (
