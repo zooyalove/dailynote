@@ -48,25 +48,46 @@ const convertGoogleMapToKmaGrid = ({lat, lng}) => {
 };
 
 const weather_status = {	// key 기본구조 : 하늘상태, 강수형태, 낙뢰, 바람형태(3단계)
-	'1000': ['sunny', 'clear'], '1001': 'light-wind', '1002': 'windy',
-	'1010': 'lighting', 		'1011': 'lighting',   '1012': 'lighting',
+	'1000': ['?-sunny', '?-clear'], '1001': '?-light-wind', '1002': '?-windy',
+	'1010': '?-lighting', 		'1011': '?-lighting',   '1012': '?-lighting',
 
-	'1100': 'rain', '1101': 'rain-wind', '1102': 'rain-wind',
-	'1110': 'thunderstorm', '1111': 'thunderstorm', '1112': 'thunderstorm',
-	'1200': 'sleet', '1201': 'sleet', '1202': 'sleet',
-	'1210': 'sleet-storm', '1211': 'sleet-storm', '1212': 'sleet-storm',
-	'1300': 'snow', '1301': 'snow-wind', '1302': 'snow-wind',
-	'1310': 'snow-thunderstorm', '1311': 'snow-thunderstorm', '1312': 'snow-thunderstorm',
+	'1100': '?-rain', '1101': '?-rain-wind', '1102': '?-rain-wind',
+	'1110': '?-thunderstorm', '1111': '?-thunderstorm', '1112': '?-thunderstorm',
+	'1200': '?-sleet', '1201': '?-sleet', '1202': '?-sleet',
+	'1210': '?-sleet-storm', '1211': '?-sleet-storm', '1212': '?-sleet-storm',
+	'1300': '?-snow', '1301': '?-snow-wind', '1302': '?-snow-wind',
+	'1310': '?-snow-thunderstorm', '1311': '?-snow-thunderstorm', '1312': '?-snow-thunderstorm',
 
-	'2000': 'cloudy', '2001': 'cloudy-windy', '2002': 'cloudy-gusts',
-	'2010': 'lighting', '2011': 'lighting', '2012': 'lighting',
-	'2100': 'rain', '2101': 'rain-wind', '2102': 'rain-wind',
-	'2110': '', '2111': '', '2112': '',
-	'2200': '', '2201': '', '2202': '',
-	'2210': '', '2211': '', '2212': '',
-	'2300': '', '2301': '', '2302': '',
-	'2310': '', '2311': '', '2312': '',
+	'2000': '?-cloudy', '2001': '?-cloudy-windy', '2002': '?-cloudy-gusts',
+	'2010': '?-lighting', '2011': '?-lighting', '2012': '?-lighting',
+	'2100': '?-rain', '2101': '?-rain-wind', '2102': '?-rain-wind',
+	'2110': '?-thunderstorm', '2111': '?-thunderstorm', '2112': '?-thunderstorm',
+	'2200': '?-sleet', '2201': '?-sleet', '2202': '?-sleet',
+	'2210': '?-sleet-storm', '2211': '?-sleet-storm', '2212': '?-sleet-storm',
+	'2300': '?-snow', '2301': '?-snow-wind', '2302': '?-snow-wind',
+	'2310': '?-snow-thunderstorm', '2311': '?-snow-thunderstorm', '2312': '?-snow-thunderstorm',
+
+	'3000': 'cloud', '3001': 'cloudy-windy', '3002': 'cloudy-gusts',
+	'3010': 'lighting', '3011': 'lighting', '3012': 'lighting',
+	'3100': 'rain', '3101': 'rain-wind', '3102': 'rain-wind',
+	'3110': 'thunderstorm', '3111': 'thunderstorm', '3112': 'thunderstorm',
+	'3200': 'sleet', '3201': 'sleet', '3202': 'sleet',
+	'3210': '?-sleet-storm', '3211': '?-sleet-storm', '3212': '?-sleet-storm',
+	'3300': 'snow', '3301': 'snow-wind', '3302': 'snow-wind',
+	'3310': '?-snow-thunderstorm', '3311': '?-snow-thunderstorm', '3312': '?-snow-thunderstorm',
+
+	'4000': 'cloudy', '4001': 'cloudy-windy', '4002': 'cloudy-gusts',
+	'4010': 'lighting', '4011': 'lighting', '4012': 'lighting',
+	'4100': 'rain', '4101': 'rain-wind', '4102': 'rain-wind',
+	'4110': 'thunderstorm', '4111': 'thunderstorm', '4112': 'thunderstorm',
+	'4200': 'sleet', '4201': 'sleet', '4202': 'sleet',
+	'4210': '?-sleet-storm', '4211': '?-sleet-storm', '4212': '?-sleet-storm',
+	'4300': 'snow', '4301': 'snow-wind', '4302': 'snow-wind',
+	'4310': '?-snow-thunderstorm', '4311': '?-snow-thunderstorm', '4312': '?-snow-thunderstorm',
 };
+
+const skyKorean = ['맑음', '구름조금', '구름많음', '흐림'];
+const windStrength = [5.3, 13.8];
 
 const vecTo16 = (vec) => (
 	parseInt(((vec + 22.5 * 0.5)/22.5), 10)
@@ -151,9 +172,27 @@ const translateData = (data) => {
 		forecast_data.data[items.category] = items.obsrValue;
 	});
 
+	let i=0;
+	for(; i<windStrength.length; ++i) {
+		if (forecast_data.data.WSD <= windStrength[i]) break;
+		else continue;
+	}
+	console.log(i);
+
+	const sky_ico = (''+forecast_data.data.SKY)+(''+forecast_data.data.PTY)+(''+forecast_data.data.LGT)+(''+i);
+	console.log(sky_ico);
+	let ws = weather_status[sky_ico];
+	console.log(ws);
+	const daytime = (forecast_data.baseTime > 500 && forecast_data.baseTime < 2000) ? 'day' : 'night';
+	ws = (typeof ws === 'string') ? ws : ((daytime === 'day') ? ws[0] : ws[1]);
+	ws = (ws.indexOf('?') > -1) ? ws.replace('?', daytime) : ws;
+	console.log(ws);
+
 	forecast_data.transData = {
 		BASEDATE: forecast_data.baseDate,
 		BASETIME: forecast_data.baseTime,
+		SKY_KOR: skyKorean[forecast_data.data.SKY - 1],
+		SKY_ICO: ws,
 		TEMP: forecast_data.data.T1H,
 		HUM: forecast_data.data.REH,
 		WIND: VEC[vecTo16(forecast_data.data.VEC)],

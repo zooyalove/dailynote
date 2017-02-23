@@ -23,14 +23,15 @@ const WeatherDetail = ({ cityname, date, data, fetching, visible, onHide, onRelo
 				<b>
 					{date} 현재 {cityname}의 날씨는
 				</b>
-				<WIcon time={daytime} name="day-rain" />
+				<WIcon time={daytime} name={data.SKY_ICO} />
 			</div>
 			{ visible && (
 				<div>
 					<div className="weather-detail-info">
 						<div className="weather-detail">
 							<div className="weather-sky">
-								<WIcon time={daytime} name="day-rain" size="huge" />
+								<WIcon time={daytime} name={data.SKY_ICO} size="huge" />
+								<div>{data.SKY_KOR}</div>
 							</div>
 							<div className="weather-temp-hum">
 								<div className="temperature">
