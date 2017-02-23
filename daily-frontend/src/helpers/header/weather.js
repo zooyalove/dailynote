@@ -177,16 +177,14 @@ const translateData = (data) => {
 		if (forecast_data.data.WSD <= windStrength[i]) break;
 		else continue;
 	}
-	console.log(i);
 
-	const sky_ico = (''+forecast_data.data.SKY)+(''+forecast_data.data.PTY)+(''+forecast_data.data.LGT)+(''+i);
-	console.log(sky_ico);
-	let ws = weather_status[sky_ico];
-	console.log(ws);
+	const sky_ico = forecast_data.data.SKY+''+forecast_data.data.PTY+''+forecast_data.data.LGT+''+i;
 	const daytime = (forecast_data.baseTime > 500 && forecast_data.baseTime < 2000) ? 'day' : 'night';
+	
+	let ws = weather_status[sky_ico];
+
 	ws = (typeof ws === 'string') ? ws : ((daytime === 'day') ? ws[0] : ws[1]);
 	ws = (ws.indexOf('?') > -1) ? ws.replace('?', daytime) : ws;
-	console.log(ws);
 
 	forecast_data.transData = {
 		BASEDATE: forecast_data.baseDate,
