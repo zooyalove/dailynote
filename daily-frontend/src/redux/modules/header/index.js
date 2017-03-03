@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux';
-import weather from './weather';
+// import { combineReducers } from 'redux';
 
-const header = combineReducers({
-	weather
-});
 
-export default header;
+// const header = combineReducers({
+// 	weather
+// });
+
+// export default header;

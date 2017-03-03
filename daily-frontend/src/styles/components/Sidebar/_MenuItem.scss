@@ -1,0 +1,39 @@
+li {
+    font-size: 1.5rem;
+    padding: 1rem;
+    display: block;
+    position: relative;
+
+    &:hover {
+        background: $oc-grape-8;
+    }
+
+    a {
+        color: $oc-gray-4;
+        text-decoration: none;
+
+        &:hover {
+            color: white;
+        }
+    }
+
+    &.active, &:active {
+        background: $oc-grape-8;
+
+        &:after {
+            content: "";
+            background: $oc-gray-1;
+            position: absolute;
+            right: -0.4rem;
+            top: 50%;
+            width: 0.8rem;
+            height: 0.8rem;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+    }
+}

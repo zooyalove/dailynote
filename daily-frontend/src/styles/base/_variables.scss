@@ -1,1 +1,9 @@
 $breakpoints: (phone: 320px, tablet:768px, desktop:1024px, wide-desktop:1366px);
+
+
+/* header height */
+$header-height: 4rem;
+
+/* z-index */
+$z-index-header: 10;
+$z-index-sidebar: 11;

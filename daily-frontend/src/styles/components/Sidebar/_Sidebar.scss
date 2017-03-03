@@ -1,0 +1,17 @@
+nav {
+    background-color: black;
+    position: fixed;
+    left: 0;
+    top: $header-height;
+    bottom: 0;
+    display: block;
+    width: $header-height;
+    z-index: $z-index-sidebar;
+
+    ul {
+        list-style: none;
+        padding: 0;
+
+        @import 'MenuItem';
+    }
+}
