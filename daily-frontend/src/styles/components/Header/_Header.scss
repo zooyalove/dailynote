@@ -23,7 +23,7 @@ header {
             padding-right: 1rem;
             color: $oc-gray-5;
             font-size: 1rem;
-            z-index: 10;
+            z-index: $z-index-header;
 
             @import 'Logo';
         }

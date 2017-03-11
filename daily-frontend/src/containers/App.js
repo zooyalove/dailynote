@@ -9,6 +9,11 @@ import Contents from '../components/Content';
 
 class App extends Component {
 
+	// static contextTypes = {
+	// 	router: React.PropTypes.object
+	// }
+
+
     render() {
     	const { children } = this.props;
 
@@ -18,9 +23,10 @@ class App extends Component {
             		<Logo />
             	</Header>
 				<Sidebar>
-					<MenuItem icon="write" to="/write" />
-					<MenuItem icon="users" to="/users" className="active" />
-					<MenuItem icon="bar graph" to="/stat" />
+					<MenuItem color="white" icon="write" to="/write" />
+					<MenuItem color="grape" icon="users" to="/users" />
+					<MenuItem color="green" icon="search" to="/search" />
+					<MenuItem color="teal" icon="bar graph" to="/stat" />
 				</Sidebar>
 				<Contents>
 					{children}

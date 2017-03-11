@@ -8,10 +8,5 @@ nav {
     width: $header-height;
     z-index: $z-index-sidebar;
 
-    ul {
-        list-style: none;
-        padding: 0;
-
-        @import 'MenuItem';
-    }
+    @import 'MenuItem';
 }

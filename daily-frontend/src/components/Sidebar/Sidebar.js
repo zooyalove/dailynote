@@ -6,9 +6,7 @@ class Sidebar extends Component {
         const { children } = this.props;
         return (
             <nav>
-                <ul>
-                    {children}
-                </ul>
+                {children}
             </nav>
         );
     }
