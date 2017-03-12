@@ -23,10 +23,10 @@ class App extends Component {
             		<Logo />
             	</Header>
 				<Sidebar>
-					<MenuItem color="white" icon="write" to="/write" />
+					<MenuItem color="red" icon="write" to="/write" />
 					<MenuItem color="grape" icon="users" to="/users" />
 					<MenuItem color="green" icon="search" to="/search" />
-					<MenuItem color="teal" icon="bar graph" to="/stat" />
+					<MenuItem color="blue" icon="bar graph" to="/stat" />
 				</Sidebar>
 				<Contents>
 					{children}

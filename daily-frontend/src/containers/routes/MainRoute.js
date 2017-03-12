@@ -4,7 +4,7 @@ class MainRoute extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="subcontents-wrapper">
 				MainRoute 페이지입니다.
 			</div>
 		);

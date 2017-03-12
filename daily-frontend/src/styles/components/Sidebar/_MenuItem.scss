@@ -20,6 +20,7 @@ a {
     &.grape.active, &.grape:active,
     &.green.active, &.green:active,
     &.teal.active, &.teal:active,
+    &.blue.active, &.blue:active,
     {
         &:after {
             content: "";
@@ -36,6 +37,13 @@ a {
     &.red {
         &:hover, &.active, &:active {
             background: $oc-red-8;
+            color: white;
+        }
+    }
+
+    &.blue {
+        &:hover, &.active, &:active {
+            background: $oc-blue-8;
             color: white;
         }
     }

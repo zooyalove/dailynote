@@ -4,7 +4,7 @@ class WriteRoute extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="subcontents-wrapper">
 				WriteRoute 페이지입니다.
 			</div>
 		);
