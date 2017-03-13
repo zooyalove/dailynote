@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import { connect } from 'react-redux';
 // import { bindActionCreators } from 'redux';
+import { Input } from 'semantic-ui-react';
 
 import Header, { Logo } from '../components/Header';
 import Sidebar, { MenuItem } from '../components/Sidebar';
@@ -21,6 +22,7 @@ class App extends Component {
         	<div>
             	<Header>
             		<Logo />
+					<Input className="quick-search" icon="search" placeholder="빠른 검색" />
             	</Header>
 				<Sidebar>
 					<MenuItem color="red" icon="write" to="/write" />

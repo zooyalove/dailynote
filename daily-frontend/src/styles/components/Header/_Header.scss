@@ -26,6 +26,13 @@ header {
             z-index: $z-index-header;
 
             @import 'Logo';
+
+            .quick-search {
+                float: right;
+                margin-right: 3rem;
+                margin-top: 0.7rem;
+                width: 300px;
+            }
         }
 
         @include media("<desktop") {
