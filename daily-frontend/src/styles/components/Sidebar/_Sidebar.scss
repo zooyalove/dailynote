@@ -4,8 +4,9 @@ nav {
     left: 0;
     top: $header-height;
     bottom: 0;
-    display: block;
-    width: $header-height;
+    padding-top: 0.7rem;
+    display: inline-block;
+    width: auto;
     z-index: $z-index-sidebar;
 
     @import 'MenuItem';

@@ -4,9 +4,9 @@ import { Link } from 'react-router';
 
 const MenuItem = ({ children, color, icon, to }) => {
     return (
-        <Link to={to} activeClassName="active" className={color} >
+        <Link to={to} activeClassName="active" className={`menuitem ${color}`} >
             <Icon name={icon} />
-            {children}
+            <span className="menuitem-text">{children}</span>
         </Link>
     );
 };

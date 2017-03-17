@@ -1,13 +1,19 @@
 .contents-wrapper {
     display: block;
+    position: fixed;
     top: $header-height;
     left: $header-height;
     right: 0;
     bottom: 0;
-    position: fixed;
     z-index: 0;
 
     .subcontents-wrapper {
-    	padding: 1rem 2rem 2rem 1rem;
+    	padding: 2rem;
+
+        .main-title {
+            color: $oc-gray-8;
+        }
+
+        @import 'WriteRoute';
     }
 }
