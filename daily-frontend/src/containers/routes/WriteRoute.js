@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 
 class WriteRoute extends Component {
 
@@ -7,12 +7,15 @@ class WriteRoute extends Component {
 		return (
 			<div className="subcontents-wrapper">
 				<h2 className="main-title">일일장부 등록</h2>
-				<div className="write-container">
-					<div className="write-row">
-						<div className="write-label">주문자</div>
-						<div className="write-content"><Input style={{width: '300px'}} /></div>
-					</div>
-				</div>
+				<Form>
+					<Form.Dropdown
+						label="주문자"
+						placeholder="거래처를 입력 또는 선택하세요"
+						search
+						selection
+						inline />
+					<Form.Input label="연락처" placeholder="" />
+				</Form>
 			</div>
 		);
 	}
