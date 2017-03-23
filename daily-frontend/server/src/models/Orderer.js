@@ -9,7 +9,7 @@ const Orderer = new Schema({
         type: String,
         validate: {
             validator: (v) => {
-                return /\d{3}-\d{3,4}-\d{4}/.test(v) || /\d{2,3}-\d{3,4}-\d{4}/.test(v);
+                return /\d{2,3}-\d{3,4}-\d{4}/.test(v);
             }
         },
         required: [true, '거래처 전화번호는 필수항목입니다']
