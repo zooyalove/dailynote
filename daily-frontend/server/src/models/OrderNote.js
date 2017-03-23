@@ -8,11 +8,6 @@ const OrderNote = new Schema({
 		},
 		phone: {
 	        type: String,
-	        validate: {
-	            validator: (v) => {
-	                return /\d{2,3}-\d{3,4}-\d{4}/.test(v);
-	            }
-	        },
 	        required: [true, '주문자 전화번호는 필수항목입니다']
 		},
 		id: {
@@ -41,9 +36,15 @@ const OrderNote = new Schema({
 		type: Boolean,
 		default: false
 	},
-	created: {
-		type: Date,
-		default: Date.now
+	date: {
+		created: {
+			type: Date,
+			default: Date.now
+		},
+		modified: {
+			type: Date,
+			default: Date.now
+		}
 	}
 });
 
