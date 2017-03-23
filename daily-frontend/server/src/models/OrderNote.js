@@ -14,6 +14,10 @@ const OrderNote = new Schema({
 	            }
 	        },
 	        required: [true, '주문자 전화번호는 필수항목입니다']
+		},
+		id: {
+			type: String,
+			default: "0"
 		}
 	},
 	receiver: {
@@ -33,7 +37,10 @@ const OrderNote = new Schema({
 		text: String,
 		image: String
 	},
-	is_payment: Boolean,
+	is_payment: {
+		type: Boolean,
+		default: false
+	},
 	created: {
 		type: Date,
 		default: Date.now
