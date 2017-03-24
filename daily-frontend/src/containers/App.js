@@ -26,7 +26,7 @@ class App extends Component {
             	</Header>
 				<Sidebar>
 					<MenuItem color="red" icon="write" to="/write" />
-					<MenuItem color="grape" icon="users" to="/users" />
+					<MenuItem color="grape" icon="users" to="/orderer" />
 					<MenuItem color="green" icon="search" to="/search" />
 					<MenuItem color="blue" icon="bar graph" to="/stat" />
 				</Sidebar>

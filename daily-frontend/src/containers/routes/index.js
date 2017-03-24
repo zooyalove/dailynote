@@ -1,13 +1,13 @@
 import MainRoute from './MainRoute';
 import WriteRoute from './WriteRoute';
-import UsersRoute from './UsersRoute';
+import OrdererRoute from './OrdererRoute';
 import SearchRoute from './SearchRoute';
 import StatRoute from './StatRoute';
 
 export {
 	MainRoute,
 	WriteRoute,
-	UsersRoute,
+	OrdererRoute,
 	SearchRoute,
 	StatRoute
 };

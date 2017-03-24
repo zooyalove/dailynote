@@ -3,10 +3,6 @@ import User from './../models/User';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-
-});
-
 /*
     USER SIGNUP: POST /api/user/signup
     BODY SAMPLE: {
@@ -53,6 +49,7 @@ router.post('/signup', (req, res) => {
     // CHECK USER EXISTANCE
     User.findOne({ userid: req.body.userid }, (err, exists) => {
         if (err) throw err;
+
         if (exists) {
             if (exists.userid === req.body.userid) {
                 return res.status(409).json({
@@ -69,33 +66,101 @@ router.post('/signup', (req, res) => {
             }
         }
 
+        const {
+            userid,
+            username,
+            email,
+            password
+        } = req.body;
+
         // CREATE User
         let user = new User({
-            userid: req.body.userid,
-            email: req.body.email,
-            password: req.body.password
+            userid,
+            username,
+            email,
+            password
         });
 
         user.password = user.generateHash(user.password);
 
         // SAVE IN THE DATABASE
         user.save( (err) => {
-            if(err) throw err;
+            if (err) throw err;
+
             return res.json({ success: true });
         });
     });
 });
 
+/*
+    POST /api/user/signin
+    사용자 로그인
+
+    ERROR CODES
+        1 : LOGIN FAILED
+*/
 router.post('/signin', (req, res) => {
+    if (typeof req.body.password !== "string") {
+        return res.status(401).json({
+            error: 'LOGIN FAILED',
+            code: 1
+        });
+    }
+
+    User.findOne({$or: [{'userid': req.body.userid}, {'email': req.body.userid}]}, (err, user) => {
+        if (err) throw err;
+
+        if (!user) {
+            return res.status(401).json({
+                error: 'LOGIN FAILED',
+                code: 1
+            });
+        }
+
+        if(!user.validateHash(req.body.password)) {
+            return res.status(401).json({
+                error: 'LOGIN FAILED',
+                code: 1
+            });
+        }
+
+        let session = req.session;
+
+        session.loginInfo = {
+            _id: user._id,
+            username: user.username,
+            is_admin: user.is_admin
+        };
+
+        return res.json({ success: true });
+    });
+});
+
+router.post('/logout', (req, res) => {
+    req.session.destroy( (err) => { if (err) throw err; });
+
+    return res.json({ success: true });
+});
+
+/*
+router.put('/:id', (req, res) => {
 
 });
 
-router.put('/', (req, res) => {
+router.delete('/:id', (req, res) => {
 
 });
+*/
 
-router.delete('/', (req, res) => {
+router.get('/getinfo', (req, res) => {
+    if (typeof req.session.loginInfo === 'undefined') {
+        res.status(401).json({
+            error: 'NOT LOGINED',
+            code: 1
+        });
+    }
 
+    return res.json({ info: req.session.loginInfo });
 });
 
 export default router;

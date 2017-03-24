@@ -3,22 +3,27 @@ import mongoose, { Schema } from 'mongoose';
 const Orderer = new Schema({
     name: {
         type: String,
-        required: [true, '거래처명을 입력하세요']
+        required: true
     },
     phone: {
         type: String,
-        validate: {
-            validator: (v) => {
-                return /\d{2,3}-\d{3,4}-\d{4}/.test(v);
-            }
-        },
-        required: [true, '거래처 전화번호는 필수항목입니다']
+        required: true
     },
     address: String,
     manager: String,
     manager_phone: String,
     def_ribtext: String,
-    description: String
+    description: String,
+    date: {
+        created: {
+            type: Date,
+            default: Date.now
+        },
+        modified: {
+            type: Date,
+            default: Date.now
+        }
+    }
 });
 
 export default mongoose.model('orderer', Orderer);

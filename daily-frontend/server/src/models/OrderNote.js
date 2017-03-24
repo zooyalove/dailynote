@@ -4,11 +4,11 @@ const OrderNote = new Schema({
 	orderer: {
 		name: {
 			type: String,
-			required: [true, '주문자 이름을 입력하세요']
+			required: true
 		},
 		phone: {
 	        type: String,
-	        required: [true, '주문자 전화번호는 필수항목입니다']
+	        required: true
 		},
 		id: {
 			type: String,
@@ -18,12 +18,16 @@ const OrderNote = new Schema({
 	receiver: {
 		name: {
 			type: String,
-			required: [true, '받는 사람 이름을 입력하세요']
+			required: true
 		},
 		phone: String
 	},
 	delivery_info: {
 		category: String,
+		price: {
+			type: Number,
+			default: 0
+		},
 		date: {
 			type: Date,
 			default: Date.now

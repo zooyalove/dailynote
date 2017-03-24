@@ -1,14 +1,22 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
+import session from 'express-session';
 
 import api from './routes';
 
 const app = express();
 
-let port = 4000;
+const port = 4000;
 
 app.use(bodyParser.json());
+
+app.use(session({
+    secret: 'DailyNote1$1$234',
+    resave: false,
+    saveUninitialized: true
+}));
+
 app.use('/', express.static(path.join(__dirname, './../../public')));
 
 app.use('/api', api);

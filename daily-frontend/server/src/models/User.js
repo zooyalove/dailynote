@@ -4,11 +4,15 @@ import bcrypt from 'bcryptjs';
 const User = new Schema({
 	userid: {
 		type: String,
-		required: [true, '아이디를 입력하세요']
+		required: true
+	},
+	username: {
+		type: String,
+		required: true
 	},
 	email: {
 		type: String,
-		required: [true, '이메일을 입력하세요']
+		required: true
 	},
 	password: {
 		type: String,
