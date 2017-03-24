@@ -8,16 +8,15 @@ const router = express.Router();
     BODY SAMPLE: {
         "userid": "test",
         "email": "test@test.com",
-        "password": "test",
-
+        "password": "test"
     }
+
     ERROR CODES:
         1: BAD USERID
         2: BAD EMAIL
         3: BAD PASSWORD
         4: USERID EXISTS
         5: EMAIL EXISTS
-        
 */
 router.post('/signup', (req, res) => {
     const useridRegex = /^[a-z0-9]+$/;
@@ -93,8 +92,11 @@ router.post('/signup', (req, res) => {
 });
 
 /*
-    POST /api/user/signin
-    사용자 로그인
+    USER SIGNIN POST /api/user/signin
+    BODY SAMPLE {
+        userid : id or email
+        password : password
+    }
 
     ERROR CODES
         1 : LOGIN FAILED

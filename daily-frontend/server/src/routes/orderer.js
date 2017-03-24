@@ -45,11 +45,11 @@ router.get('/:id', (req, res) => {
 
 		OrderNote.aggregate([
 			{ $match: {
-				orderer.id: req.params.id
+				'orderer.id': req.params.id
 			}},
 			{ $group: {
 				_id: null,
-				totalPrice: { $sum: "$price" },
+				totalPrice: { $sum: '$delivery_info.price' },
 				count: { $sum: 1 }
 			}}
 		], (err, result) => {
@@ -207,13 +207,13 @@ router.put('/:id', (req, res) => {
     		description
     	} = req.body;
 
-		orderer.name = req.body.name.trim();
-		orderer.phone = req.body.phone;
-		orderer.address = req.body.address;
-		orderer.manager = req.body.manager;
-		orderer.manager_phone = req.body.manager_phone;
-		orderer.def_ribtext = req.body.def_ribtext;
-		orderer.description = req.body.description;
+		orderer.name = name.trim();
+		orderer.phone = phone;
+		orderer.address = address;
+		orderer.manager = manager;
+		orderer.manager_phone = manager_phone;
+		orderer.def_ribtext = def_ribtext;
+		orderer.description = description;
 		orderer.date.modified = new Date();
 
 		orderer.save( (err) => {

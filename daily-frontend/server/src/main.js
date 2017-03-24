@@ -2,6 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import session from 'express-session';
+import mongoose from 'mongoose';
+import morgan from 'morgan';
 
 import api from './routes';
 
@@ -9,8 +11,16 @@ const app = express();
 
 const port = 4000;
 
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 
+// MongoDB Connection Info
+const db = mongoose.connection;
+db.on('error', console.error);
+db.once('open', () => { console.log('Connected to mongodb server'); });
+mongoose.connect('mongodb://localhost/zyapp');
+
+// use session
 app.use(session({
     secret: 'DailyNote1$1$234',
     resave: false,

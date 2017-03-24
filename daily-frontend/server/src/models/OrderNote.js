@@ -22,7 +22,7 @@ const OrderNote = new Schema({
 		},
 		phone: String
 	},
-	delivery_info: {
+	delivery: {
 		category: String,
 		price: {
 			type: Number,
