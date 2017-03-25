@@ -25,10 +25,10 @@ class App extends Component {
 					<Input className="quick-search" icon="search" placeholder="빠른 검색" />
             	</Header>
 				<Sidebar>
-					<MenuItem color="red" icon="write" to="/write" />
-					<MenuItem color="grape" icon="users" to="/orderer" />
-					<MenuItem color="green" icon="search" to="/search" />
-					<MenuItem color="blue" icon="bar graph" to="/stat" />
+					<MenuItem color="red" content="장부등록" icon="write" to="/write" />
+					<MenuItem color="grape" content="거래처 관리" icon="users" to="/orderer" />
+					<MenuItem color="green" content="장부검색" icon="search" to="/search" />
+					<MenuItem color="blue" content="통계" icon="bar graph" to="/stat" />
 				</Sidebar>
 				<Contents>
 					{children}

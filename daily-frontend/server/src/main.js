@@ -22,7 +22,7 @@ mongoose.connect('mongodb://localhost/zyapp');
 
 // use session
 app.use(session({
-    secret: 'DailyNote1$1$234',
+    secret: 'DailyNote$1$1$234',
     resave: false,
     saveUninitialized: true
 }));

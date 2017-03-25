@@ -1,13 +1,17 @@
 import React from 'react';
-import { Icon } from 'semantic-ui-react';
+import { Popup, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router';
 
-const MenuItem = ({ children, color, icon, to }) => {
+const MenuItem = ({ children, color, content, icon, to }) => {
     return (
-        <Link to={to} activeClassName="active" className={`menuitem ${color}`} >
-            <Icon name={icon} />
-            <span className="menuitem-text">{children}</span>
-        </Link>
+    	<Popup
+        	trigger={
+	          	<Link to={to} activeClassName="active" className={`menuitem ${color}`} >
+	            	<Icon name={icon} />
+	        	</Link>
+	        }
+        	content={content}
+        	positioning='right center' />
     );
 };
 
