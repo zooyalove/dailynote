@@ -7,7 +7,7 @@ const router = express.Router();
 
 /*
 	GET /api/orderer
-	등록된 거래처 정보를 조회
+	등록된 거래처 리스트를 조회
 
 	ERROR CODES
 
@@ -24,6 +24,7 @@ router.get('/', (req, res) => {
 		1 : INVALID ID
 		2 : ORDERER NOT EXISTS
 		3 : PERMISSION DENIED
+		4 : NO RESOURCES
 */
 router.get('/:id', (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
