@@ -7,6 +7,7 @@ const router = express.Router();
     USER SIGNUP: POST /api/user/signup
     BODY SAMPLE: {
         "userid": "test",
+        "username": "test",
         "email": "test@test.com",
         "password": "test"
     }
@@ -20,9 +21,10 @@ const router = express.Router();
 */
 router.post('/signup', (req, res) => {
     const useridRegex = /^[a-z0-9]+$/;
-	const emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+	const emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    // const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
 
-    if(!useridRegex.test(req.body.userid)) {
+    if (!useridRegex.test(req.body.userid)) {
         return res.status(400).json({
             error: "BAD USERID",
             code: 1
@@ -30,7 +32,9 @@ router.post('/signup', (req, res) => {
     }
 
     // CHECK EMAIL VALIDATE
-    if(!emailRegex.test(req.body.email)) {
+    console.log(req.body.email);
+
+    if (!emailRegex.test(req.body.email)) {
         return res.status(400).json({
             error: "BAD EMAIL",
             code: 2
@@ -38,7 +42,7 @@ router.post('/signup', (req, res) => {
     }
 
     // CHECK PASS LENGTH
-    if(req.body.password.length < 4 || typeof req.body.password !== "string") {
+    if (req.body.password.length < 4 || typeof req.body.password !== "string") {
         return res.status(400).json({
             error: "BAD PASSWORD",
             code: 3

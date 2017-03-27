@@ -12,6 +12,11 @@ const app = express();
 const port = 4000; 
 
 app.use(morgan('dev'));
+
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
+
 app.use(bodyParser.json());
 
 // MongoDB Connection Info
