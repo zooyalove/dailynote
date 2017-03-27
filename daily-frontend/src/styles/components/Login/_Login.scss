@@ -1,0 +1,119 @@
+.login-wrapper {
+    text-align: center;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+
+    .login-content {
+        display: inline-block;
+        margin: 0px auto;
+        position: relative;
+        top: 25%;
+
+        .login-title {
+            padding: 0 2rem 2rem;
+
+            h1 {
+                color: $oc-violet-7;
+                font-size: 5rem;
+            }
+        }
+
+        .login-form {
+            background: rgba(0, 0, 0, 0.15);
+            padding: 5rem;
+
+            .login-item {
+                margin: 0px auto;
+                width: auto;
+                height: 40px;
+
+                .login-icon {
+                    float: left;
+                    background: $oc-violet-7;
+                    clear: left;
+                    width: 40px;
+                    height: 40px;
+                    position: relative;
+
+                    i {
+                        color: white;
+                        font-size: 2rem;
+                        line-height: 2rem;
+                        padding: 0.3rem;
+                    }
+
+                    &:after {
+                        content: "";
+                        width: 10px;
+                        height: 10px;
+                        position: absolute;
+                        top: 50%;
+                        right: -9px;
+                        background: $oc-violet-7;
+                        transform: rotate(45deg) translate(-50%);
+                        z-index: 1;
+                    }
+                }
+
+                .login-field {
+                    float: left;
+                    background: white;
+                    clear: right;
+                    height: 40px;
+                    width: 210px;
+                    text-align: left;
+
+                    input {
+                        border: 0px;
+                    }
+                    & > div {
+                        margin-top: 2px;
+                        width: 210px;
+                    }
+                }
+
+                .login-submit {
+                    background: $oc-violet-7;
+                    color: white;
+                    border: 0;
+                    display: block;
+                    height: 40px;
+                    width: 100%;
+                    font-weight: 600;
+                    font-size: 1.5rem;
+                    letter-spacing: 5px;
+                }
+            }
+
+            .login-remember {
+                width: 100%;
+                text-align: left;
+                font-weight: bold;
+                height: 30px;
+                margin-top: 0.7rem;
+
+                label {
+                    color: black;
+
+                    &:before {
+                        border: 1px solid $oc-violet-5;
+                    }
+                }
+
+                .checkbox > label:after {
+                    color: rgba(112, 72, 232, 0.9)!important;
+                }
+            }
+
+
+            .login-item + .login-item {
+                margin-top: 0.5rem;
+            }
+        }
+    }
+}

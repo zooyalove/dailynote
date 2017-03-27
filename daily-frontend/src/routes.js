@@ -14,6 +14,7 @@ import {
 export default (
 	<Route path="/" component={App}>
 		<IndexRoute component={MainRoute} />
+		<Route path="login" component={LoginRoute} />
 		<Route path="write" component={WriteRoute} />
 		<Route path="orderer" component={OrdererRoute} />
 		<Route path="search" component={SearchRoute} />
