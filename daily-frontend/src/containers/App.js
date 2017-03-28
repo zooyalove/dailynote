@@ -28,7 +28,6 @@ class App extends Component {
     render() {
     	const { children, status: { header } } = this.props;
 		const visible = header.get('visible');
-		console.log(visible);		
 
         return (
 			<div>
