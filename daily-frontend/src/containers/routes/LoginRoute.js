@@ -51,13 +51,10 @@ class LoginRoute extends Component {
     handleChange = ({name, data}) => {
         // console.log(data.value);
         // console.log(name);
-
-        
-        
     }
 
     handleSubmit = (e) => {
-
+        
     }
 
     render() {
