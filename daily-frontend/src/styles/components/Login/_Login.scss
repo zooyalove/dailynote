@@ -76,7 +76,7 @@
                 }
 
                 .login-submit {
-                    background: $oc-violet-7;
+                    background: $oc-violet-6;
                     color: white;
                     border: 0;
                     display: block;
@@ -85,6 +85,14 @@
                     font-weight: 600;
                     font-size: 1.5rem;
                     letter-spacing: 5px;
+                    transition: background 0.2s ease;
+
+                    &:hover {
+                        background: $oc-violet-7;
+                    }
+                    &:active {
+                        background: $oc-violet-9;
+                    }
                 }
             }
 

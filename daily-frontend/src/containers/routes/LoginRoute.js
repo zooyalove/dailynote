@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Checkbox, Icon, Input } from 'semantic-ui-react';
 
 import * as header from './../../redux/modules/base/header';
+import * as login from './../../redux/modules/base/login';
 
 import storage from './../../helpers/storage';
 
@@ -49,16 +50,19 @@ class LoginRoute extends Component {
     }
 
     handleChange = ({name, data}) => {
-        // console.log(data.value);
-        // console.log(name);
+        const { LoginActions } = this.props;
+        const value = data.value;
+        
+        LoginActions.setLoginFormInfo({name, value});
     }
 
     handleSubmit = (e) => {
-        
+        const { LoginActions } = this.props;
+        LoginActions.clearLoginFormInfo();
     }
 
     render() {
-        const { handleChange } = this;
+        const { handleChange, handleSubmit } = this;
 
         return (
             <div
@@ -90,7 +94,7 @@ class LoginRoute extends Component {
                             <Checkbox label="Remember me" defaultChecked />
                         </div>
                         <div className="login-item">
-                            <button className="login-submit" tabIndex="3">LOGIN</button>
+                            <button className="login-submit" tabIndex="3" onClick={handleSubmit} >LOGIN</button>
                         </div>
                     </div>
                 </div>
@@ -104,11 +108,13 @@ class LoginRoute extends Component {
 LoginRoute = connect(
     state => ({
         status: {
-            header: state.base.header
+            header: state.base.header,
+            login: state.base.login
         }
     }),
     dispatch => ({
-        HeaderActions: bindActionCreators(header, dispatch)
+        HeaderActions: bindActionCreators(header, dispatch),
+        LoginActions: bindActionCreators(login, dispatch)
     })
  )(LoginRoute);
 
