@@ -31,6 +31,6 @@ export default handleActions({
     	return state.set('is_remember', checked);
     },
 	[LOGIN_FORM_INFO_CLEAR]: (state, action) => (
-		state.mergeIn('loginForm', ...initialState.get('loginForm'))
+		state.mergeIn(['loginForm'], initialState.get('loginForm'))
 	)
 }, initialState);
