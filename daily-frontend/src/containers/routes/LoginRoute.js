@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Checkbox, Icon, Input } from 'semantic-ui-react';
+import { Checkbox, Dimmer, Icon, Input, Loader, Message } from 'semantic-ui-react';
 import axios from 'axios';
 
 import * as header from './../../redux/modules/base/header';
@@ -63,14 +63,88 @@ class LoginRoute extends Component {
     }
 
     handleSubmit = (e) => {
-        const { LoginActions } = this.props;
-        LoginActions.clearLoginFormInfo();
+        const { LoginActions, status: { login } } = this.props;
+
+        const userid = login.getIn(['loginForm', 'userid']);
+        const password = login.getIn(['loginForm', 'password']);
+
+        LoginActions.fetchingLoginAuth();
+
+        axios.post('/api/user/signin', {
+            userid,
+            password
+        })
+        .then( (res) => {
+            console.log('Success');
+
+            axios.get('/api/user/getinfo')
+            .then( (info) => {
+                const userInfo = info.data.info;
+
+                LoginActions.completeLoginAuth();
+                storage.set('loginInfo', userInfo);
+
+                LoginActions.setLoginAuthMessage({
+                    type: 'success',
+                    message: 'Hello, ' + userInfo.username + '~!'
+                });
+
+                setTimeout( () => {
+                    LoginActions.hideLoginAuthMessage();
+                    setTimeout( () => {
+                        LoginActions.clearLoginAuthMessage();
+                        
+                        this.context.router.push('/');
+                    }, 1000);
+                }, 3000);
+
+            })
+            .catch( (err) => {
+                LoginActions.completeLoginAuth();
+                if (err.response) {
+                    LoginActions.setLoginAuthMessage({
+                        type: 'error',
+                        message: err.response.data.error + '~!'
+                    });
+
+                    setTimeout( () => {
+                        LoginActions.hideLoginAuthMessage();
+                        setTimeout( () => {
+                            LoginActions.clearLoginAuthMessage();
+                        }, 1000);
+                    }, 3000);
+                }
+            });
+        })
+        .catch( (err) => { 
+            LoginActions.completeLoginAuth();
+
+            if (err.response) {
+                LoginActions.setLoginAuthMessage({
+                    type: 'error',
+                    message: err.response.data.error + '~!'
+                });
+
+                setTimeout( () => {
+                    LoginActions.hideLoginAuthMessage();
+                    setTimeout( () => {
+                        LoginActions.clearLoginAuthMessage();
+                    }, 1000);
+                }, 3000);
+            }
+        });
+        
+        // LoginActions.clearLoginFormInfo();
     }
 
     render() {
         const { handleChange, handleRemember, handleSubmit } = this;
         const { status: { login }} = this.props;
         const checked = login.get('is_remember');
+        const fetching = login.get('fetching');
+        const message = login.getIn(['auth', 'message']);
+        const authtype = login.getIn(['auth', 'type']);
+        const visible = login.getIn(['auth', 'visible']);
 
         return (
             <div
@@ -102,12 +176,30 @@ class LoginRoute extends Component {
                             <Checkbox label="Remember me" checked={checked} onClick={handleRemember} />
                         </div>
                         <div className="login-item">
-                            <button className="login-submit" tabIndex="3" onClick={handleSubmit} >LOGIN</button>
+                            <button
+                                className="login-submit"
+                                tabIndex="3"
+                                onClick={handleSubmit}
+                            >LOGIN</button>
                         </div>
                     </div>
                 </div>
-
-
+                {fetching && 
+                    <Dimmer active >
+                        <Loader>Authenticating...</Loader>
+                    </Dimmer>
+                }
+                {message && 
+                    <Message
+                        icon
+                        compact
+                        color={`${authtype === 'success' ? 'green' : 'red'}`}
+                        className={`float-message ${visible ? 'bounceInUp' : 'bounceOutDown'}`}
+                    >
+                        <Icon name='info circle' />
+                        {message}
+                    </Message>
+                }
             </div>
         );
     }

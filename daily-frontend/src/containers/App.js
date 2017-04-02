@@ -18,10 +18,15 @@ class App extends Component {
 	}
 
 	componentWillMount() {
+		const { HeaderActions, status: { header } } = this.props;
+
 		const loginInfo = storage.get('loginInfo');
 
 		if (!loginInfo) {
 			this.context.router.push('/login');
+		} else {
+			if (!header.get('visible'))
+				HeaderActions.openHeader();
 		}
 	}
 
