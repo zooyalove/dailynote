@@ -41,7 +41,7 @@ class LoginRoute extends Component {
         const { HeaderActions, status: { header } } = this.props;
 
         const loginInfo = storage.get('loginInfo');
-        if (loginInfo) {
+        if (loginInfo && loginInfo._id && loginInfo.username) {
             this.context.router.push('/');
         }
 

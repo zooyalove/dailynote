@@ -17,8 +17,9 @@ class MainRoute extends Component {
 		if (!storage.get('loginInfo')) {
 			this.context.router.push('/login');
 		} else {
-			if (!header.get('visible'))
+			if (!header.get('visible')) {
 				HeaderActions.openHeader();
+			}
 		}
 	}
 

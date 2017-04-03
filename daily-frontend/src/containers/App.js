@@ -5,7 +5,7 @@ import { Input } from 'semantic-ui-react';
 
 import * as header from './../redux/modules/base/header';
 
-import Header, { Logo } from '../components/Header';
+import Header, { Logo, UserInfo } from '../components/Header';
 import Sidebar, { MenuItem } from '../components/Sidebar';
 import Contents from '../components/Content';
 
@@ -20,19 +20,24 @@ class App extends Component {
 	componentWillMount() {
 		const { HeaderActions, status: { header } } = this.props;
 
-		const loginInfo = storage.get('loginInfo');
-
-		if (!loginInfo) {
+		if (!storage.get('loginInfo')) {
 			this.context.router.push('/login');
 		} else {
-			if (!header.get('visible'))
+			if (!header.get('visible')) {
 				HeaderActions.openHeader();
+			}
 		}
 	}
 
+	handleLogOut = () => {
+
+	}
+
     render() {
+    	const { handleLogOut } = this;
     	const { children, status: { header } } = this.props;
 		const visible = header.get('visible');
+		const { username } = storage.get('loginInfo')
 
         return (
 			<div>
@@ -40,6 +45,7 @@ class App extends Component {
 				<div>
 					<Header>
 						<Logo />
+						<UserInfo username={username} onLogOut={handleLogOut} />
 						<Input className="quick-search" icon="search" placeholder="빠른 검색" />
 					</Header>
 					<Sidebar>

@@ -35,6 +35,8 @@ header {
                 width: 300px;
 
             }
+            
+            @import 'UserInfo';
         }
 
         @include media("<desktop") {

@@ -6,6 +6,9 @@
     bottom: 0;
     width: 100%;
     background-size: cover;
+    background-repeat: no-repeat;
+    user-select: none;
+    overflow: hidden;
 
     .login-content {
         display: inline-block;
