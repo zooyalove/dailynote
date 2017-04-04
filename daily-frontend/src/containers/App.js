@@ -30,14 +30,17 @@ class App extends Component {
 	}
 
 	handleLogOut = () => {
-
+		if (storage.get('loginInfo')) {
+			storage.remove('loginInfo');
+			this.context.router.push('/login');
+		}
 	}
 
     render() {
     	const { handleLogOut } = this;
     	const { children, status: { header } } = this.props;
 		const visible = header.get('visible');
-		const { username } = storage.get('loginInfo')
+		const username = storage.get('loginInfo') ? storage.get('loginInfo')['username'] : '';
 
         return (
 			<div>
