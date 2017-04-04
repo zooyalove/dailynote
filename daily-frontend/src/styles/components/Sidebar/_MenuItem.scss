@@ -6,9 +6,8 @@ a.menuitem {
     color: $oc-gray-4;
     text-decoration: none;
 
-    &:hover, &.white:hover,
-    &.active, &:active,
-    &.white.active, &.white:active
+    &:hover, &.active, &:active,
+    &.white:hover, &.white.active, &.white:active
     {
         background: $oc-gray-6;
         color: white;
@@ -17,7 +16,6 @@ a.menuitem {
     &.active, &:active,
     &.white.active, &.white:active,
     &.red.active, &.red:active,
-    &.grape.active, &.grape:active,
     &.green.active, &.green:active,
     &.teal.active, &.teal:active,
     &.blue.active, &.blue:active,
@@ -34,38 +32,47 @@ a.menuitem {
         }
     }
 
+    &.grape.active, &.grape:active
+    {
+        &:after {
+            content: "";
+            background: $oc-gray-9;
+            position: absolute;
+            right: -0.4rem;
+            top: 50%;
+            width: 0.8rem;
+            height: 0.8rem;
+            transform: translateY(-50%) rotate(45deg);
+        }
+    }
+
     &.red {
         &:hover, &.active, &:active {
             background: $oc-red-8;
-            color: white;
         }
     }
 
     &.blue {
         &:hover, &.active, &:active {
             background: $oc-blue-8;
-            color: white;
         }
     }
 
     &.grape {
         &:hover, &.active, &:active {
             background: $oc-grape-8;
-            color: white;
         }
     }
 
     &.green {
         &:hover, &.active, &:active  {
             background: $oc-green-8;
-            color: white;
         }
     }
 
     &.teal {
         &:hover, &.active, &:active  {
             background: $oc-teal-8;
-            color: white;
         }
     }
 }

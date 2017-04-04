@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import OrdererWidget, { OrdererList, OrdererItem, OrdererAdd } from './../../components/Orderer';
 import * as header from './../../redux/modules/base/header';
 
 //import storage from './../../helpers/storage';
@@ -9,9 +10,15 @@ import * as header from './../../redux/modules/base/header';
 class OrdererRoute extends Component {
 
 	render() {
+        const { children } = this.props;
+        
 		return (
 			<div className="orderer-wrapper">
-				OrdererRoute 페이지입니다.
+                <OrdererWidget>
+                    <OrdererAdd />
+                    <OrdererList />
+                </OrdererWidget>
+                {children}
 			</div>
 		);
 	}

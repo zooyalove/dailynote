@@ -1,0 +1,14 @@
+.orderer-list {
+    .orderer-title {
+        margin-top: 1rem;
+        border-top: 1px solid $oc-gray-7;
+        border-bottom: 1px solid $oc-gray-7;
+        padding-top: 0.7rem;
+        padding-left: 0.5rem;
+        padding-bottom: 0.7rem;
+        color: $oc-gray-7;
+        font-weight: 700;
+    }
+
+    @import 'OrdererItem';
+}

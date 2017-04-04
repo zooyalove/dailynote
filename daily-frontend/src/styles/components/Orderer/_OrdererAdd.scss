@@ -1,0 +1,15 @@
+.orderer-add {
+    width: 100%;
+    color: white;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    .add-btn {
+        border-radius: 4px;
+        background: $oc-grape-6;
+        padding: 0.5rem;
+    }
+}
