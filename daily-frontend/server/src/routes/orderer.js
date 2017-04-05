@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 	Orderer.find().sort({name: 1}).exec( (err, orderers) => {
 		if (err) throw err;
 
-		if(!orderers) {
+		if(!orderers.length) {
 			return res.status(400).json({
 				error: 'NO RESOURCES',
 				code: 2
@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
 
 		return res.json({
 			success: true,
-			data: orderers
+			orderers
 		});
 	});
 
