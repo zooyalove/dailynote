@@ -11,5 +11,15 @@
         border-radius: 4px;
         background: $oc-grape-6;
         padding: 0.5rem;
+        user-select: none;
+        cursor: pointer;
+
+        &:hover {
+            background: $oc-grape-8;
+        }
+
+        &:active {
+            background: $oc-grape-7;
+        }
     }
 }

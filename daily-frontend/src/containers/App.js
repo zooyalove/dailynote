@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Input } from 'semantic-ui-react';
 
-import * as header from './../redux/modules/base/header';
+import * as header from 'redux/modules/base/header';
 
-import Header, { Logo, UserInfo } from '../components/Header';
-import Sidebar, { MenuItem } from '../components/Sidebar';
-import Contents from '../components/Content';
+import Header, { Logo, UserInfo } from 'components/Header';
+import Sidebar, { MenuItem } from 'components/Sidebar';
+import Contents from 'components/Content';
 
-import storage from './../helpers/storage';
+import storage from 'helpers/storage';
 
 class App extends Component {
 

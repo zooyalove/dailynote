@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Checkbox, Dimmer, Icon, Input, Loader, Message } from 'semantic-ui-react';
-import axios from 'axios';
 
-import * as header from './../../redux/modules/base/header';
-import * as login from './../../redux/modules/base/login';
+import * as header from 'redux/modules/base/header';
+import * as login from 'redux/modules/base/login';
 
-import storage from './../../helpers/storage';
+import user from 'helpers/WebApi/user';
+import storage from 'helpers/storage';
 
-import backImage from './../../static/images/background.jpg';
+import backImage from 'static/images/background.jpg';
 
 const FormItem = ( {icon, name, placeholder, tabIndex, type, onTextChange} ) => (
     <div className="login-item">
@@ -70,14 +70,14 @@ class LoginRoute extends Component {
 
         LoginActions.fetchingLoginAuth();
 
-        axios.post('/api/user/signin', {
+        user.signIn({
             userid,
             password
         })
         .then( (res) => {
             console.log('Success');
 
-            axios.get('/api/user/getinfo')
+            user.getInfo()
             .then( (info) => {
                 const userInfo = info.data.info;
 

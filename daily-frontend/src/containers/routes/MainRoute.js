@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as header from './../../redux/modules/base/header';
+import * as header from 'redux/modules/base/header';
 
-import storage from './../../helpers/storage';
+import storage from 'helpers/storage';
 
 class MainRoute extends Component {
     static contextTypes = {
