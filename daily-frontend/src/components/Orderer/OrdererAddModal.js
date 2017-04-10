@@ -4,6 +4,7 @@ import { Button, Form, Icon, Modal } from 'semantic-ui-react';
 class OrdererAddModal extends Component {
     static propTypes = {
         open: PropTypes.bool,
+        className: PropTypes.string,
         onClose: PropTypes.func,
         onOrdererAdd: PropTypes.func
     }
@@ -19,11 +20,12 @@ class OrdererAddModal extends Component {
     }
 
     render() {
-        const { open, onClose, onOrdererAdd } = this.props;
+        const { open, className, onClose, onOrdererAdd } = this.props;
 
         return (
             <Modal
                 open={open}
+                className={className}
                 closeIcon="close"
                 closeOnEscape={true}
                 closeOnRootNodeClick={false}

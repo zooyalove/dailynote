@@ -59,6 +59,7 @@ class OrdererRoute extends Component {
                 {children}
                 <OrdererAddModal
                     open={orderer.getIn(['modal', 'open'])}
+                    className="bounceInUp"
                     onClose={handleModalClose}
                     
                 />
