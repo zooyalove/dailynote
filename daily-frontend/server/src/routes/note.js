@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import OrderNote from './../models/OrderNote';
 import util from './../helper';
 
+mongoose.Promise = global.Promise;
+
 const router = express.Router();
 
 /*

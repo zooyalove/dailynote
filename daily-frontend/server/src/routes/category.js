@@ -1,5 +1,8 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import Category from './../models/Category';
+
+mongoose.Promise = global.Promise;
 
 const router = express.Router();
 

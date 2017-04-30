@@ -23,8 +23,14 @@ export default handleActions({
 		return state.setIn(['modal', 'open'], open);
     },
 	[ORDERER_DATA_SET]: (state, action) => {
-        const { orderers } = action.payload;
+        const { orderer } = action.payload;
 
-		return state.set('data', orderers);
+        if (state.get('data')) {
+            const orderers = state.get('data');
+            orderers.concat([...orderer]);
+            return state.set('data', orderers);
+        } else {
+    		return state.set('data', orderer);
+        }
     }
 }, initialState);

@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import Orderer from './../models/Orderer';
 import OrderNote from './../models/OrderNote';
 
+mongoose.Promise = global.Promise;
+
 const router = express.Router();
 
 /*
@@ -111,7 +113,7 @@ router.get('/:id', (req, res) => {
 	description
 */
 router.post('/', (req, res) => {
-    let phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
+    // const phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
 
     if (req.body.name.length === 0 || !req.body.name.trim()) {
     	return res.status(400).json({
@@ -120,12 +122,12 @@ router.post('/', (req, res) => {
     	});
     }
 
-    if (!phoneRegex.test(req.body.phone)) {
-    	return res.status(400).json({
-    		error: 'BAD PHONE NUMBER',
-    		code: 2
-    	});
-    }
+    // if (!phoneRegex.test(req.body.phone)) {
+    // 	return res.status(400).json({
+    // 		error: 'BAD PHONE NUMBER',
+    // 		code: 2
+    // 	});
+    // }
 
     Orderer.findOne({ name: req.body.name.trim() }, (err, exists) => {
     	if (err) throw err;
@@ -164,7 +166,7 @@ router.post('/', (req, res) => {
 
     		return res.json({
     			success: true,
-    			data: orderer
+    			orderer
     		});
     	});
     });

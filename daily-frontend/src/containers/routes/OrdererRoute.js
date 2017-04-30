@@ -18,40 +18,57 @@ class OrdererRoute extends Component {
 
         api.getOrdererAll()
         .then( (res) => {
-            const orderers = res.data.orderers;
+            console.log(res);
+            const orderer = res.data.orderers;
 
-            OrdererActions.setOrdererData({orderers});
+            OrdererActions.setOrdererData({orderer});
         })
         .catch( (err) => {
             OrdererActions.setOrdererData({orderers: null});            
         });
     }
 
-    handleOpenAddModal = () => {
+    handleModal = (() => {
         const { OrdererActions, status: { orderer } } = this.props;
-        if (!orderer.getIn(['modal', 'open'])) {
-            OrdererActions.openAddOrdererModal(true);
-        }
-    }
+        return {
+            open: () => {
+                if (!orderer.getIn(['modal', 'open'])) {
+                    OrdererActions.openAddOrdererModal(true);
+                }
+            },
 
-    handleModalClose = () => {
+            close: () => {
+                OrdererActions.openAddOrdererModal(false);
+            }
+        };
+    })()
+
+    handleOrdererAdd = (formdata) => {
         const { OrdererActions } = this.props;
-        OrdererActions.openAddOrdererModal(false);
+
+        api.addOrderer(formdata)
+        .then( (res) => {
+            console.log('Orderer Add : ', res);
+            const orderer = res.data.orderer;
+            OrdererActions.setOrdererData({orderer});
+        }, (err) => {
+            console.log(err.response.data.error);
+        });
     }
 
 	render() {
-        const { handleOpenAddModal, handleModalClose } = this;
+        const { handleModal, handleOrdererAdd } = this;
         const { children, status: { orderer } } = this.props;
 
         const orderers = orderer.get('data') ?
-                orderer.get('data').forEach( (data) => (
-                    <OrdererItem />
+                orderer.get('data').forEach( (data, index) => (
+                    <OrdererItem key={index} />
                 )) : 'No Results...'
         
 		return (
 			<div className="orderer-wrapper">
                 <OrdererWidget>
-                    <OrdererAdd onAdd={handleOpenAddModal} />
+                    <OrdererAdd onAdd={handleModal.open} />
                     <OrdererList>
                         {orderers}
                     </OrdererList>
@@ -60,8 +77,8 @@ class OrdererRoute extends Component {
                 <OrdererAddModal
                     open={orderer.getIn(['modal', 'open'])}
                     className="bounceInUp"
-                    onClose={handleModalClose}
-                    
+                    onClose={handleModal.close}
+                    onOrdererAdd={handleOrdererAdd}
                 />
 			</div>
 		);

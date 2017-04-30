@@ -10,13 +10,13 @@ class OrdererAddModal extends Component {
     }
 
     state = {
-        name: null,
-        phone: null,
-        address: null,
-        manager: null,
-        manager_phone: null,
-        def_ribtext: null,
-        description: null
+        name: '',
+        phone: '',
+        address: '',
+        manager: '',
+        manager_phone: '',
+        def_ribtext: '',
+        description: ''
     }
 
     render() {
@@ -36,13 +36,13 @@ class OrdererAddModal extends Component {
                 </Modal.Header>
                 <Modal.Content>
                     <Form>
-                        <Form.Input label='이름 또는 회사명' placeholder='이름 또는 회사명을 적어주세요' />
-                        <Form.Input label='연락처' placeholder='연락처(ex. 012-3456-7890)를 적어주세요' />
-                        <Form.Input label='주 소' placeholder='거래처의 주소를 적어주세요' />
-                        <Form.Input label='담당자 이름' placeholder='담당자님이 있으면 적어주세요' />
-                        <Form.Input label='담당자 연락처' placeholder='담당자님의 연락처를 적어주세요' />
-                        <Form.Input label='기본 문구' placeholder='거래처의 기본적인 리본글씨 문구를 적어주세요' />
-                        <Form.Input label='간략한 설명' placeholder='거래처의 간략한 설명을 적어주세요' />
+                        <Form.Input label='이름 또는 회사명' placeholder='이름 또는 회사명을 적어주세요' onChange={(evt, dat) => { this.setState({name: dat.value.trim()}); }} />
+                        <Form.Input label='연락처' placeholder='연락처(ex. 012-3456-7890)를 적어주세요' onChange={(evt, dat) => { this.setState({phone: dat.value.trim()}); }} />
+                        <Form.Input label='주 소' placeholder='거래처의 주소를 적어주세요' onChange={(evt, dat) => { this.setState({address: dat.value.trim()}); }} />
+                        <Form.Input label='담당자 이름' placeholder='담당자님이 있으면 적어주세요' onChange={(evt, dat) => { this.setState({manager: dat.value.trim()}); }} />
+                        <Form.Input label='담당자 연락처' placeholder='담당자님의 연락처를 적어주세요' onChange={(evt, dat) => { this.setState({manager_phone: dat.value.trim()}); }} />
+                        <Form.Input label='기본 문구' placeholder='거래처의 기본적인 리본글씨 문구를 적어주세요' onChange={(evt, dat) => { this.setState({def_ribtext: dat.value.trim()}); }} />
+                        <Form.Input label='간략한 설명' placeholder='거래처의 간략한 설명을 적어주세요' onChange={(evt, dat) => { this.setState({description: dat.value.trim()}); }} />
                     </Form>
                 </Modal.Content>
                 <Modal.Actions>
@@ -56,7 +56,7 @@ class OrdererAddModal extends Component {
                         labelPosition="right"
                         icon="checkmark"
                         content="확인"
-                        onClick={onOrdererAdd}
+                        onClick={() => { onOrdererAdd(this.state); }}
                     />
                 </Modal.Actions>
             </Modal>
