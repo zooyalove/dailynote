@@ -18,7 +18,7 @@ class OrdererRoute extends Component {
 
         api.getOrdererAll()
         .then( (res) => {
-            console.log(res);
+            // console.log(res);
             const orderer = res.data.orderers;
 
             OrdererActions.setOrdererData({orderer});
@@ -61,9 +61,10 @@ class OrdererRoute extends Component {
         const { children, status: { orderer } } = this.props;
 
         const orderers = orderer.get('data') ?
-                orderer.get('data').forEach( (data, index) => (
-                    <OrdererItem key={index} />
-                )) : 'No Results...'
+                orderer.get('data').map( (data, index) => {
+                    console.log('Orderers : ', data);
+                    return (<OrdererItem key={index} name={data.name} />);
+                }) : 'No Results...'
         
 		return (
 			<div className="orderer-wrapper">

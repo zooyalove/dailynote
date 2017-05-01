@@ -1,3 +1,27 @@
 .orderer-item {
-    
+    font-weight: bold;
+    padding: 0.7rem 1rem 0.7rem 1.5rem;
+    height: 2.5rem;
+    user-select: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+        background: $oc-grape-8;
+    }
+    &.active, &:active {
+        background: $oc-grape-9;
+    }
+
+    .orderer-name {
+        float: left;
+    }
+
+    .orderer-chevron {
+        float: right;
+    }
+}
+
+.orderer-item + .orderer-item {
+    border-bottom: 1px solid $oc-gray-7;
 }
