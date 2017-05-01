@@ -158,7 +158,7 @@ class LoginRoute extends Component {
                     <div className="login-form">
                         <FormItem
                             icon="user"
-                            placeholder="User ID..."
+                            placeholder="User ID or Email..."
                             name="userid"
                             tabIndex="1"
                             type="text"
