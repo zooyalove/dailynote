@@ -1,12 +1,16 @@
 import axios from 'axios';
 
-export const signIn = ({userid, password}) => {
+const user = {};
+
+user.signIn = ({userid, password}) => {
 	return axios.post('/api/user/signin', {
         userid,
         password
     });
-}
+};
 
-export const getInfo = () => {
+user.getInfo = () => {
     return axios.get('/api/user/getinfo');
-}
+};
+
+export default user;

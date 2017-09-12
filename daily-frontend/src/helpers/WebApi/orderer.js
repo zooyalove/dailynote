@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-export const addOrderer = ({
+const orderer = {};
+
+orderer.addOrderer = ({
 	name,
 	phone,
 	address,
@@ -18,12 +20,14 @@ export const addOrderer = ({
 		def_ribtext,
 		description
 	});
-}
+};
 
-export const getOrdererAll = () => {
+orderer.getOrdererAll = () => {
 	return axios.get('/api/orderer');
-}
+};
 
-export const getOrdererById = ({id}) => {
+orderer.getOrdererById = ({id}) => {
 	return axios.get('/api/orderer/' + id);
-}
+};
+
+export default orderer;
