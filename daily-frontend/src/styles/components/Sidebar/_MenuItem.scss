@@ -19,24 +19,11 @@ a.menuitem {
     &.green.active, &.green:active,
     &.teal.active, &.teal:active,
     &.blue.active, &.blue:active,
-    {
-        &:after {
-            content: "";
-            background: $oc-gray-1;
-            position: absolute;
-            right: -0.4rem;
-            top: 50%;
-            width: 0.8rem;
-            height: 0.8rem;
-            transform: translateY(-50%) rotate(45deg);
-        }
-    }
-
     &.grape.active, &.grape:active
     {
         &:after {
             content: "";
-            background: $oc-gray-8;
+            background: $oc-gray-1;
             position: absolute;
             right: -0.4rem;
             top: 50%;
