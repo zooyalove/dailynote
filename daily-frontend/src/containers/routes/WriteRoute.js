@@ -18,8 +18,8 @@ const map = (y, i) => {
 	return ret;
 };
 
-const year = numberArrayGenerator(2015, 2017, map);
-
+const now = new Date();
+const year = numberArrayGenerator(2015, now.getFullYear(), map);
 const month = numberArrayGenerator(1, 12, map);
 const day = numberArrayGenerator(1, 31, map);
 
@@ -37,47 +37,62 @@ const orderer = [
 ];
 
 class WriteRoute extends Component {
+	state = {orderer}
 
 	handleChange = (e, data) => {
 		console.log(data);
 		console.log(data.name);
 	}
 
+	handleAddItem = (e, {value}) => {
+		this.setState({
+			orderer: [{
+				text: value,
+				value
+			}, ...this.state.orderer],
+		});
+	}
+
 	render() {
-		const { handleChange } = this;
+		const { handleChange, handleAddItem } = this;
+		const { currentValue } = this.state;
 		return (
 			<div className="subcontents-wrapper">
 				<h2 className="main-title">일일장부 등록</h2>
 				<Form>
 					<Segment color="blue">
 						<Form.Dropdown
-							label="주문자"
+							label="보내는분"
 							name="orderer"
 							placeholder="거래처를 입력 또는 선택하세요"
 							search
 							selection
 							inline
-							tabIndex="0"
-							options={orderer}
-							onSearchChange={handleChange}
-							onChange={handleChange} />
-						<Form.Input label="연락처"
-							placeholder="주문자 연락처를 입력하세요"
-							inline
+							allowAdditions
 							tabIndex="1"
+							value={currentValue}
+							options={this.state.orderer}
+							additionLabel="보내는분 임시입력: "
+							onAddItem={handleAddItem}
+							onChange={(e, { value }) => { this.setState({ currentValue: value }); }} />
+						<Form.Input label="전화번호"
+							placeholder="주문자 전화번호를 입력하세요"
+							inline
+							tabIndex="2"
 							onChange={handleChange} />
 					</Segment>
 					<Segment color="red">
 						<Form.Input
-							label="받는 사람"
+							label="받는 분"
 							placeholder="받는 사람 이름을 입력하세요"
 							inline
-							tabIndex="2" />
-						<Form.Input label="연락처"
-							placeholder="받는 사람 연락처를 입력하세요"
+							style={{marginLeft: '0.66em'}}
+							tabIndex="3" />
+						<Form.Input label="전화번호"
+							placeholder="받는 사람 전화번호를 입력하세요"
 							name="recv_phone"
 							inline
-							tabIndex="3"
+							tabIndex="4"
 							onChange={handleChange} />
 						<Divider />
 						<div>
@@ -87,27 +102,33 @@ class WriteRoute extends Component {
 								placeholder="년도"
 								selection
 								inline
+								compact
 								className="noclear"
-								tabIndex="4"
+								tabIndex="5"
 								options={year}
+								defaultValue={String(now.getFullYear())}
 								onChange={handleChange} />{' '}<span style={style}>년</span>
 							<Form.Dropdown 
 								name="recv_month"
 								placeholder="월"
 								selection
 								inline
+								compact
 								className="noclear"
-								tabIndex="5"
+								tabIndex="6"
 								options={month}
+								defaultValue={String(now.getMonth()+1)}
 								onChange={handleChange} />{' '}<span style={style}>월</span>
 							<Form.Dropdown 
 								name="recv_day"
 								placeholder="일"
 								selection
 								inline
+								compact
 								className="noclear"
-								tabIndex="6"
+								tabIndex="7"
 								options={day}
+								defaultValue={String(now.getDate())}
 								onChange={handleChange} />{' '}<span style={style}>일</span>
 						</div>
 					</Segment>

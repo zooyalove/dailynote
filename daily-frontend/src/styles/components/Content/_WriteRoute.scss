@@ -31,3 +31,11 @@
 	clear: none;
 	display: inline-block;
 }
+
+.active {
+	&.selected {
+		&.item {
+			background: rgba(255, 0, 76, 0.12);
+		}
+	}
+}
