@@ -2,6 +2,10 @@ import mongoose, { Schema } from 'mongoose';
 
 const OrderNote = new Schema({
 	orderer: {
+		_id: {
+			type: String,
+			default: "na"
+		},
 		name: {
 			type: String,
 			required: true
@@ -9,10 +13,6 @@ const OrderNote = new Schema({
 		phone: {
 	        type: String,
 	        required: true
-		},
-		id: {
-			type: String,
-			default: "0"
 		}
 	},
 	receiver: {

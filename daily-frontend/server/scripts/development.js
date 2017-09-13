@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'development';
 var nodemon = require('nodemon');
 nodemon('--exec babel-node --presets=es2015 ./src/main.js --watch ./src');
 

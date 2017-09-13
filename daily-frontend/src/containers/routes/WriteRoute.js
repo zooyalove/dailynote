@@ -13,15 +13,17 @@ const numberArrayGenerator = (first, last, cb) => {
 
 const map = (y, i) => {
 	const ret = {};
+	ret['key'] = i;
 	ret['text'] = ret['value'] = y;
 
 	return ret;
 };
 
 const now = new Date();
-const year = numberArrayGenerator(2015, now.getFullYear(), map);
-const month = numberArrayGenerator(1, 12, map);
-const day = numberArrayGenerator(1, 31, map);
+const years = numberArrayGenerator(2015, now.getFullYear(), map);
+const months = numberArrayGenerator(1, 12, map);
+const days = numberArrayGenerator(1, 31, map);
+const hours = numberArrayGenerator(8, 21, map);
 
 const style = {
 	'margin': '0 .85714286em 0 0',
@@ -95,8 +97,8 @@ class WriteRoute extends Component {
 							tabIndex="4"
 							onChange={handleChange} />
 						<Divider />
-						<div>
-							<label style={style}>배송일자</label>
+						<Form.Group inline>
+							<label>배송일자</label>
 							<Form.Dropdown
 								name="recv_year"
 								placeholder="년도"
@@ -105,9 +107,9 @@ class WriteRoute extends Component {
 								compact
 								className="noclear"
 								tabIndex="5"
-								options={year}
+								options={years}
 								defaultValue={String(now.getFullYear())}
-								onChange={handleChange} />{' '}<span style={style}>년</span>
+								onChange={handleChange} /><span style={style}>년</span>
 							<Form.Dropdown 
 								name="recv_month"
 								placeholder="월"
@@ -116,7 +118,7 @@ class WriteRoute extends Component {
 								compact
 								className="noclear"
 								tabIndex="6"
-								options={month}
+								options={months}
 								defaultValue={String(now.getMonth()+1)}
 								onChange={handleChange} />{' '}<span style={style}>월</span>
 							<Form.Dropdown 
@@ -127,10 +129,29 @@ class WriteRoute extends Component {
 								compact
 								className="noclear"
 								tabIndex="7"
-								options={day}
+								options={days}
 								defaultValue={String(now.getDate())}
 								onChange={handleChange} />{' '}<span style={style}>일</span>
-						</div>
+							<Form.Dropdown 
+								name="recv_hour"
+								placeholder="시간"
+								selection
+								inline
+								compact
+								className="noclear"
+								tabIndex="8"
+								options={hours}
+								defaultValue={String(now.getHours())}
+								onChange={handleChange} />{' '}<span style={style}>시</span>
+						</Form.Group>
+						<Divider />
+						<Form.Input label="배달장소"
+							placeholder="배송지 주소 또는 위치를 입력하세요"
+							name="address"
+							labelPosition="left"
+							tabIndex="9"
+							style={{clear:'right'}}
+							onChange={handleChange} />
 					</Segment>
 				</Form>
 			</div>

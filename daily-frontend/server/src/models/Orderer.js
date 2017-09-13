@@ -1,6 +1,11 @@
 import mongoose, { Schema } from 'mongoose';
+import shortid from 'shortid';
 
 const Orderer = new Schema({
+    _id: {
+        type: String,
+        default: shortid.generate
+    },
     name: {
         type: String,
         required: true

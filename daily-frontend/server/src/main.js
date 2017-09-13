@@ -2,10 +2,10 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import session from 'express-session';
-import mongoose from 'mongoose';
 import morgan from 'morgan';
 
 import api from './routes';
+import db from './models';
 
 const app = express();
 
@@ -20,10 +20,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // MongoDB Connection Info
-const db = mongoose.connection;
-db.on('error', console.error);
-db.once('open', () => { console.log('Connected to mongodb server'); });
-mongoose.connect('mongodb://localhost/zyapp');
+db.connect();
 
 // use session
 app.use(session({
