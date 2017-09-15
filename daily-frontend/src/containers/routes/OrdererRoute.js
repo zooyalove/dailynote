@@ -7,7 +7,7 @@ import OrdererWidget, { OrdererList, OrdererItem, OrdererAdd, OrdererAddModal } 
 import * as header from 'redux/modules/base/header';
 import * as orderer from 'redux/modules/base/orderer';
 
-import * as api from 'helpers/WebApi/orderer';
+import api from 'helpers/WebApi/orderer';
 
 //import storage from 'helpers/storage';
 

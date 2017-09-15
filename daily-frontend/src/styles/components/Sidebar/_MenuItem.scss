@@ -13,13 +13,13 @@ a.menuitem {
         color: white;
     }
 
-    &.active, &:active,
-    &.white.active, &.white:active,
-    &.red.active, &.red:active,
-    &.green.active, &.green:active,
-    &.teal.active, &.teal:active,
-    &.blue.active, &.blue:active,
-    &.grape.active, &.grape:active
+    &.active,
+    &.white.active,
+    &.red.active,
+    &.green.active,
+    &.teal.active,
+    &.blue.active,
+    &.grape.active
     {
         &:after {
             content: "";
@@ -30,6 +30,13 @@ a.menuitem {
             width: 0.8rem;
             height: 0.8rem;
             transform: translateY(-50%) rotate(45deg);
+        }
+    }
+
+    &.grape.active
+    {
+        &:after {
+            background: $oc-gray-8;
         }
     }
 
