@@ -19,6 +19,16 @@
         background: $oc-grape-6;
     }
 
+    &.no-item {
+        text-align: center;
+        transition: none;
+        cursor: default;
+
+        &:hover, &:active, &.active {
+            background-color: transparent;
+        }
+    }
+
     .orderer-name {
         float: left;
     }

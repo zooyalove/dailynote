@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux';
 
 import OrdererWidget, { OrdererList, OrdererItem, OrdererAdd, OrdererAddModal } from 'components/Orderer';
 
-import * as header from 'redux/modules/base/header';
-import * as orderer from 'redux/modules/base/orderer';
+import * as headerAction from 'redux/modules/base/header';
+import * as ordererAction from 'redux/modules/base/orderer';
 
 import api from 'helpers/WebApi/orderer';
 
@@ -64,7 +64,7 @@ class OrdererRoute extends Component {
                 orderer.get('data').map( (data, index) => {
                     console.log('Orderers : ', data);
                     return (<OrdererItem key={index} name={data.name} />);
-                }) : 'No Results...'
+                }) : (<OrdererItem>No Results...</OrdererItem>);
         
 		return (
 			<div className="orderer-wrapper">
@@ -94,8 +94,8 @@ OrdererRoute = connect(
         }
     }),
     dispatch => ({
-        HeaderActions: bindActionCreators(header, dispatch),
-        OrdererActions: bindActionCreators(orderer, dispatch)
+        HeaderActions: bindActionCreators(headerAction, dispatch),
+        OrdererActions: bindActionCreators(ordererAction, dispatch)
     })
  )(OrdererRoute);
 
