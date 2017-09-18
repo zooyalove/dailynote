@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { Form, Segment, Divider } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { Form, Segment, Divider, Button } from 'semantic-ui-react';
+
+import { OrdererAddModal } from 'components/Orderer';
+
+import * as ordererAction from 'redux/modules/base/orderer';
+import api from 'helpers/WebApi/orderer';
 
 const numberArrayGenerator = (first, last, cb) => {
 	let i=first,
@@ -30,7 +38,7 @@ const style = {
 	'fontWeight': '700'
 };
 
-const orderer = [
+const orderers = [
 	{text:'일선교통', value:'일선교통', key: 1},
 	{text:'태림포장', value:'태림포장', key: 2},
 	{text:'서구산업', value:'서구산업', key: 3},
@@ -39,7 +47,7 @@ const orderer = [
 ];
 
 class WriteRoute extends Component {
-	state = {orderer}
+	state = {orderers}
 
 	handleChange = (e, data) => {
 		console.log(data);
@@ -48,37 +56,75 @@ class WriteRoute extends Component {
 
 	handleAddItem = (e, {value}) => {
 		this.setState({
-			orderer: [{
+			orderers: [{
 				text: value,
 				value
-			}, ...this.state.orderer],
+			}, ...this.state.orderers],
 		});
 	}
 
+    handleModal = (() => {
+        const { OrdererActions, status: { orderer } } = this.props;
+        return {
+            open: () => {
+                if (!orderer.getIn(['modal', 'open'])) {
+                    OrdererActions.openAddOrdererModal(true);
+                }
+            },
+
+            close: () => {
+                OrdererActions.openAddOrdererModal(false);
+            }
+        };
+    })()
+
+    handleOrdererAdd = (formdata) => {
+        //const { OrdererActions } = this.props;
+
+		console.log(formdata);
+        /*api.addOrderer(formdata)
+        .then( (res) => {
+            console.log('Orderer Add : ', res);
+			const orderer = res.data.orderer;
+            //OrdererActions.setOrdererData({orderer});
+        }, (err) => {
+            console.log(err.response.data.error);
+        });*/
+    }
+
 	render() {
-		const { handleChange, handleAddItem } = this;
+		const { handleChange, handleAddItem, handleModal, handleOrdererAdd } = this;
 		const { currentValue } = this.state;
+		const { status: { orderer } } = this.props;
+
 		return (
 			<div className="subcontents-wrapper">
 				<h2 className="main-title">일일장부 등록</h2>
-				<Form>
+				<Form onSubmit={(evt) => { evt.preventDefault(); return false; }}>
 					<Segment color="blue">
-						<Form.Dropdown
-							label="보내는분"
-							name="orderer"
-							placeholder="거래처를 입력 또는 선택하세요"
-							search
-							selection
-							inline
-							allowAdditions
-							tabIndex="1"
-							value={currentValue}
-							options={this.state.orderer}
-							additionLabel="보내는분 임시입력: "
-							onAddItem={handleAddItem}
-							onChange={(e, { value }) => { this.setState({ currentValue: value }); }} />
+						<Form.Group>
+							<Form.Dropdown
+								label="보내는분"
+								name="orderer_name"
+								placeholder="거래처를 입력 또는 선택하세요"
+								search
+								selection
+								inline
+								allowAdditions
+								tabIndex="1"
+								value={currentValue}
+								options={this.state.orderers}
+								additionLabel="보내는분 임시입력: "
+								onAddItem={handleAddItem}
+								onChange={(e, { value }) => { this.setState({ currentValue: value }); }} />
+							<Button icon="add user"
+								circular
+								color="purple"
+								onClick={handleModal.open}/>
+						</Form.Group>
 						<Form.Input label="전화번호"
 							placeholder="주문자 전화번호를 입력하세요"
+							name="orderer_phone"
 							inline
 							tabIndex="2"
 							onChange={handleChange} />
@@ -87,6 +133,7 @@ class WriteRoute extends Component {
 						<Form.Input
 							label="받는 분"
 							placeholder="받는 사람 이름을 입력하세요"
+							name="recv_name"
 							inline
 							style={{marginLeft: '0.66em'}}
 							tabIndex="3" />
@@ -154,9 +201,26 @@ class WriteRoute extends Component {
 							onChange={handleChange} />
 					</Segment>
 				</Form>
+				<OrdererAddModal
+                    open={orderer.getIn(['modal', 'open'])}
+                    className="bounceInUp"
+                    onClose={handleModal.close}
+					onOrdererAdd={handleOrdererAdd}
+                />
 			</div>
 		);
 	}
 };
+
+WriteRoute = connect(
+    state => ({
+        status: {
+            orderer: state.base.orderer
+        }
+    }),
+    dispatch => ({
+        OrdererActions: bindActionCreators(ordererAction, dispatch)
+    })
+ )(WriteRoute);
 
 export default WriteRoute;
