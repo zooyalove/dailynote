@@ -13,7 +13,7 @@ const initialState = Map({
     modal: Map({
         open: false
     }),
-    data: null
+    data: []
 });
 
 export default handleActions({

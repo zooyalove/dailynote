@@ -29,6 +29,12 @@ class App extends Component {
 		}
 	}
 
+	componentWillUnmount() {
+		if(storage.get('loginInfo')) {
+			storage.remove('loginInfo');
+		}
+	}
+
 	handleLogOut = () => {
 		if (storage.get('loginInfo')) {
 			storage.remove('loginInfo');

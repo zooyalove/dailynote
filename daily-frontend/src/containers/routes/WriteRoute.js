@@ -8,46 +8,32 @@ import { OrdererAddModal } from 'components/Orderer';
 
 import * as ordererAction from 'redux/modules/base/orderer';
 import api from 'helpers/WebApi/orderer';
-
-const numberArrayGenerator = (first, last, cb) => {
-	let i=first,
-		ag=[];
-
-	for (i; i <= last; i++) {
-		ag.push(String(i));
-	}
-	return ag.map(cb);
-};
-
-const map = (y, i) => {
-	const ret = {};
-	ret['key'] = i;
-	ret['text'] = ret['value'] = y;
-
-	return ret;
-};
+import utils from 'helpers/utils';
 
 const now = new Date();
-const years = numberArrayGenerator(2015, now.getFullYear(), map);
-const months = numberArrayGenerator(1, 12, map);
-const days = numberArrayGenerator(1, 31, map);
-const hours = numberArrayGenerator(8, 21, map);
-
-const style = {
-	'margin': '0 .85714286em 0 0',
-	'fontWeight': '700'
-};
-
-const orderers = [
-	{text:'일선교통', value:'일선교통', key: 1},
-	{text:'태림포장', value:'태림포장', key: 2},
-	{text:'서구산업', value:'서구산업', key: 3},
-	{text:'매장판매', value:'매장판매', key: 4},
-	{text:'구미송설동창회', value:'구미송설동창회', key: 5}
-];
+const years = utils.numberArrayGenerator(2015, now.getFullYear());
+const months = utils.numberArrayGenerator(1, 12);
+const days = utils.numberArrayGenerator(1, 31);
+const hours = utils.numberArrayGenerator(8, 21);
 
 class WriteRoute extends Component {
-	state = {orderers}
+
+	componentWillMount() {
+        const { status: { orderer }, OrdererActions } = this.props;
+
+        if (!orderer.get('data')) {
+	        api.getOrdererAll()
+	        .then( (res) => {
+	            // console.log(res);
+	            const orderer = res.data.orderers;
+
+	            OrdererActions.setOrdererData({orderer});
+	        })
+	        .catch( (err) => {
+	            OrdererActions.setOrdererData({orderer: []});            
+	        });
+	    }
+	}
 
 	handleChange = (e, data) => {
 		console.log(data);
@@ -94,8 +80,12 @@ class WriteRoute extends Component {
 
 	render() {
 		const { handleChange, handleAddItem, handleModal, handleOrdererAdd } = this;
-		const { currentValue } = this.state;
 		const { status: { orderer } } = this.props;
+
+		const style = {
+			'margin': '0 .85714286em 0 0',
+			'fontWeight': '700'
+		};
 
 		return (
 			<div className="subcontents-wrapper">
@@ -110,13 +100,11 @@ class WriteRoute extends Component {
 								search
 								selection
 								inline
-								allowAdditions
 								tabIndex="1"
-								value={currentValue}
-								options={this.state.orderers}
+								options={orderer.get('data')}
+								allowAdditions
 								additionLabel="보내는분 임시입력: "
-								onAddItem={handleAddItem}
-								onChange={(e, { value }) => { this.setState({ currentValue: value }); }} />
+								onAddItem={handleAddItem}/>
 							<Button icon="add user"
 								circular
 								color="purple"
