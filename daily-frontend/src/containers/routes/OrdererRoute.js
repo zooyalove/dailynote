@@ -18,7 +18,6 @@ class OrdererRoute extends Component {
 
         api.getOrdererAll()
         .then( (res) => {
-            // console.log(res);
             const orderer = res.data.orderers;
 
             OrdererActions.setOrdererData({orderer});
@@ -60,7 +59,7 @@ class OrdererRoute extends Component {
         const { handleModal, handleOrdererAdd } = this;
         const { children, status: { orderer } } = this.props;
 
-        const orderers = orderer.get('data') ?
+        const orderers = (orderer.get('data') && orderer.get('data').length > 0) ?
                 orderer.get('data').map( (data, index) => {
                     console.log('Orderers : ', data);
                     return (<OrdererItem key={index} name={data.name} />);
