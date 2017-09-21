@@ -21,7 +21,7 @@ class WriteRoute extends Component {
 	componentWillMount() {
         const { status: { orderer }, OrdererActions } = this.props;
 
-        if (!orderer.get('data')) {
+        if (!orderer.get('data') || orderer.get('data').length === 0) {
 	        api.getOrdererAll()
 	        .then( (res) => {
 	            // console.log(res);
@@ -65,17 +65,23 @@ class WriteRoute extends Component {
     })()
 
     handleOrdererAdd = (formdata) => {
-        //const { OrdererActions } = this.props;
+		const { OrdererActions } = this.props;
+		const { handleModal } = this;
 
 		console.log(formdata);
-        /*api.addOrderer(formdata)
+		OrdererActions.fetchingOrdererData(true);
+        api.addOrderer(formdata)
         .then( (res) => {
             console.log('Orderer Add : ', res);
 			const orderer = res.data.orderer;
-            //OrdererActions.setOrdererData({orderer});
+			OrdererActions.setOrdererData({orderer});
+			OrdererActions.fetchingOrdererData(false);
+			handleModal.close();
         }, (err) => {
             console.log(err.response.data.error);
-        });*/
+			OrdererActions.fetchingOrdererData(false);
+			handleModal.close();
+        });
     }
 
 	render() {
@@ -101,9 +107,10 @@ class WriteRoute extends Component {
 								selection
 								inline
 								tabIndex="1"
-								options={orderer.get('data')}
+								options={orderer.get('data').map((odata) => { return { key: odata._id, text: odata.name, value: odata._id }; })}
 								allowAdditions
 								additionLabel="보내는분 임시입력: "
+								onChange={(e, d) => { console.log(d); }}
 								onAddItem={handleAddItem}/>
 							<Button icon="add user"
 								circular

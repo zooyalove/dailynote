@@ -17,6 +17,15 @@ const router = express.Router();
 
 */
 router.get('/', (req, res) => {
+	const session = req.session;
+
+	if (typeof session.loginInfo === 'undefined') {
+		return res.status(400).json({
+			error: 'PERMISSION DENIED',
+			code: 1
+		});
+	}
+
 	Orderer.find().sort({name: 1}).exec( (err, orderers) => {
 		if (err) throw err;
 
@@ -46,6 +55,15 @@ router.get('/', (req, res) => {
 		4 : NO RESOURCES
 */
 router.get('/:id', (req, res) => {
+	const session = req.session;
+
+	if (typeof session.loginInfo === 'undefined') {
+		return res.status(400).json({
+			error: 'PERMISSION DENIED',
+			code: 3
+		});
+	}
+	
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
             error: "INVALID ID",
@@ -97,10 +115,9 @@ router.get('/:id', (req, res) => {
 	거래처 정보 등록
 
 	ERROR CODES
-		1 : BAD ORDERER NAME
-		2 : BAD PHONE NUMBER
-		3 : PERMISSION DENIED
-		4 : ORDERER EXISTS
+		1 : MISSING REQUIRED FIELD
+		2 : PERMISSION DENIED
+		3 : ORDERER EXISTS
 
 
 	=== request body ===
@@ -115,19 +132,22 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     // const phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
 
-    if (req.body.name.length === 0 || !req.body.name.trim()) {
+	const session = req.session;
+	
+	if (typeof session.loginInfo === 'undefined') {
+		return res.status(400).json({
+			error: 'PERMISSION DENIED',
+			code: 2
+		});
+	}
+	
+	if ((req.body.name.length === 0 || !req.body.name.trim()) ||
+		(req.body.phone.length === 0 || !req.body.phone.trim())) {
     	return res.status(400).json({
-    		error: 'BAD ORDERER NAME',
+    		error: 'MISSING REQUIRED FIELD',
     		code: 1
     	});
     }
-
-    // if (!phoneRegex.test(req.body.phone)) {
-    // 	return res.status(400).json({
-    // 		error: 'BAD PHONE NUMBER',
-    // 		code: 2
-    // 	});
-    // }
 
     Orderer.findOne({ name: req.body.name.trim() }, (err, exists) => {
     	if (err) throw err;
@@ -135,7 +155,7 @@ router.post('/', (req, res) => {
     	if (exists) {
     		return res.status(409).json({
                 error: "ORDERER EXISTS",
-                code: 4
+                code: 3
             });
     	}
 
@@ -150,7 +170,7 @@ router.post('/', (req, res) => {
     	} = req.body;
 
     	let orderer = new Orderer({
-    		name: name.trim(),
+    		name,
     		phone,
     		address,
     		manager,
@@ -184,7 +204,16 @@ router.post('/', (req, res) => {
 		5 : ORDERER NOT EXISTS
 */
 router.put('/:id', (req, res) => {
-    let phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
+	const session = req.session;
+	
+	if (typeof session.loginInfo === 'undefined') {
+		return res.status(400).json({
+			error: 'PERMISSION DENIED',
+			code: 4
+		});
+	}
+	
+	let phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
 
 	if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
@@ -227,7 +256,7 @@ router.put('/:id', (req, res) => {
     		description
     	} = req.body;
 
-		orderer.name = name.trim();
+		orderer.name = name;
 		orderer.phone = phone;
 		orderer.address = address;
 		orderer.manager = manager;

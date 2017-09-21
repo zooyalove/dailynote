@@ -58,6 +58,7 @@
     "express-session": "^1.15.1",
     "immutable": "^3.8.1",
     "include-media": "^1.4.9",
+    "lodash": "^4.17.4",
     "mongoose": "^4.8.4",
     "morgan": "^1.8.1",
     "open-color": "^1.4.2",

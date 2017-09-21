@@ -186,7 +186,7 @@ class LoginRoute extends Component {
                 </div>
                 {fetching && 
                     <Dimmer active >
-                        <Loader>Authenticating...</Loader>
+                        <Loader>사용자 정보 인증중...</Loader>
                     </Dimmer>
                 }
                 {message && 
