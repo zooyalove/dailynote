@@ -83,7 +83,7 @@ class WriteRoute extends Component {
 		const { status: { orderer } } = this.props;
 
 		const style = {
-			'margin': '0 .85714286em 0 0',
+			'margin': '0 .85714286em 0 -0.6em',
 			'fontWeight': '700'
 		};
 
@@ -140,7 +140,6 @@ class WriteRoute extends Component {
 								selection
 								inline
 								compact
-								className="noclear"
 								tabIndex="5"
 								options={years}
 								defaultValue={String(now.getFullYear())}
@@ -151,7 +150,6 @@ class WriteRoute extends Component {
 								selection
 								inline
 								compact
-								className="noclear"
 								tabIndex="6"
 								options={months}
 								defaultValue={String(now.getMonth()+1)}
@@ -162,7 +160,6 @@ class WriteRoute extends Component {
 								selection
 								inline
 								compact
-								className="noclear"
 								tabIndex="7"
 								options={days}
 								defaultValue={String(now.getDate())}
@@ -173,7 +170,6 @@ class WriteRoute extends Component {
 								selection
 								inline
 								compact
-								className="noclear"
 								tabIndex="8"
 								options={hours}
 								defaultValue={String(now.getHours())}
@@ -185,7 +181,6 @@ class WriteRoute extends Component {
 							name="address"
 							labelPosition="left"
 							tabIndex="9"
-							style={{clear:'right'}}
 							onChange={handleChange} />
 					</Segment>
 				</Form>

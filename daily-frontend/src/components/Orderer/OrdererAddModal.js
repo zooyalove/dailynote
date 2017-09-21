@@ -28,7 +28,6 @@ class OrdererAddModal extends Component {
 
     handleClose = () => {
         const { onClose } = this.props;
-        console.log("unmounting started ===>>>");
 
         this.setState({validate: {name: false, phone: false}});
         onClose();
