@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Input } from 'semantic-ui-react';
+import { Input, Dimmer, Loader } from 'semantic-ui-react';
 
-import * as header from 'redux/modules/base/header';
+import * as headerAction from 'redux/modules/base/header';
+import * as ordererAction from 'redux/modules/base/orderer';
 
 import Header, { Logo, UserInfo } from 'components/Header';
 import Sidebar, { MenuItem } from 'components/Sidebar';
@@ -44,13 +45,13 @@ class App extends Component {
 
     render() {
     	const { handleLogOut } = this;
-    	const { children, status: { header } } = this.props;
+    	const { children, status: { header, orderer } } = this.props;
 		const visible = header.get('visible');
 		const username = storage.get('loginInfo') ? storage.get('loginInfo')['username'] : '';
 
         return (
 			<div>
-			{visible && 
+			{visible && (
 				<div>
 					<Header>
 						<Logo />
@@ -66,7 +67,13 @@ class App extends Component {
 					<Contents>
 						{children}
 					</Contents>
+	                {orderer.getIn(['modal', 'fetch']) && 
+	                <Dimmer active page>
+	                    <Loader>거래처 정보 업데이트중...</Loader>
+	                </Dimmer>
+	                }
 				</div>
+				)
 			}
 			{!visible && children}
 			</div>
@@ -77,11 +84,13 @@ class App extends Component {
 App = connect(
     state => ({
         status: {
-            header: state.base.header
+            header: state.base.header,
+            orderer: state.base.orderer
         }
     }),
     dispatch => ({
-        HeaderActions: bindActionCreators(header, dispatch)
+        HeaderActions: bindActionCreators(headerAction, dispatch),
+        OrdererActions: bindActionCreators(ordererAction, dispatch)
     })
  )(App);
 

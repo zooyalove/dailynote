@@ -64,14 +64,14 @@ class WriteRoute extends Component {
         };
     })()
 
-    handleOrdererAdd = (formdata) => {
+    handleOrdererAdd = async (formdata) => {
 		const { OrdererActions } = this.props;
 		const { handleModal } = this;
 
-		console.log(formdata);
 		OrdererActions.fetchingOrdererData(true);
-        api.addOrderer(formdata)
-        .then( (res) => {
+
+        const result = await api.addOrderer(formdata);
+        result.then( (res) => {
             console.log('Orderer Add : ', res);
 			const orderer = res.data.orderer;
 			OrdererActions.setOrdererData({orderer});
