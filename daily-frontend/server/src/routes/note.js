@@ -48,18 +48,19 @@ router.post('/', (req, res) => {
     }
 
     const {
-        orderer_name,
-        orderer_phone,
-        orderer_id,
-        receiver_name,
-        receiver_phone,
-        delivery_category,
-        delivery_price,
-        delivery_date,
-        delivery_address,
-        delivery_text,
-        delivery_image,
-        is_payment
+        orderer_name,       // 주문자 이름 또는 회사명
+        orderer_phone,      // 주문자 연락처
+        orderer_id="no",    // 주문자 고유식별자(등록된 거래처면 ID값으로, 등록되지 않았다면 "no"로 등록)
+        receiver_name,      // 받는 분 이름
+        receiver_phone,     // 받는 분 연락처
+        delivery_category,  // 배달품 종류 (ex. 꽃바구니, 꽃다발, 관엽 등등...)
+        delivery_price,     // 가격
+        delivery_date,      // 배달일자
+        delivery_address,   // 배달주소
+        delivery_text,      // 글씨(경조사어 및 주문자 이름)
+        // delivery_image,     // 배송된 물품의 사진...(차후 설계하자...)
+        memo,
+        is_payment          // 결제관련 여부 파악
 
     } = req.body;
 
@@ -74,7 +75,8 @@ router.post('/', (req, res) => {
         'delivery.date': new Date(delivery_date),
         'delivery.address': delivery_address,
         'delivery.text': delivery_text,
-        'delivery.image': delivery_image,
+        // 'delivery.image': delivery_image,
+        'memo': memo,
         'is_payment': is_payment
     }); 
 

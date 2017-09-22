@@ -4,7 +4,7 @@ const OrderNote = new Schema({
 	orderer: {
 		_id: {
 			type: String,
-			default: "na"
+			default: "no"
 		},
 		name: {
 			type: String,
@@ -33,8 +33,12 @@ const OrderNote = new Schema({
 			default: Date.now
 		},
 		address: String,
-		text: String,
-		image: String
+		text: String
+		// image: String
+	},
+	memo: {
+		type: String,
+		default: ""
 	},
 	is_payment: {
 		type: Boolean,

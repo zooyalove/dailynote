@@ -70,19 +70,18 @@ class WriteRoute extends Component {
 
 		OrdererActions.fetchingOrdererData(true);
 
-        const result = await api.addOrderer(formdata);
-        result.then( (res) => {
-            console.log('Orderer Add : ', res);
-			const orderer = res.data.orderer;
-			OrdererActions.setOrdererData({orderer});
-			OrdererActions.fetchingOrdererData(false);
-			handleModal.close();
-        }, (err) => {
-            console.log(err.response.data.error);
-			OrdererActions.fetchingOrdererData(false);
-			handleModal.close();
-        });
-    }
+		await api.addOrderer(formdata)
+			.then( (res) => {
+				console.log('Orderer Add : ', res);
+				const orderer = res.data.orderer;
+				OrdererActions.setOrdererData({orderer});
+			}, (err) => {
+				console.log(err.response.data.error);
+			});
+		
+		OrdererActions.fetchingOrdererData(false);
+		handleModal.close();
+}
 
 	render() {
 		const { handleChange, handleAddItem, handleModal, handleOrdererAdd } = this;
