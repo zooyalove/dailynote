@@ -42,17 +42,23 @@ class OrdererRoute extends Component {
         };
     })()
 
-    handleOrdererAdd = (formdata) => {
+    handleOrdererAdd = async (formdata) => {
         const { OrdererActions } = this.props;
+        const { handleModal } = this;
 
-        api.addOrderer(formdata)
-        .then( (res) => {
-            console.log('Orderer Add : ', res);
-            const orderer = res.data.orderer;
-            OrdererActions.setOrdererData({orderer});
-        }, (err) => {
-            console.log(err.response.data.error);
-        });
+        OrdererActions.fetchingOrdererData(true);
+
+        await api.addOrderer(formdata)
+            .then( (res) => {
+                console.log('Orderer Add : ', res);
+                const orderer = res.data.orderer;
+                OrdererActions.setOrdererData({orderer});
+            }, (err) => {
+                console.log(err.response.data.error);
+            });
+        
+        OrdererActions.fetchingOrdererData(false);
+        handleModal.close();
     }
 
 	render() {

@@ -81,7 +81,7 @@ class WriteRoute extends Component {
 		
 		OrdererActions.fetchingOrdererData(false);
 		handleModal.close();
-}
+	}
 
 	render() {
 		const { handleChange, handleAddItem, handleModal, handleOrdererAdd } = this;
