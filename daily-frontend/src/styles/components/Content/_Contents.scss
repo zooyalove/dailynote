@@ -5,10 +5,12 @@
     left: $header-height;
     right: 0;
     bottom: 0;
+    padding-bottom: 2rem;
     z-index: 0;
+    overflow-y: auto;
 
     .subcontents-wrapper {
-    	padding: 2rem;
+    	padding: 2rem 2rem 0;
 
         .main-title {
             color: $oc-gray-8;

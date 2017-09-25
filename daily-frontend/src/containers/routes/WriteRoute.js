@@ -15,6 +15,7 @@ const years = utils.numberArrayGenerator(2015, now.getFullYear());
 const months = utils.numberArrayGenerator(1, 12);
 const days = utils.numberArrayGenerator(1, 31);
 const hours = utils.numberArrayGenerator(8, 21);
+const categories = ['꽃다발', '꽃바구니', '꽃상자', '동양란', '서양란', '관엽식물', '영정바구니', '근조화환', '축하화환', '과일바구니', '기타'];
 
 class WriteRoute extends Component {
 
@@ -99,8 +100,8 @@ class WriteRoute extends Component {
 					<Segment color="blue">
 						<Form.Group>
 							<Form.Dropdown
-								label="보내는분"
 								name="orderer_name"
+								label="보내는분"
 								placeholder="거래처를 입력 또는 선택하세요"
 								search
 								selection
@@ -116,24 +117,26 @@ class WriteRoute extends Component {
 								color="purple"
 								onClick={handleModal.open}/>
 						</Form.Group>
-						<Form.Input label="전화번호"
-							placeholder="주문자 전화번호를 입력하세요"
+						<Form.Input
 							name="orderer_phone"
+							label="전화번호"
+							placeholder="주문자 전화번호를 적어주세요"
 							inline
 							tabIndex="2"
 							onChange={handleChange} />
 					</Segment>
 					<Segment color="red">
 						<Form.Input
-							label="받는 분"
-							placeholder="받는 사람 이름을 입력하세요"
 							name="recv_name"
+							label="받는 분"
+							placeholder="받는 사람 이름을 적어주세요"
 							inline
 							style={{marginLeft: '0.66em'}}
 							tabIndex="3" />
-						<Form.Input label="전화번호"
-							placeholder="받는 사람 전화번호를 입력하세요"
+						<Form.Input
 							name="recv_phone"
+							label="전화번호"
+							placeholder="받는 사람 전화번호를 적어주세요"
 							inline
 							tabIndex="4"
 							onChange={handleChange} />
@@ -181,14 +184,47 @@ class WriteRoute extends Component {
 								defaultValue={String(now.getHours())}
 								onChange={handleChange} />{' '}<span style={style}>시</span>
 						</Form.Group>
+						<Form.Dropdown
+							name="category"
+							label="상품종류"
+							selection
+							placeholder="상품종류"
+							inline
+							options={categories.map((c) => { return {'key': c, 'text': c, 'value': c}; })}
+							tabIndex="9"/>
+						<Form.Group inline>
+							<label>상품가격</label>
+							<Form.Input
+								name="price"
+								placeholder="상품 가격을 적어주세요"
+								inline
+								tabIndex="10"/>{' '}<span style={style}>원</span>
+						</Form.Group>
 						<Divider />
-						<Form.Input label="배달장소"
-							placeholder="배송지 주소 또는 위치를 입력하세요"
+						<Form.Input
 							name="address"
-							labelPosition="left"
-							tabIndex="9"
+							label="배달장소"
+							placeholder="배송지 주소 또는 위치를 적어주세요"
+							tabIndex="11"
 							onChange={handleChange} />
+						<Form.Input
+							name="text"
+							label="글 씨"
+							placeholder="보내는 분과 경조사어를 적어주세요"
+							tabIndex="12"
+							onChange={handleChange} />
+						<Form.TextArea
+							name="memo"
+							label="비 고"
+							placeholder="추가로 참고할 내용을 적어주세요"
+							inline
+							tabIndex="13"/>
 					</Segment>
+					<Form.Button
+						floated="right"
+						icon="checkmark"
+						content="저장"
+						positive/>
 				</Form>
 				<OrdererAddModal
                     open={orderer.getIn(['modal', 'open'])}
