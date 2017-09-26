@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import { Map, List } from 'immutable';
+import { Map, List, fromJS } from 'immutable';
 import _ from 'lodash';
 
 /* actions */
@@ -17,7 +17,7 @@ const initialState = Map({
         open: false,
         fetch: false
     }),
-    data: List()
+    data: List([])
 });
 
 export default handleActions({
@@ -34,16 +34,16 @@ export default handleActions({
 	[ORDERER_DATA_SET]: (state, action) => {
         const { orderer } = action.payload;
 
-        if (state.get('data') && state.get('data').length > 0) {
-            let orderers = state.get('data');
-
-            orderers = _.differenceBy(orderers, orderer, '_id');
-            orderers = orderers.concat(orderer);
-
-            return state.set('data', orderers);
-
-        } else {
-    		return state.set('data', orderer);
+        let data = state.get('data');
+        if (!data.isEmpty()) {
+            if (orderer.length === 'undefined') {
+                if (data.findIndex((d) => d.get('name') === orderer.name) === -1) {
+                    data = data.push(fromJS(orderer));
+                    return state.set('data', data);
+                }
+            }
         }
+
+        return state.set('data', fromJS(orderer));
     }
 }, initialState);

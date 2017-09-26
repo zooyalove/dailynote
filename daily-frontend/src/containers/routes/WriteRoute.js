@@ -36,33 +36,34 @@ class WriteRoute extends Component {
 	state = initialState
 
 	componentWillMount() {
-        const { status: { orderer }, OrdererActions } = this.props;
+		const { OrdererActions } = this.props;
 
-        if (!orderer.get('data') || orderer.get('data').length === 0) {
-	        api.getOrdererAll()
-	        .then( (res) => {
-	            // console.log(res);
-	            const orderer = res.data.orderers;
+		api.getOrdererAll()
+		.then( (res) => {
+			const orderer = res.data.orderers;
 
-	            OrdererActions.setOrdererData({orderer});
-	        })
-	        .catch( (err) => {
-	            OrdererActions.setOrdererData({orderer: []});            
-	        });
-	    }
+			OrdererActions.setOrdererData({orderer});
+		})
+		.catch( (err) => {
+			// OrdererActions.setOrdererData({orderer: []});            
+		});
 	}
 
-	handleChange = (e, {name, value}) => {
+	handleChange = (e, { name, value }) => {
 		const { status: { orderer } } = this.props;
 
 		if (name === 'orderer_name') {
+			const text = value.split('|')[0];
 			const data = orderer.get('data');
-			const index = data.findIndex(d => d.get('name') === name);
+			const index = data.findIndex(d => d.get('name') === text);
 
-			let _id = data.getIn(['data', index, '_id']);
-			_id = (/^no[\w]+/.test(_id)) ? 'no' : _id;
+			let _id = 'no';
+			if (index !== -1) {
+				_id = data.get(index).get('_id');
+				_id = (/^no[0-9]+/.test(_id)) ? 'no' : _id;
+			}
 
-			this.setState({[name]: value, 'orderer_id': _id});
+			this.setState({[name]: text, 'orderer_id': _id});
 		} else {
 			this.setState({[name]: value});
 		}
@@ -78,12 +79,10 @@ class WriteRoute extends Component {
 
 		const rd = (new Date()).getTime();
 
-		OrdererActions.setOrdererData({orderer: [{
-			key: rd,
-			text: value,
-			value: value,
+		OrdererActions.setOrdererData({orderer: {
+			name: value,
 			_id: 'no'+rd
-		}]});
+		}});
 	}
 
 	handleDateChange = () => {
@@ -140,6 +139,15 @@ class WriteRoute extends Component {
 			'fontWeight': '700'
 		};
 
+		const options = (orderer.get('data') && orderer.get('data').size > 0) ?
+			orderer.get('data').map((d) => {
+				return {
+					key: d.get('_id'),
+					text: d.get('name'),
+					value: d.get('name')+'|'+d.get('_id')
+				};
+			}).toArray() : [];
+
 		return (
 			<div className="subcontents-wrapper">
 				<h2 className="main-title">일일장부 등록</h2>
@@ -154,9 +162,10 @@ class WriteRoute extends Component {
 								selection
 								inline
 								tabIndex="1"
-								options={orderer.get('data').map((odata) => { return { key: odata._id, text: odata.name, value: odata._id }; })}
+								options={options}
 								allowAdditions
 								additionLabel="보내는분 임시입력: "
+								selectOnBlur={true}
 								onChange={handleChange}
 								onAddItem={handleAddItem}/>
 							<Button icon="add user"

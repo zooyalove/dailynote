@@ -23,7 +23,7 @@ class OrdererRoute extends Component {
             OrdererActions.setOrdererData({orderer});
         })
         .catch( (err) => {
-            OrdererActions.setOrdererData({orderer: []});            
+            // OrdererActions.setOrdererData({orderer: []});            
         });
     }
 
@@ -65,11 +65,12 @@ class OrdererRoute extends Component {
         const { handleModal, handleOrdererAdd } = this;
         const { children, status: { orderer } } = this.props;
 
-        const orderers = (orderer.get('data') && orderer.get('data').length > 0) ?
+        const orderers = (orderer.get('data') && orderer.get('data').size > 0) ?
                 orderer.get('data').map( (data, index) => {
-                    console.log('Orderers : ', data);
-                    return (<OrdererItem key={index} name={data.name} />);
+                    // console.log('Orderers : ', data);
+                    return (<OrdererItem key={index} name={data.get('name')} />);
                 }) : (<OrdererItem>No Results...</OrdererItem>);
+        // console.log("render =>", orderers);
         
 		return (
 			<div className="orderer-wrapper">
