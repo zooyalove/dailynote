@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import _ from 'lodash';
 
 /* actions */
@@ -17,7 +17,7 @@ const initialState = Map({
         open: false,
         fetch: false
     }),
-    data: []
+    data: List()
 });
 
 export default handleActions({

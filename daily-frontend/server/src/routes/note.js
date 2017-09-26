@@ -58,9 +58,9 @@ router.post('/', (req, res) => {
         delivery_date,      // 배달일자
         delivery_address,   // 배달주소
         delivery_text,      // 글씨(경조사어 및 주문자 이름)
+        memo
         // delivery_image,     // 배송된 물품의 사진...(차후 설계하자...)
-        memo,
-        is_payment          // 결제관련 여부 파악
+        // is_payment          // 결제관련 여부 파악 (이것도 차후로...)
 
     } = req.body;
 
