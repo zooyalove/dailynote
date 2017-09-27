@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { Form, Segment, Divider, Button } from 'semantic-ui-react';
+import { Form, Segment, Divider, Button, Icon } from 'semantic-ui-react';
 
 import { OrdererDropdown, OrdererAddModal } from 'components/Orderer';
 import Category from 'components/Category';
@@ -114,8 +114,12 @@ class WriteRoute extends Component {
 				console.log(err.response.data.error);
 			});
 		
-		OrdererActions.fetchingOrdererData({fetch: false, message: ''});
-		handleModal.close();
+		OrdererActions.fetchingOrdererData({fetch: true, message: (<Icon name="checkmark" color="green" ></Icon>)});
+
+		setTimeout(() => {
+			OrdererActions.fetchingOrdererData({fetch: false, message: ''});
+			handleModal.close();
+		}, 1000);
 	}
 
 	handlePriceClick = (price) => {
