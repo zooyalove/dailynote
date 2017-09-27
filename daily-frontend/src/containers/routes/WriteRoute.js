@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 
 import { Form, Segment, Divider, Button } from 'semantic-ui-react';
 
-import { OrdererAddModal } from 'components/Orderer';
+import { OrdererDropdown, OrdererAddModal } from 'components/Orderer';
+import Category from 'components/Category';
 
 import * as ordererAction from 'redux/modules/base/orderer';
 import api from 'helpers/WebApi/orderer';
@@ -15,12 +16,11 @@ const years = utils.numberArrayGenerator(2015, now.getFullYear());
 const months = utils.numberArrayGenerator(1, 12);
 const days = utils.numberArrayGenerator(1, 31);
 const hours = utils.numberArrayGenerator(8, 21);
-const categories = ['꽃다발', '꽃바구니', '꽃상자', '동양란', '서양란', '관엽식물', '영정바구니', '근조화환', '축하화환', '과일바구니', '기타'];
 
 const initialState = {
 	'orderer_name': '',
 	'orderer_phone': '',
-	'orderer_id': 'no',
+	'orderer_id': '',
 	'receiver_name': '',
 	'receiver_phone': '',
 	'delivery_category': '',
@@ -50,39 +50,34 @@ class WriteRoute extends Component {
 	}
 
 	handleChange = (e, { name, value }) => {
-		const { status: { orderer } } = this.props;
+		// const { status: { orderer } } = this.props;
+		let text, _id;
 
 		if (name === 'orderer_name') {
-			const text = value.split('|')[0];
-			const data = orderer.get('data');
-			const index = data.findIndex(d => d.get('name') === text);
+			text = value.split('|')[0];
+			_id = value.split('|')[1];
+			_id = (/^no[0-9]+/.test(_id)) ? 'no' : _id;
 
-			let _id = 'no';
-			if (index !== -1) {
-				_id = data.get(index).get('_id');
-				_id = (/^no[0-9]+/.test(_id)) ? 'no' : _id;
-			}
-
-			this.setState({[name]: text, 'orderer_id': _id});
+			this.setState({ [name]: text, 'orderer_id': _id });
 		} else {
 			this.setState({[name]: value});
 		}
 	}
 
-	handleAddItem = (e, {value}) => {
+	handleAddItem = async (e, { value }) => {
 		const { OrdererActions } = this.props;
-
-		this.setState({
-			'orderer_name': value,
-			'orderer_id': 'no'
-		});
+		const { handleChange } = this;
 
 		const rd = (new Date()).getTime();
 
-		OrdererActions.setOrdererData({orderer: {
+		const data = {
 			name: value,
 			_id: 'no'+rd
-		}});
+		};
+
+		await OrdererActions.setOrdererData({orderer: data});
+
+		await handleChange(null, {name: 'orderer_name', value: data.name+'|'+data._id});
 	}
 
 	handleDateChange = () => {
@@ -108,7 +103,7 @@ class WriteRoute extends Component {
 		const { OrdererActions } = this.props;
 		const { handleModal } = this;
 
-		OrdererActions.fetchingOrdererData(true);
+		OrdererActions.fetchingOrdererData({fetch: true, message: '거래처 정보 업데이트중...'});
 
 		await api.addOrderer(formdata)
 			.then( (res) => {
@@ -119,8 +114,22 @@ class WriteRoute extends Component {
 				console.log(err.response.data.error);
 			});
 		
-		OrdererActions.fetchingOrdererData(false);
+		OrdererActions.fetchingOrdererData({fetch: false, message: ''});
 		handleModal.close();
+	}
+
+	handlePriceClick = (price) => {
+		this.setState({delivery_price: price.toLocaleString()});
+	}
+
+	handleCancel = () => {
+		this.setState(initialState);
+	}
+
+	handleSubmit = () => {
+		const { OrdererActions } = this.props;
+
+		OrdererActions.fetchingOrdererData({fetch: true, message: `${this.state.name} 님의 장부 1건 등록중...`});
 	}
 
 	render() {
@@ -129,8 +138,22 @@ class WriteRoute extends Component {
 			handleDateChange,
 			handleAddItem,
 			handleModal,
+			handlePriceClick,
+			handleCancel,
+			handleSubmit,
 			handleOrdererAdd
 		} = this;
+
+		const {
+			orderer_phone,
+			receiver_name,
+			receiver_phone,
+			delivery_address,
+			delivery_price,
+			delivery_text,
+			delivery_category,
+			memo
+		} = this.state;
 
 		const { status: { orderer } } = this.props;
 
@@ -148,36 +171,28 @@ class WriteRoute extends Component {
 				};
 			}).toArray() : [];
 
+		const price = (String(delivery_price).indexOf(',') > -1) ?
+						String(delivery_price).replace(',', '') : delivery_price;
+
+		console.log(this.state);
+
 		return (
 			<div className="subcontents-wrapper">
 				<h2 className="main-title">일일장부 등록</h2>
 				<Form onSubmit={(evt) => { evt.preventDefault(); return false; }}>
 					<Segment color="blue">
-						<Form.Group>
-							<Form.Dropdown
-								name="orderer_name"
-								label="보내는분"
-								placeholder="거래처를 입력 또는 선택하세요"
-								search
-								selection
-								inline
-								tabIndex="1"
-								options={options}
-								allowAdditions
-								additionLabel="보내는분 임시입력: "
-								selectOnBlur={true}
-								onChange={handleChange}
-								onAddItem={handleAddItem}/>
-							<Button icon="add user"
-								circular
-								color="purple"
-								onClick={handleModal.open}/>
-						</Form.Group>
+						<OrdererDropdown
+							options={options}
+							tabIndex="1"
+							onChange={handleChange}
+							onAddItem={handleAddItem}
+							onAddOrderer={handleModal.open}/>
 						<Form.Input
 							name="orderer_phone"
 							label="전화번호"
 							placeholder="주문자 전화번호를 적어주세요"
 							inline
+							value={orderer_phone}
 							tabIndex="2"
 							onChange={handleChange} />
 					</Segment>
@@ -187,13 +202,16 @@ class WriteRoute extends Component {
 							label="받는 분"
 							placeholder="받는 사람 이름을 적어주세요"
 							inline
+							value={receiver_name}
 							style={{marginLeft: '0.66em'}}
-							tabIndex="3" />
+							tabIndex="3"
+							onChange={handleChange} />
 						<Form.Input
 							name="receiver_phone"
 							label="전화번호"
 							placeholder="받는 사람 전화번호를 적어주세요"
 							inline
+							value={receiver_phone}
 							tabIndex="4"
 							onChange={handleChange} />
 						<Divider />
@@ -240,29 +258,28 @@ class WriteRoute extends Component {
 								defaultValue={String(now.getHours())}
 								onChange={handleDateChange} />{' '}<span style={style}>시</span>
 						</Form.Group>
-						<Form.Dropdown
-							name="delivery_category"
-							label="상품종류"
-							selection
-							placeholder="상품종류"
-							inline
-							options={categories.map((c) => { return {'key': c, 'text': c, 'value': c}; })}
+						<Category
 							tabIndex="9"
+							value={delivery_category}
 							onChange={handleChange}/>
 						<Form.Group inline>
 							<label>상품가격</label>
-							<Form.Field>
+							<div className="ui input" style={{minWidth: '6rem'}}>
 								<input
 									name="delivery_price"
+									type="number"
 									placeholder="상품 가격을 적어주세요"
+									min="0"
+									inputMode="numeric"
 									tabIndex="10"
-									value="0"
+									value={parseInt(price, 10)}
 									style={{textAlign: 'right'}}
-									onChange={handleChange}/>
-							</Form.Field>{' '}<span style={style}>원</span>{' '}
+									onChange={({target: { name, value }}) => {handleChange(null, {name, value});}}
+									/>
+							</div>{' '}<span style={{margin: '0 1rem 0 .4rem'}}><b>원</b></span>{' '}
 							<Button.Group>
-								<Button color="blue">50,000원</Button>
-								<Button color="red">100,000원</Button>
+								<Button color="blue" onClick={() => handlePriceClick(50000)}>50,000원</Button>
+								<Button color="red" onClick={() => handlePriceClick(100000)}>100,000원</Button>
 							</Button.Group>
 						</Form.Group>
 						<Divider />
@@ -271,12 +288,14 @@ class WriteRoute extends Component {
 							label="배달장소"
 							placeholder="배송지 주소 또는 위치를 적어주세요"
 							tabIndex="11"
+							value={delivery_address}
 							onChange={handleChange} />
 						<Form.Input
 							name="delivery_text"
 							label="글 씨"
 							placeholder="보내는 분과 경조사어를 적어주세요"
 							tabIndex="12"
+							value={delivery_text}
 							onChange={handleChange} />
 						<Form.TextArea
 							name="memo"
@@ -284,17 +303,20 @@ class WriteRoute extends Component {
 							placeholder="추가로 참고할 내용을 적어주세요"
 							inline
 							style={{'height': '1rem'}}
+							value={memo}
 							tabIndex="13"
 							onChange={handleChange}/>
 					</Segment>
 					<Form.Group inline style={{float: 'right'}}>
 						<Form.Button
 							negative
-							content="취소" />
+							content="취소"
+							onClick={handleCancel} />
 						<Form.Button
 							icon="checkmark"
 							positive
-							content="저장" />
+							content="저장"
+							onClick={handleSubmit} />
 					</Form.Group>
 				</Form>
 				<OrdererAddModal

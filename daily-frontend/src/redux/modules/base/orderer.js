@@ -15,7 +15,8 @@ export const setOrdererData = createAction(ORDERER_DATA_SET);
 const initialState = Map({
     modal: Map({
         open: false,
-        fetch: false
+        fetch: false,
+        message: ''
     }),
     data: List([])
 });
@@ -27,20 +28,29 @@ export default handleActions({
 		return state.setIn(['modal', 'open'], open);
     },
 	[ORDERER_DATA_FETCHING]: (state, action) => {
-        const fetch = action.payload;
+        const { fetch, message } = action.payload;
 
-		return state.setIn(['modal', 'fetch'], fetch);
+		return state.setIn(['modal', 'fetch'], fetch)
+                    .setIn(['modal', 'message'], message);
     },
 	[ORDERER_DATA_SET]: (state, action) => {
         const { orderer } = action.payload;
 
         let data = state.get('data');
-        if (!data.isEmpty()) {
-            if (orderer.length === 'undefined') {
+
+        if (orderer.length === undefined) {
+            if (!data.isEmpty()) {
+                console.log("무언가 있을때...");
                 if (data.findIndex((d) => d.get('name') === orderer.name) === -1) {
-                    data = data.push(fromJS(orderer));
+                    data = data.insert(0, fromJS(orderer));
                     return state.set('data', data);
+                } else {
+                    return state;
                 }
+            } else {
+                console.log("무언가 없을때...");
+                data = data.push(fromJS(orderer));
+                return state.set('data', data);
             }
         }
 
