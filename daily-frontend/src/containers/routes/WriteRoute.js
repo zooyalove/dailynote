@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 import { Form, Segment, Divider, Button, Icon } from 'semantic-ui-react';
 
@@ -9,13 +13,6 @@ import Category from 'components/Category';
 
 import * as ordererAction from 'redux/modules/base/orderer';
 import api from 'helpers/WebApi/orderer';
-import utils from 'helpers/utils';
-
-const now = new Date();
-const years = utils.numberArrayGenerator(2015, now.getFullYear());
-const months = utils.numberArrayGenerator(1, 12);
-const days = utils.numberArrayGenerator(1, 31);
-const hours = utils.numberArrayGenerator(8, 21);
 
 const initialState = {
 	'orderer_name': '',
@@ -25,7 +22,7 @@ const initialState = {
 	'receiver_phone': '',
 	'delivery_category': '',
 	'delivery_price': 0,
-	'delivery_date': now.getTime(),
+	'delivery_date': moment(),
 	'delivery_address': '',
 	'delivery_text': '',
 	'memo': ''
@@ -68,7 +65,7 @@ class WriteRoute extends Component {
 		const { OrdererActions } = this.props;
 		const { handleChange } = this;
 
-		const rd = (new Date()).getTime();
+		const rd = moment().millisecond();
 
 		const data = {
 			name: value,
@@ -80,8 +77,8 @@ class WriteRoute extends Component {
 		await handleChange(null, {name: 'orderer_name', value: data.name+'|'+data._id});
 	}
 
-	handleDateChange = () => {
-
+	handleDateChange = (date) => {
+		this.setState({delivery_date: date});
 	}
 
     handleModal = (() => {
@@ -114,12 +111,12 @@ class WriteRoute extends Component {
 				console.log(err.response.data.error);
 			});
 		
-		OrdererActions.fetchingOrdererData({fetch: true, message: (<Icon name="checkmark" color="green" ></Icon>)});
+		OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" color="green" /> 거래처 등록완료!!!</div>)});
 
 		setTimeout(() => {
 			OrdererActions.fetchingOrdererData({fetch: false, message: ''});
 			handleModal.close();
-		}, 1000);
+		}, 1500);
 	}
 
 	handlePriceClick = (price) => {
@@ -152,6 +149,7 @@ class WriteRoute extends Component {
 			orderer_phone,
 			receiver_name,
 			receiver_phone,
+			delivery_date,
 			delivery_address,
 			delivery_price,
 			delivery_text,
@@ -161,10 +159,10 @@ class WriteRoute extends Component {
 
 		const { status: { orderer } } = this.props;
 
-		const style = {
-			'margin': '0 .85714286em 0 -0.6em',
-			'fontWeight': '700'
-		};
+		// const style = {
+		// 	'margin': '0 .85714286em 0 -0.6em',
+		// 	'fontWeight': '700'
+		// };
 
 		const options = (orderer.get('data') && orderer.get('data').size > 0) ?
 			orderer.get('data').map((d) => {
@@ -195,6 +193,7 @@ class WriteRoute extends Component {
 							name="orderer_phone"
 							label="전화번호"
 							placeholder="주문자 전화번호를 적어주세요"
+							required
 							inline
 							value={orderer_phone}
 							tabIndex="2"
@@ -205,6 +204,7 @@ class WriteRoute extends Component {
 							name="receiver_name"
 							label="받는 분"
 							placeholder="받는 사람 이름을 적어주세요"
+							required
 							inline
 							value={receiver_name}
 							style={{marginLeft: '0.66em'}}
@@ -221,53 +221,21 @@ class WriteRoute extends Component {
 						<Divider />
 						<Form.Group inline>
 							<label>배송일자</label>
-							<Form.Dropdown
-								name="recv_year"
-								placeholder="년도"
-								selection
-								inline
-								compact
-								tabIndex="5"
-								options={years}
-								defaultValue={String(now.getFullYear())}
-								onChange={handleDateChange} /><span style={style}>년</span>
-							<Form.Dropdown 
-								name="recv_month"
-								placeholder="월"
-								selection
-								inline
-								compact
-								tabIndex="6"
-								options={months}
-								defaultValue={String(now.getMonth()+1)}
-								onChange={handleDateChange} />{' '}<span style={style}>월</span>
-							<Form.Dropdown 
-								name="recv_day"
-								placeholder="일"
-								selection
-								inline
-								compact
-								tabIndex="7"
-								options={days}
-								defaultValue={String(now.getDate())}
-								onChange={handleDateChange} />{' '}<span style={style}>일</span>
-							<Form.Dropdown 
-								name="recv_hour"
-								placeholder="시간"
-								selection
-								inline
-								compact
-								tabIndex="8"
-								options={hours}
-								defaultValue={String(now.getHours())}
-								onChange={handleDateChange} />{' '}<span style={style}>시</span>
+							<DatePicker
+								showTimeSelect
+								selected={delivery_date}
+								minTime={moment().hours(9).minutes(0)}
+								maxTime={moment().hours(20).minutes(30)}
+								dateFormat="YYYY/MM/DD A HH시 mm분"
+								className="date_input"
+								onChange={handleDateChange} />
 						</Form.Group>
 						<Category
 							tabIndex="9"
 							value={delivery_category}
 							onChange={handleChange}/>
 						<Form.Group inline>
-							<label>상품가격</label>
+							<label className="prequired">상품가격</label>
 							<div className="ui input" style={{minWidth: '6rem'}}>
 								<input
 									name="delivery_price"

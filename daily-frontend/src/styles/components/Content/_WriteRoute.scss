@@ -1,28 +1,4 @@
-// .write-container {
-// 	width: 100%;
-// 	display: flex;
-// 	flex-direction: column;
 
-// 	.write-row {
-// 		flex: 1;
-// 		display: flex;
-// 		flex-direction: row;
-
-// 		.write-label {
-// 			flex: 1;
-// 			// background: $oc-gray-4;
-// 			// border-radius: 3px;
-// 			padding: 0.5rem 1rem;
-// 			font-weight: bold;
-// 			font-size: 1.2rem;
-// 		}
-
-// 		.write-content {
-// 			margin-left: 1rem;
-// 			flex: 3;
-// 		}
-// 	}
-// }
 .input {
 	min-width: 250px;
 }
@@ -33,4 +9,17 @@
 			background: rgba(255, 0, 76, 0.12);
 		}
 	}
+}
+
+.date_input {
+	min-width: 197px;
+	margin-left: -2px !important;
+}
+
+.prequired::after {
+	content: '*';
+	margin: -.2em 0 0 .2em;
+	color: #db2828;
+	vertical-align: top;
+	display: inline-block;
 }

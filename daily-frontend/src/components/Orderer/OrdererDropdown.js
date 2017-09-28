@@ -15,6 +15,7 @@ const OrdererDropdown = ({
 				name="orderer_name"
 				label="보내는분"
 				placeholder="거래처를 입력 또는 선택하세요"
+				required
 				search
 				selection
 				inline

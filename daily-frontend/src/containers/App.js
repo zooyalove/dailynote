@@ -69,7 +69,7 @@ class App extends Component {
 					</Contents>
 	                {orderer.getIn(['modal', 'fetch']) && 
 	                <Dimmer active page>
-	                    <Loader>orderer.getIn(['modal', 'message'])</Loader>
+	                    <Loader>{orderer.getIn(['modal', 'message'])}</Loader>
 	                </Dimmer>
 	                }
 				</div>
