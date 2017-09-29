@@ -21,6 +21,7 @@ import Category from 'components/Category';
 
 import * as ordererAction from 'redux/modules/base/orderer';
 import api from 'helpers/WebApi/orderer';
+import * as notes from 'helpers/WebApi/note';
 import utils from 'helpers/utils';
 
 const initialState = {
@@ -134,12 +135,12 @@ class WriteRoute extends Component {
 	}
 
 	handleCancel = (e) => {
-		e.stopPropagation();
+		e.preventDefault();
 
 		this.setState(initialState);
 	}
 
-	handleSubmit = (e) => {
+	handleSubmit = async (e) => {
 		const { OrdererActions } = this.props;
 		const {
 			orderer_name,
@@ -156,14 +157,40 @@ class WriteRoute extends Component {
 		} = this.state;
 
 		e.preventDefault();
-		// e.stopPropagation();
 
 		if (utils.empty(orderer_name) || utils.empty(orderer_phone) || utils.empty(receiver_name)) {
 			this.setState({error: true});
 			return false;
 		}
 
-		OrdererActions.fetchingOrdererData({fetch: true, message: `${orderer_name} 님의 장부 1건 등록중...`});
+		OrdererActions.fetchingOrdererData({
+			fetch: true,
+			message: `${orderer_name} 님의 장부 1건 등록중...`});
+		
+		const res = await notes.addNote({
+			orderer_name,
+			orderer_phone,
+			orderer_id,
+			receiver_name,
+			receiver_phone,
+			delivery_category,
+			delivery_address,
+			delivery_date: delivery_date.toISOString(),
+			delivery_price: parseInt(delivery_price.replace(',', ''), 10),
+			delivery_text,
+			memo
+		});
+		console.log(res);
+
+		OrdererActions.fetchingOrdererData({
+			fetch: true,
+			message: (<div><Icon name="checkmark" color="green" /> 장부 등록완료!!!</div>)
+		});
+		
+		setTimeout(() => {
+			this.setState(initialState);
+			OrdererActions.fetchingOrdererData({fetch: false, message: ''});
+		}, 1500);
 	}
 
 	handleError = () => {
@@ -198,11 +225,6 @@ class WriteRoute extends Component {
 
 		const { status: { orderer } } = this.props;
 
-		// const style = {
-		// 	'margin': '0 .85714286em 0 -0.6em',
-		// 	'fontWeight': '700'
-		// };
-
 		const options = (orderer.get('data') && orderer.get('data').size > 0) ?
 			orderer.get('data').map((d) => {
 				return {
@@ -215,7 +237,7 @@ class WriteRoute extends Component {
 		const price = (String(delivery_price).indexOf(',') > -1) ?
 						String(delivery_price).replace(',', '') : delivery_price;
 
-		console.log(this.state);
+		// console.log(this.state);
 
 		return (
 			<div className="subcontents-wrapper">
@@ -289,8 +311,8 @@ class WriteRoute extends Component {
 									/>
 							</div>{' '}<span style={{margin: '0 1rem 0 .4rem'}}><b>원</b></span>{' '}
 							<Button.Group>
-								<Button color="blue" onClick={() => handlePriceClick(50000)}>50,000원</Button>
-								<Button color="red" onClick={() => handlePriceClick(100000)}>100,000원</Button>
+								<Button color="blue" onClick={(e) => { e.preventDefault(); handlePriceClick(50000);}}>50,000원</Button>
+								<Button color="red" onClick={(e) => { e.preventDefault(); handlePriceClick(100000);}}>100,000원</Button>
 							</Button.Group>
 						</Form.Group>
 						<Divider />

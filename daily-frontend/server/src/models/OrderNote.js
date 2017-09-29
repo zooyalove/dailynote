@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const OrderNote = new Schema({
 	orderer: {
-		_id: {
+		id: {
 			type: String,
 			default: "no"
 		},
@@ -26,6 +26,7 @@ const OrderNote = new Schema({
 		category: String,
 		price: {
 			type: Number,
+			min: 0,
 			default: 0
 		},
 		date: {

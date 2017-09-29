@@ -76,15 +76,16 @@ router.post('/', (req, res) => {
         'delivery.address': delivery_address,
         'delivery.text': delivery_text,
         // 'delivery.image': delivery_image,
-        'memo': memo,
-        'is_payment': is_payment
+        'memo': memo
+        // 'is_payment': is_payment
     }); 
 
     note.save( (err) => {
         if (err) throw err;
 
         return res.json({
-            success: true
+            success: true,
+            id: note._id
         });
     });
 });
@@ -107,14 +108,16 @@ router.get('/', (req, res) => {
 
     // 보여주고 싶은 field를 설정
     const projection = {
+        '_id': 1,
         'orderer.name': 1,
         'receiver.name': 1,
         'delivery.category': 1,
         'delivery.price': 1,
         'delivery.address': 1,
         'delivery.date': 1,
-        'delivery.image': 1,
+        // 'delivery.image': 1,
         'is_payment': 1
+        // 'memo': 1
     };
 
     OrderNote.find({}, projection)
