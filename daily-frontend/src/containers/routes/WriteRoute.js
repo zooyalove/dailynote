@@ -6,13 +6,22 @@ import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { Form, Segment, Divider, Button, Icon } from 'semantic-ui-react';
+import {
+	Form,
+	Segment,
+	Divider,
+	Button,
+	Icon,
+	Modal,
+	Message
+} from 'semantic-ui-react';
 
 import { OrdererDropdown, OrdererAddModal } from 'components/Orderer';
 import Category from 'components/Category';
 
 import * as ordererAction from 'redux/modules/base/orderer';
 import api from 'helpers/WebApi/orderer';
+import utils from 'helpers/utils';
 
 const initialState = {
 	'orderer_name': '',
@@ -25,7 +34,8 @@ const initialState = {
 	'delivery_date': moment(),
 	'delivery_address': '',
 	'delivery_text': '',
-	'memo': ''
+	'memo': '',
+	'error': false
 };
 
 class WriteRoute extends Component {
@@ -123,14 +133,41 @@ class WriteRoute extends Component {
 		this.setState({delivery_price: price.toLocaleString()});
 	}
 
-	handleCancel = () => {
+	handleCancel = (e) => {
+		e.stopPropagation();
+
 		this.setState(initialState);
 	}
 
-	handleSubmit = () => {
+	handleSubmit = (e) => {
 		const { OrdererActions } = this.props;
+		const {
+			orderer_name,
+			orderer_phone,
+			orderer_id,
+			receiver_name,
+			receiver_phone,
+			delivery_category,
+			delivery_address,
+			delivery_date,
+			delivery_price,
+			delivery_text,
+			memo
+		} = this.state;
 
-		OrdererActions.fetchingOrdererData({fetch: true, message: `${this.state.name} 님의 장부 1건 등록중...`});
+		e.preventDefault();
+		// e.stopPropagation();
+
+		if (utils.empty(orderer_name) || utils.empty(orderer_phone) || utils.empty(receiver_name)) {
+			this.setState({error: true});
+			return false;
+		}
+
+		OrdererActions.fetchingOrdererData({fetch: true, message: `${orderer_name} 님의 장부 1건 등록중...`});
+	}
+
+	handleError = () => {
+		this.setState({error: false});
 	}
 
 	render() {
@@ -142,7 +179,8 @@ class WriteRoute extends Component {
 			handlePriceClick,
 			handleCancel,
 			handleSubmit,
-			handleOrdererAdd
+			handleOrdererAdd,
+			handleError
 		} = this;
 
 		const {
@@ -154,7 +192,8 @@ class WriteRoute extends Component {
 			delivery_price,
 			delivery_text,
 			delivery_category,
-			memo
+			memo,
+			error
 		} = this.state;
 
 		const { status: { orderer } } = this.props;
@@ -297,6 +336,20 @@ class WriteRoute extends Component {
                     onClose={handleModal.close}
 					onOrdererAdd={handleOrdererAdd}
                 />
+				{error && (
+					<Modal dimmer='blurring' open={error} onClose={handleError}>
+						<Modal.Header>필수 입력란을 기입하세요!</Modal.Header>
+						<Modal.Content>
+							<Message error icon>
+								<Icon name="warning sign" color="red" size="huge"/>								<Message.Content>
+								<Message.Header style={{marginBottom: '1rem'}}>필수 입력란이 비어있습니다.</Message.Header>
+									<b style={{color: 'red'}}>'*'</b> 표시가 있는 부분은 필수 입력하셔야 됩니다.<br/>
+									필수 입력란을 모두 입력하시고 난 후 저장버튼을 눌러주세요.
+								</Message.Content>
+							</Message>
+						</Modal.Content>
+					</Modal>
+				)}
 			</div>
 		);
 	}
