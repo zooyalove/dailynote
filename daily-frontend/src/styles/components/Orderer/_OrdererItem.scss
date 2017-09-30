@@ -1,10 +1,12 @@
-.orderer-item {
+a.orderer-item {
     font-weight: 600;
     padding: 0.7rem 1rem 0.7rem 1.5rem;
     height: 2.8rem;
     user-select: none;
     cursor: pointer;
     transition: background 0.2s ease-in;
+    color: white;
+    display: block;
 
     &:hover, &.active, &:active {
         .orderer-chevron {
@@ -37,6 +39,16 @@
         transition: all 0.2s ease-out;
         float: right;
     }
+}
+
+.no-item {
+    align-items: center;
+    cursor: default;
+
+    font-weight: 600;
+    padding: 0.7rem 1rem 0.7rem 1.5rem;
+    height: 2.8rem;
+    user-select: none;
 }
 
 .orderer-item + .orderer-item {

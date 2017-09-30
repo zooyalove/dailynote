@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import shortid from 'shortid';
 import Orderer from './../models/Orderer';
 import OrderNote from './../models/OrderNote';
 
@@ -52,29 +53,32 @@ router.get('/', (req, res) => {
 		1 : INVALID ID
 		2 : ORDERER NOT EXISTS
 		3 : PERMISSION DENIED
-		4 : NO RESOURCES
 */
 router.get('/:id', (req, res) => {
 	const session = req.session;
 
 	if (typeof session.loginInfo === 'undefined') {
+		console.log('perm denied');
 		return res.status(400).json({
 			error: 'PERMISSION DENIED',
 			code: 3
 		});
 	}
-	
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+
+	if (!shortid.isValid(req.params.id)) {
+		console.log('invalid id');
         return res.status(400).json({
             error: "INVALID ID",
             code: 1
         });
 	}
 
-	Orderer.findById(req.params.id, (err, orderer) => {
+	Orderer.find({'_id': req.params.id}, (err, orderer) => {
 		if (err) throw err;
+		console.log(orderer);
 
-		if (!orderer) {
+		if (!orderer || orderer.length === 0) {
+			console.log('orderer not exists');
 	        return res.status(400).json({
 	            error: "ORDERER NOT EXISTS",
 	            code: 2
@@ -93,17 +97,9 @@ router.get('/:id', (req, res) => {
 		], (err, result) => {
 			if (err) throw err;
 
-			if (!result) {
-				return res.status(400).json({
-					error: "NO RESOURCES",
-					code: 4
-				});
-			}
-
-			console.log(result);
-
 			return res.json({
 				success: true,
+				ordererInfo: orderer[0],
 				data: result
 			});
 		});

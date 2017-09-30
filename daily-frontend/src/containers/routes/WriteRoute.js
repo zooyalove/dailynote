@@ -20,7 +20,7 @@ import { OrdererDropdown, OrdererAddModal } from 'components/Orderer';
 import Category from 'components/Category';
 
 import * as ordererAction from 'redux/modules/base/orderer';
-import api from 'helpers/WebApi/orderer';
+import * as api from 'helpers/WebApi/orderer';
 import * as notes from 'helpers/WebApi/note';
 import utils from 'helpers/utils';
 

@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-const orderer = {};
-
-orderer.addOrderer = ({
+export const addOrderer = ({
 	name,
 	phone,
 	address,
@@ -22,12 +20,11 @@ orderer.addOrderer = ({
 	});
 };
 
-orderer.getOrdererAll = () => {
+export const getOrdererAll = () => {
 	return axios.get('/api/orderer');
 };
 
-orderer.getOrdererById = ({id}) => {
+export const getOrdererById = ({id}) => {
+	console.log('api : ', id);
 	return axios.get('/api/orderer/' + id);
 };
-
-export default orderer;
