@@ -75,7 +75,7 @@ router.get('/:id', (req, res) => {
 
 	Orderer.find({'_id': req.params.id}, (err, orderer) => {
 		if (err) throw err;
-		console.log(orderer);
+		// console.log(orderer);
 
 		if (!orderer || orderer.length === 0) {
 			console.log('orderer not exists');
@@ -178,7 +178,7 @@ router.post('/', (req, res) => {
     	orderer.save((err) => {
     		if (err) throw err;
 
-    		console.log(orderer);
+    		// console.log(orderer);
 
     		return res.json({
     			success: true,

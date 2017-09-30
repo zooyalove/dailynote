@@ -6,7 +6,8 @@ import { Checkbox, Dimmer, Icon, Input, Loader, Message } from 'semantic-ui-reac
 import * as header from 'redux/modules/base/header';
 import * as login from 'redux/modules/base/login';
 
-import user from 'helpers/WebApi/user';
+import * as user from 'helpers/WebApi/user';
+import * as utils from 'helpers/utils';
 import storage from 'helpers/storage';
 
 import backImage from 'static/images/background.jpg';
@@ -38,7 +39,7 @@ class LoginRoute extends Component {
     }
 
     componentWillMount() {
-        const { HeaderActions, status: { header } } = this.props;
+        const { HeaderActions, status: { header, login } } = this.props;
 
         const loginInfo = storage.get('loginInfo');
         if (loginInfo && loginInfo._id && loginInfo.username) {
@@ -47,6 +48,25 @@ class LoginRoute extends Component {
 
         if (header.get('visible')) {
             HeaderActions.hideHeader();
+        }
+
+        document.addEventListener('keyup', this.handleEnter);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keyup', this.handleEnter);
+    }
+
+    handleEnter = (e) => {
+        const { status: { login } } = this.props;
+
+        const userid = login.getIn(['loginForm', 'userid']);
+        const password = login.getIn(['loginForm', 'password']);
+
+        if (e.keyCode === 13) {
+            if (!utils.empty(userid) && !utils.empty(password)) {
+                this.handleSubmit(null);
+            }
         }
     }
 
