@@ -5,5 +5,12 @@
     left: 21.5rem;
     right: 0px;
     bottom: 0px;
-    padding: 1.5rem 1rem;
+    margin: 1.5rem;
+
+    &.noid {
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    @import 'InfoCard';
 }
