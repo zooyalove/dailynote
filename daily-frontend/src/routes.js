@@ -6,7 +6,7 @@ import {
 	MainRoute,
 	WriteRoute,
 	OrdererRoute,
-	OrdererInfo,
+	OrdererInfoRoute,
 	SearchRoute,
 	StatRoute,
 	LoginRoute
@@ -18,8 +18,8 @@ export default (
 		<Route path="login" component={LoginRoute} />
 		<Route path="write" component={WriteRoute} />
 		<Route path="orderer" component={OrdererRoute}>
-			<IndexRoute component={OrdererInfo} />
-			<Route path=":userid" component={OrdererInfo} />
+			<IndexRoute component={OrdererInfoRoute} />
+			<Route path=":userid" component={OrdererInfoRoute} />
 		</Route>
 		<Route path="search" component={SearchRoute} />
 		<Route path="stat" component={StatRoute} />

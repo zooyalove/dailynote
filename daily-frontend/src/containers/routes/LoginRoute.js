@@ -39,16 +39,18 @@ class LoginRoute extends Component {
     }
 
     componentWillMount() {
-        const { HeaderActions, status: { header, login } } = this.props;
+        const { HeaderActions, status: { header } } = this.props;
 
-        const loginInfo = storage.get('loginInfo');
-        if (loginInfo && loginInfo._id && loginInfo.username) {
+		user.getInfo()
+        .then( (info) => {
             this.context.router.push('/');
-        }
-
-        if (header.get('visible')) {
-            HeaderActions.hideHeader();
-        }
+        })
+        .catch( (err) => {
+            console.log(err);
+            if (header.get('visible')) {
+                HeaderActions.hideHeader();
+            }
+        });
 
         document.addEventListener('keyup', this.handleEnter);
     }

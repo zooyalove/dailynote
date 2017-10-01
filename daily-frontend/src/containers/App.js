@@ -10,6 +10,7 @@ import Header, { Logo, UserInfo } from 'components/Header';
 import Sidebar, { MenuItem } from 'components/Sidebar';
 import Contents from 'components/Content';
 
+import * as user from 'helpers/WebApi/user';
 import storage from 'helpers/storage';
 
 class App extends Component {
@@ -21,13 +22,17 @@ class App extends Component {
 	componentWillMount() {
 		const { HeaderActions, status: { header } } = this.props;
 
-		if (!storage.get('loginInfo')) {
-			this.context.router.push('/login');
-		} else {
-			if (!header.get('visible')) {
-				HeaderActions.openHeader();
-			}
-		}
+		user.getInfo()
+			.then( (info) => {
+				console.log(info);
+				if (!header.get('visible')) {
+					HeaderActions.openHeader();
+				}
+			})
+			.catch( (err) => {
+				console.log(err);
+				this.context.router.push('/login');
+			});
 	}
 
 	componentWillUnmount() {

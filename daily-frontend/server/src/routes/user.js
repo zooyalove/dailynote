@@ -163,7 +163,7 @@ router.delete('/:id', (req, res) => {
 
 router.get('/getinfo', (req, res) => {
     if (typeof req.session.loginInfo === 'undefined') {
-        res.status(401).json({
+        return res.status(401).json({
             error: 'NOT LOGINED',
             code: 1
         });
