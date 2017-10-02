@@ -75,13 +75,12 @@ class OrdererRoute extends Component {
                     // console.log('Orderers : ', data);
                     return (<OrdererItem key={index} name={data.get('name')} to={data.get('_id')} />);
                 }) : (<OrdererItem>No Results...</OrdererItem>);
-        // console.log("render =>", orderers);
         
 		return (
 			<div className="orderer-wrapper">
                 <OrdererWidget>
                     <OrdererAdd onAdd={handleModal.open} />
-                    <OrdererList>
+                    <OrdererList count={orderers.size}>
                         {orderers}
                     </OrdererList>
                 </OrdererWidget>

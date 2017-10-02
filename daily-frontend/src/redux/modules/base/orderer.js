@@ -40,7 +40,7 @@ export default handleActions({
 
         if (orderer.length === undefined) {
             if (!data.isEmpty()) {
-                console.log("무언가 있을때...");
+                // console.log("무언가 있을때...");
                 if (data.findIndex((d) => d.get('name') === orderer.name) === -1) {
                     data = data.insert(0, fromJS(orderer));
                     return state.set('data', data);
@@ -48,7 +48,7 @@ export default handleActions({
                     return state;
                 }
             } else {
-                console.log("무언가 없을때...");
+                // console.log("무언가 없을때...");
                 data = data.push(fromJS(orderer));
                 return state.set('data', data);
             }

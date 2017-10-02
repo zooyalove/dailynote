@@ -24,7 +24,6 @@ class App extends Component {
 
 		user.getInfo()
 			.then( (info) => {
-				console.log(info);
 				if (!header.get('visible')) {
 					HeaderActions.openHeader();
 				}

@@ -25,6 +25,6 @@ export const getOrdererAll = () => {
 };
 
 export const getOrdererById = ({id}) => {
-	console.log('api : ', id);
+	// console.log('api : ', id);
 	return axios.get('/api/orderer/' + id);
 };
