@@ -11,7 +11,7 @@ const MenuItem = ({ children, color, content, icon, to }) => {
 	        	</Link>
 	        }
         	content={content}
-        	positioning='right center' />
+        	position='right center' />
     );
 };
 

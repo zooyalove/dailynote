@@ -1,8 +1,9 @@
-.info-card {
+.info_card {
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
     height: 180px;
+    position: relative;
 
     .label {
         position: absolute;
@@ -14,7 +15,6 @@
         line-height: 2rem;
         background-color: rgba(255, 255, 255, .75);
         box-shadow: 5px 4px 7px 0px rgba(0, 0, 0, .3);
-        border-radius: 0px 5px 5px 0px;
         user-select: none;
         cursor: default;
     }
@@ -24,4 +24,10 @@
         right: 1rem;
         top: 1rem;
     }
+}
+
+.data_wrapper {
+    position: relative;
+    margin-top: 1rem;
+    padding: 0 1rem 1.5rem;
 }
