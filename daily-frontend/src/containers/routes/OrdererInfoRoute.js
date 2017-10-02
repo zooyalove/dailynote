@@ -12,13 +12,18 @@ import back5 from 'static/images/Palm-Trees.jpg';
 const backImages = [back1, back2, back3, back4, back5];
 
 class OrdererInfoRoute extends Component {
+    constructor(props) {
+        super(props);
 
+        this.state = {
+            ordererInfo: {},
+            data: null
+        };
+    }
     componentWillMount() {
         const { userid } = this.props.params;
-
-        if (userid !== undefined) {
-            this.handleOrdererInfo(userid);
-        }
+       
+        this.handleOrdererInfo(userid);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -28,11 +33,6 @@ class OrdererInfoRoute extends Component {
             nextProps.params.userid !== undefined) {
             this.handleOrdererInfo(nextProps.params.userid);
         }
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        // console.log((this.props.params.userid !== nextProps.params.userid));
-        return this.props.params.userid !== nextProps.params.userid;
     }
 
     handleOrdererInfo = async (id) => {
@@ -49,22 +49,13 @@ class OrdererInfoRoute extends Component {
     }
 
     render() {
-        const { userid } = this.props.params;
-
-        if (userid === undefined) {
-            return (
-                <OrdererInfo noid>거래처 정보 메인페이지입니다...</OrdererInfo>
-            );
-        }
-
         const random = Math.floor(Math.random() * 5);
-        console.log(random);
+        const { ordererInfo } = this.state;
+        const label = ordererInfo.name ? ordererInfo.name : '';
 
         return (
             <OrdererInfo>
-                <InfoCard backgroundImage={backImages[random]}>
-                    거래처 정보 {userid} 상세페이지입니다...
-                </InfoCard>
+                <InfoCard backgroundImage={backImages[random]} label={label} />
             </OrdererInfo>
         );
     }

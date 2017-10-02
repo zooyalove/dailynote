@@ -5,8 +5,17 @@ class OrdererInfo extends Component {
     render() {
         const { noid, children } = this.props;
         return (
-            <div className={`orderer_info${noid ? ' noid' : ''}`}>
-                {children}
+            <div className={`orderer_info_wrapper${noid ? ' noid' : ''}`}>
+                {!noid && (
+                    <div className="orderer_info">
+                        {children}
+                    </div>
+                )}
+                {noid && (
+                    <div>
+                        {children}
+                    </div>
+                )}
             </div>
         );
     }
