@@ -8,6 +8,8 @@
         padding-bottom: 0.7rem;
         color: $oc-gray-6;
         font-weight: 700;
+        cursor: default;
+        user-select: none;
     }
 
     .orderer-list-item {
