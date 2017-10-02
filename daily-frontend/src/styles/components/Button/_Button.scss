@@ -1,0 +1,24 @@
+.dbutton {
+    // background: rgba(255, 255, 255, .4);
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: .25rem;
+    border-radius: 100%;
+    cursor: pointer;
+    min-height: 35px;
+    min-width: 35px;
+    text-align: center;
+    display: inline-block;
+
+    &:hover {
+        background: rgba(255, 255, 255, .8);
+    }
+
+    &:active {
+        background: rgba(255, 255, 255, .65);
+    }
+}
+
+.dbutton + .dbutton {
+    margin-left: .25rem;
+}
