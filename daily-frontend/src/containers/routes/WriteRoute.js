@@ -58,7 +58,7 @@ class WriteRoute extends Component {
 	}
 
 	handleChange = (e, { name, value }) => {
-		// const { status: { orderer } } = this.props;
+		const { status: { orderer } } = this.props;
 		let text, _id;
 
 		if (name === 'orderer_name') {
@@ -66,7 +66,11 @@ class WriteRoute extends Component {
 			_id = value.split('|')[1];
 			_id = (/^no[0-9]+/.test(_id)) ? 'no' : _id;
 
-			this.setState({ [name]: text, 'orderer_id': _id });
+			const List = orderer.get('data');
+			const index = List.findIndex((d) => d.get('_id') === _id);
+			const phone = (index === -1 ) ? '' : List.get(index).get('phone');
+			
+			this.setState({ [name]: text, 'orderer_id': _id, 'orderer_phone': phone });
 		} else {
 			this.setState({[name]: value});
 		}
@@ -131,7 +135,7 @@ class WriteRoute extends Component {
 	}
 
 	handlePriceClick = (price) => {
-		this.setState({delivery_price: price.toLocaleString()});
+		this.setState({delivery_price: price});
 	}
 
 	handleCancel = (e) => {
@@ -176,7 +180,7 @@ class WriteRoute extends Component {
 			delivery_category,
 			delivery_address,
 			delivery_date: delivery_date.toISOString(),
-			delivery_price: parseInt(delivery_price.replace(',', ''), 10),
+			delivery_price: parseInt(delivery_price, 10),
 			delivery_text,
 			memo
 		});
@@ -335,7 +339,7 @@ class WriteRoute extends Component {
 							label="비 고"
 							placeholder="추가로 참고할 내용을 적어주세요"
 							inline
-							style={{'height': '1rem'}}
+							style={{height: '2.8rem'}}
 							value={memo}
 							tabIndex="13"
 							onChange={handleChange}/>

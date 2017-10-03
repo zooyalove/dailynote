@@ -29,7 +29,6 @@ class App extends Component {
 				}
 			})
 			.catch( (err) => {
-				console.log(err);
 				this.context.router.push('/login');
 			});
 	}

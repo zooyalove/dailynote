@@ -85,13 +85,19 @@ router.get('/:id', (req, res) => {
 	        });
 		}
 
+		const c_year = (new Date()).getFullYear();
+		console.log(parseInt(c_year+'0101', 10));		
+
 		OrderNote.aggregate([
-			{ $match: {
-				'orderer.id': req.params.id
-			}},
+			{ $match: 
+				{ $and: [
+					{'orderer.id': req.params.id},
+					{'delivery.date': {"$gte": new Date(c_year, 1, 1), "$lt": new Date((c_year+1), 1, 1)}}
+				]}
+			},
 			{ $group: {
 				_id: null,
-				totalPrice: { $sum: '$delivery_info.price' },
+				totalPrice: { $sum: '$delivery.price' },
 				count: { $sum: 1 }
 			}}
 		], (err, result) => {
@@ -100,7 +106,7 @@ router.get('/:id', (req, res) => {
 			return res.json({
 				success: true,
 				ordererInfo: orderer[0],
-				data: result
+				data: result[0]
 			});
 		});
 	});

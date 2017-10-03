@@ -23,9 +23,7 @@ const InfoCard = ({
                     </Button>
                 </div>
             </div>
-            <div className="data_wrapper">
-                {children}
-            </div>
+            {children}
         </div>
     );
 };

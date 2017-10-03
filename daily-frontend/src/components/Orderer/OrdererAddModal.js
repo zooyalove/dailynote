@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form, Icon, Modal } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-import utils from 'helpers/utils';
+import * as utils from 'helpers/utils';
 
 class OrdererAddModal extends Component {
 
