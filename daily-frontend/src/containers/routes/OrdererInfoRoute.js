@@ -48,7 +48,6 @@ class OrdererInfoRoute extends Component {
     handleOrdererInfo = async (id) => {
         const res = await api.getOrdererById({id});
 
-        // console.log(res);
         if (res.status === 200 && !!(res.data)) {
             const { data } = res;
             this.setState({

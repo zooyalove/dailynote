@@ -86,7 +86,6 @@ router.get('/:id', (req, res) => {
 		}
 
 		const c_year = (new Date()).getFullYear();
-		console.log(parseInt(c_year+'0101', 10));		
 
 		OrderNote.aggregate([
 			{ $match: 
