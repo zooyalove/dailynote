@@ -13,7 +13,8 @@ import {
 	Button,
 	Icon,
 	Modal,
-	Message
+	Message,
+	Loader
 } from 'semantic-ui-react';
 
 import { OrdererDropdown, OrdererAddModal } from 'components/Orderer';
@@ -115,7 +116,7 @@ class WriteRoute extends Component {
 		const { OrdererActions } = this.props;
 		const { handleModal } = this;
 
-		OrdererActions.fetchingOrdererData({fetch: true, message: '거래처 정보 업데이트중...'});
+		OrdererActions.fetchingOrdererData({fetch: true, message: (<Loader>거래처 정보 업데이트중...</Loader>)});
 
 		await api.addOrderer(formdata)
 			.then( (res) => {
@@ -126,7 +127,7 @@ class WriteRoute extends Component {
 				console.log(err.response.data.error);
 			});
 		
-		OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" color="green" /> 거래처 등록완료!!!</div>)});
+		OrdererActions.fetchingOrdererData({fetch: true, message: (<Icon name="checkmark" color="green" > 거래처 등록완료!!!</Icon>)});
 
 		setTimeout(() => {
 			OrdererActions.fetchingOrdererData({fetch: false, message: ''});
@@ -169,9 +170,9 @@ class WriteRoute extends Component {
 
 		OrdererActions.fetchingOrdererData({
 			fetch: true,
-			message: `${orderer_name} 님의 장부 1건 등록중...`});
+			message: (<Loader>{orderer_name} 님의 장부 1건 등록중...</Loader>)});
 		
-		const res = await notes.addNote({
+		await notes.addNote({
 			orderer_name,
 			orderer_phone,
 			orderer_id,
@@ -184,11 +185,10 @@ class WriteRoute extends Component {
 			delivery_text,
 			memo
 		});
-		console.log(res);
 
 		OrdererActions.fetchingOrdererData({
 			fetch: true,
-			message: (<div><Icon name="checkmark" color="green" /> 장부 등록완료!!!</div>)
+			message: (<Icon name="checkmark" color="green" > 장부 등록완료!!!</Icon>)
 		});
 		
 		setTimeout(() => {
@@ -367,8 +367,9 @@ class WriteRoute extends Component {
 						<Modal.Header>필수 입력란을 기입하세요!</Modal.Header>
 						<Modal.Content>
 							<Message error icon>
-								<Icon name="warning sign" color="red" size="huge"/>								<Message.Content>
-								<Message.Header style={{marginBottom: '1rem'}}>필수 입력란이 비어있습니다.</Message.Header>
+								<Icon name="warning sign" color="red" size="huge"/>
+								<Message.Content>
+									<Message.Header style={{marginBottom: '1rem'}}>필수 입력란이 비어있습니다.</Message.Header>
 									<b style={{color: 'red'}}>'*'</b> 표시가 있는 부분은 필수 입력하셔야 됩니다.<br/>
 									필수 입력란을 모두 입력하시고 난 후 저장버튼을 눌러주세요.
 								</Message.Content>

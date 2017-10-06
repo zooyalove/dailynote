@@ -6,7 +6,7 @@ const Button = ({
     children
 }) => {
     return (
-        <div className="dbutton" title={desc}>
+        <div className="dbutton" title={desc} onClick={onClick}>
             {children}
         </div>
     );

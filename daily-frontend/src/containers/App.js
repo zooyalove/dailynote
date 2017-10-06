@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Input, Dimmer, Loader } from 'semantic-ui-react';
+import { Input, Dimmer } from 'semantic-ui-react';
 
 import * as headerAction from 'redux/modules/base/header';
 import * as ordererAction from 'redux/modules/base/orderer';
@@ -72,7 +72,7 @@ class App extends Component {
 					</Contents>
 	                {orderer.getIn(['modal', 'fetch']) && 
 	                <Dimmer active page>
-	                    <Loader>{orderer.getIn(['modal', 'message'])}</Loader>
+	                    {orderer.getIn(['modal', 'message'])}
 	                </Dimmer>
 	                }
 				</div>

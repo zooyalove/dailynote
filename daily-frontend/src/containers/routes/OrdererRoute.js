@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Loader } from 'semantic-ui-react';
 
 import OrdererWidget, { OrdererList, OrdererItem, OrdererAdd, OrdererAddModal } from 'components/Orderer';
 
@@ -9,8 +9,6 @@ import * as headerAction from 'redux/modules/base/header';
 import * as ordererAction from 'redux/modules/base/orderer';
 
 import * as api from 'helpers/WebApi/orderer';
-
-//import storage from 'helpers/storage';
 
 class OrdererRoute extends Component {
 
@@ -47,7 +45,7 @@ class OrdererRoute extends Component {
 		const { OrdererActions } = this.props;
 		const { handleModal } = this;
 
-		OrdererActions.fetchingOrdererData({fetch: true, message: '거래처 정보 업데이트중...'});
+		OrdererActions.fetchingOrdererData({fetch: true, message: (<Loader>거래처 정보 업데이트중...</Loader>)});
 
 		await api.addOrderer(formdata)
 			.then( (res) => {
@@ -58,7 +56,7 @@ class OrdererRoute extends Component {
 				console.log(err.response.data.error);
 			});
 		
-		OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" color="green" /> 거래처 등록완료!!!</div>)});
+		OrdererActions.fetchingOrdererData({fetch: true, message: (<Icon name="checkmark" color="green" > 거래처 등록완료!!!</Icon>)});
 
 		setTimeout(() => {
 			OrdererActions.fetchingOrdererData({fetch: false, message: ''});
@@ -72,7 +70,6 @@ class OrdererRoute extends Component {
 
         const orderers = (orderer.get('data') && orderer.get('data').size > 0) ?
                 orderer.get('data').map( (data, index) => {
-                    // console.log('Orderers : ', data);
                     return (<OrdererItem key={index} name={data.get('name')} to={data.get('_id')} />);
                 }) : (<OrdererItem>No Results...</OrdererItem>);
         
@@ -80,7 +77,7 @@ class OrdererRoute extends Component {
 			<div className="orderer-wrapper">
                 <OrdererWidget>
                     <OrdererAdd onAdd={handleModal.open} />
-                    <OrdererList count={orderers.size}>
+                    <OrdererList count={orderers.size ? orderers.size : 0}>
                         {orderers}
                     </OrdererList>
                 </OrdererWidget>
