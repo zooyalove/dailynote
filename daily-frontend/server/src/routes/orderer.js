@@ -216,7 +216,7 @@ router.put('/:id', (req, res) => {
 	
 	let phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
 
-	if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+	if(!shortid.isValid(req.params.id)) {
         return res.status(400).json({
             error: "INVALID ID",
             code: 1
@@ -286,9 +286,55 @@ router.put('/:id', (req, res) => {
 	ERROR CODES
 		1 : INVALID ID
 		2 : ORDERER NOT EXISTS
+		3 : PERMISSION DENIED
+		4 : NO RESOURCES
 */
 router.delete('/:id', (req, res) => {
+	const session = req.session;
+	
+	if (typeof session.loginInfo === 'undefined') {
+		return res.status(401).json({
+			error: 'PERMISSION DENIED',
+			code: 3
+		});
+	}
 
+	if (!shortid.isValid(req.params.id)) {
+		return res.status(400).json({
+			error: 'INVALID ID',
+			code: 1
+		});
+	}
+
+	Orderer.findOne({'_id': req.params.id}, (err, result) => {
+		if (err) throw err;
+
+		if (!result) {
+			return res.status(400).json({
+				error: 'ORDERER NOT EXISTS',
+				code: 2
+			});
+		}
+
+		OrderNote.update(
+			{'orderer.id': req.params.id},
+			{'orderer.id': 'no'},
+			(err, raw) => {
+				if (err) throw err;
+
+				if (!raw) {
+					return res.status(400).json({
+						error: 'NO RESOURCES',
+						code : 4
+					});
+				}
+				console.log(raw);
+				
+				return res.json({
+					raw
+				});
+			});
+	})
 });
 
 export default router;

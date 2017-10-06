@@ -67,13 +67,28 @@ class OrdererInfoRoute extends Component {
 
     }
 
-    handleDelete = () => {
-        const { OrdererActions } = this.props;
+    handleDelete = async () => {
+        const { OrdererActions, params: { userid } } = this.props;
         const { ordererInfo } = this.state;
 
         this.setState({del_open: false});
 
-        OrdererActions.fetchingOrdererData({fetch: true, message: (<Loader>{ordererInfo.name} 님의 정보를 삭제중...</Loader>)})
+        OrdererActions.fetchingOrdererData({fetch: true, message: (<Loader>{ordererInfo.name} 님의 정보를 삭제중...</Loader>)});
+
+        api.deleteOrderer({userid})
+            .then((res) => {
+                console.log('res :', res);
+                
+                OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" size="big" color="green" />{ordererInfo.name} 님의 정보를 삭제했습니다...</div>)});
+
+                setTimeout(() => OrdererActions.fetchingOrdererData({fetch: false, message: ''}), 3000);
+            })
+            .catch((err) => {
+                console.log(err);                
+                OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="cancel" size="big" color="red" />{ordererInfo.name} 님의 정보를 삭제하지 못했습니다...</div>)});
+
+                setTimeout(() => OrdererActions.fetchingOrdererData({fetch: false, message: ''}), 3000);
+            });
     }
 
     handleCancel = () => {

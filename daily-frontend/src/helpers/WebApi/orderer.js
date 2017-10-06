@@ -28,3 +28,7 @@ export const getOrdererById = ({id}) => {
 	// console.log('api : ', id);
 	return axios.get('/api/orderer/' + id);
 };
+
+export const deleteOrderer = ({id}) => {
+	return axios.delete('/api/orderer/' + id);
+};
