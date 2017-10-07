@@ -22,7 +22,7 @@ class OrdererRoute extends Component {
             OrdererActions.setOrdererData({orderer});
         })
         .catch( (err) => {
-            // OrdererActions.setOrdererData({orderer: []});            
+            OrdererActions.setOrdererData({orderer: []});            
         });
     }
 

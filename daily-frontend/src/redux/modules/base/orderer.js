@@ -38,7 +38,7 @@ export default handleActions({
 
         let data = state.get('data');
 
-        if (orderer.length === undefined) {
+        if (orderer.length === undefined && orderer.size === undefined) {
             if (!data.isEmpty()) {
                 // console.log("무언가 있을때...");
                 if (data.findIndex((d) => d.get('name') === orderer.name) === -1) {

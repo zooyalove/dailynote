@@ -18,6 +18,11 @@ import back5 from 'static/images/Palm-Trees.jpg';
 const backImages = [back1, back2, back3, back4, back5];
 
 class OrdererInfoRoute extends Component {
+
+    static contextTypes = {
+        router: React.PropTypes.object
+    }
+
     constructor(props) {
         super(props);
 
@@ -68,20 +73,28 @@ class OrdererInfoRoute extends Component {
     }
 
     handleDelete = async () => {
-        const { OrdererActions, params: { userid } } = this.props;
+        const { OrdererActions, status: { orderer }, params: { userid } } = this.props;
         const { ordererInfo } = this.state;
 
         this.setState({del_open: false});
 
         OrdererActions.fetchingOrdererData({fetch: true, message: (<Loader>{ordererInfo.name} 님의 정보를 삭제중...</Loader>)});
 
-        api.deleteOrderer({userid})
+        api.deleteOrderer({id: userid})
             .then((res) => {
                 console.log('res :', res);
                 
                 OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" size="big" color="green" />{ordererInfo.name} 님의 정보를 삭제했습니다...</div>)});
 
-                setTimeout(() => OrdererActions.fetchingOrdererData({fetch: false, message: ''}), 3000);
+                setTimeout(() => {
+                    const restList = orderer.get('data').filter((d) => d.get('_id') !== userid);
+                    
+                    OrdererActions.setOrdererData({orderer: restList});
+
+                    OrdererActions.fetchingOrdererData({fetch: false, message: ''});
+
+                    this.context.router.push('/orderer');
+                }, 3000);
             })
             .catch((err) => {
                 console.log(err);                

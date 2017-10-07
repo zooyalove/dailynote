@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 	const session = req.session;
 
 	if (typeof session.loginInfo === 'undefined') {
-		return res.status(400).json({
+		return res.status(401).json({
 			error: 'PERMISSION DENIED',
 			code: 1
 		});
@@ -59,7 +59,7 @@ router.get('/:id', (req, res) => {
 
 	if (typeof session.loginInfo === 'undefined') {
 		console.log('perm denied');
-		return res.status(400).json({
+		return res.status(401).json({
 			error: 'PERMISSION DENIED',
 			code: 3
 		});
@@ -136,7 +136,7 @@ router.post('/', (req, res) => {
 	const session = req.session;
 	
 	if (typeof session.loginInfo === 'undefined') {
-		return res.status(400).json({
+		return res.status(401).json({
 			error: 'PERMISSION DENIED',
 			code: 2
 		});
@@ -208,7 +208,7 @@ router.put('/:id', (req, res) => {
 	const session = req.session;
 	
 	if (typeof session.loginInfo === 'undefined') {
-		return res.status(400).json({
+		return res.status(401).json({
 			error: 'PERMISSION DENIED',
 			code: 4
 		});
@@ -316,25 +316,34 @@ router.delete('/:id', (req, res) => {
 			});
 		}
 
-		OrderNote.update(
-			{'orderer.id': req.params.id},
-			{'orderer.id': 'no'},
-			(err, raw) => {
-				if (err) throw err;
+		let data;
 
-				if (!raw) {
-					return res.status(400).json({
-						error: 'NO RESOURCES',
-						code : 4
+		OrderNote.findOne({'orderer.id': req.params.id}, (err2, noteExists) => {
+			if (err2) throw err2;
+
+			if (noteExists) {
+				OrderNote.update(
+					{'orderer.id': req.params.id},
+					{'orderer.id': 'no'},
+					(err, raw) => {
+						if (err) throw err;
+
+						data = raw;
 					});
-				}
-				console.log(raw);
-				
+			} else {
+				data = [];
+			}
+
+			Orderer.remove({'_id': req.params.id}, (err3) => {
+				if (err3) throw err3;
+
 				return res.json({
-					raw
+					result: 'success',
+					data: data
 				});
 			});
-	})
+		})
+	});
 });
 
 export default router;

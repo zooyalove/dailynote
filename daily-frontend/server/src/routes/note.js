@@ -19,6 +19,13 @@ const router = express.Router();
 router.post('/', (req, res) => {
     let phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
 
+    if (typeof req.session.loginInfo === 'undefined') {
+        res.status(401).json({
+            error: 'PERMISSION DENIED',
+            code: 3
+        });
+    }
+
     if (util.empty(req.body.orderer_name)) {
         return res.status(400).json({
             error: 'EMPTY REQUIRED FIELD',
@@ -37,13 +44,6 @@ router.post('/', (req, res) => {
         return res.status(400).json({
             error: 'EMPTY REQUIRED FIELD',
             code: 1
-        });
-    }
-
-    if (typeof req.session.loginInfo === 'undefined') {
-        res.status(401).json({
-            error: 'PERMISSION DENIED',
-            code: 3
         });
     }
 
@@ -165,7 +165,7 @@ router.get('/:id', (req, res) => {
                 code: 3
             });
         }
-    })
+    });
 
 });
 

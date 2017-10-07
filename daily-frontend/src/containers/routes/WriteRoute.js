@@ -54,7 +54,7 @@ class WriteRoute extends Component {
 			OrdererActions.setOrdererData({orderer});
 		})
 		.catch( (err) => {
-			// OrdererActions.setOrdererData({orderer: []});            
+			OrdererActions.setOrdererData({orderer: []});            
 		});
 	}
 
@@ -127,7 +127,7 @@ class WriteRoute extends Component {
 				console.log(err.response.data.error);
 			});
 		
-		OrdererActions.fetchingOrdererData({fetch: true, message: (<Icon name="checkmark" color="green" > 거래처 등록완료!!!</Icon>)});
+		OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" color="green" /> 거래처 등록완료!!!</div>)});
 
 		setTimeout(() => {
 			OrdererActions.fetchingOrdererData({fetch: false, message: ''});
@@ -188,7 +188,7 @@ class WriteRoute extends Component {
 
 		OrdererActions.fetchingOrdererData({
 			fetch: true,
-			message: (<Icon name="checkmark" color="green" > 장부 등록완료!!!</Icon>)
+			message: (<div><Icon name="checkmark" color="green" /> 장부 등록완료!!!</div>)
 		});
 		
 		setTimeout(() => {
