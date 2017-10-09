@@ -9,7 +9,7 @@ class NullInfoRoute extends Component {
                 <Card title="Statistics">
                     지금은 테스트중입니다...
                 </Card>
-                <Card title="Statistics">
+                <Card title="Statistics" transparent>
                     지금은 테스트중입니다...
                 </Card>
             </OrdererInfo>
