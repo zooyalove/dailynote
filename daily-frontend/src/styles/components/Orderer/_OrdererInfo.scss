@@ -5,11 +5,13 @@
     left: 21.5rem;
     right: 0px;
     bottom: 0px;
-    margin: 1.5rem 1.5rem 0;
+    padding: 1.5rem 1.5rem 0;
+    background: radial-gradient(circle at top left, rgba($oc-yellow-8, .5) 10%, rgba($oc-blue-7, .7)), linear-gradient(to left bottom, red 10%, rgba(14, 170, 0, 0.6) 70%, rgba(pink, .3));
 
     &.noid {
         text-align: center;
         font-size: 2rem;
+        line-height: 1.5;
     }
 
     .orderer_info {

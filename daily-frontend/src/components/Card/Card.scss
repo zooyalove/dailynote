@@ -1,0 +1,52 @@
+.card {
+    padding: 1.2rem .7rem;
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .4);
+    line-height: 1.2;
+    text-align: left;
+    background: rgba(white, .15);
+    font-size: 1.2rem;
+    color: white;
+
+    // No Border Radius
+    &.rectangle {
+        border-radius: 0px;
+    }
+
+    // No Dropshadow
+    &.noshadow {
+        box-shadow: none;
+    }
+
+    // Top Border Color
+    &.red {
+        border-top: 2px solid red;
+    }
+    &.blue {
+        border-top: 2px solid blue;
+    }
+    &.green {
+        border-top: 2px solid green;
+    }
+    &.violet {
+        border-top: 2px solid violet;
+    }
+    &.orange {
+        border-top: 2px solid orange;
+    }
+
+    .title {
+        font-weight: 600;
+        // font-size: 1rem;
+        // color: gray;
+        color: white;
+        margin-bottom: .7rem;
+        letter-spacing: .5px;
+        cursor: default;
+        user-select: none;
+    }
+}
+
+.card + .card {
+    margin-top: 1rem;
+}
