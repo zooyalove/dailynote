@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { OrdererInfo } from 'components/Orderer';
 import Card from 'components/Card';
+import ChartCard from 'components/ChartCard';
 
 class NullInfoRoute extends Component {
     render() {
@@ -12,6 +13,7 @@ class NullInfoRoute extends Component {
                 <Card title="Statistics" transparent>
                     지금은 테스트중입니다...
                 </Card>
+                <ChartCard/>
             </OrdererInfo>
         );
     }

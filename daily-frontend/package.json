@@ -78,7 +78,9 @@
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.74.2",
     "shortid": "^2.2.8",
-    "urlencode": "^1.1.0"
+    "urlencode": "^1.1.0",
+    "zingchart": "^2.6.1",
+    "zingchart-react": "^1.0.6"
   },
   "scripts": {
     "start": "node scripts/start.js",
