@@ -69,9 +69,10 @@ class WriteRoute extends Component {
 
 			const List = orderer.get('data');
 			const index = List.findIndex((d) => d.get('_id') === _id);
-			const phone = (index === -1 ) ? '' : List.get(index).get('phone');
+			const phone = (index === -1) ? '' : List.get(index).get('phone');
+			const ribText = (index === -1) ? '' : List.get(index).get('def_ribtext');
 			
-			this.setState({ [name]: text, 'orderer_id': _id, 'orderer_phone': phone });
+			this.setState({ [name]: text, 'orderer_id': _id, 'orderer_phone': phone, 'delivery_text': ribText});
 		} else {
 			this.setState({[name]: value});
 		}

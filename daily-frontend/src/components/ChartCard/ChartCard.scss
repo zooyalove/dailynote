@@ -1,0 +1,7 @@
+.chart-card {
+    flex: 1
+}
+
+.chart-card + .chart-card {
+    margin-left: 1.5rem;
+}
