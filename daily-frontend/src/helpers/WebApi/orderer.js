@@ -24,6 +24,10 @@ export const getOrdererAll = () => {
 	return axios.get('/api/orderer');
 };
 
+export const getOrdererStatistics = () => {
+	return axios.get('/api/orderer/stat');
+};
+
 export const getOrdererById = ({id}) => {
 	// console.log('api : ', id);
 	return axios.get('/api/orderer/' + id);

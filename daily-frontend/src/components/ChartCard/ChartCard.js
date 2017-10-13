@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { core as ZingChart } from 'zingchart-react';
+import shortid from 'shortid';
 import classNames from 'classnames';
+
 import styles from './ChartCard.scss';
+import Card from 'components/Card';
 
 const cx = classNames.bind(styles);
 
-import Card from 'components/Card';
-
-const myConfig = {
+/*const myConfig = {
     type: 'bar',
     title: {
         text: '최근 1년간 데이터 비교'
@@ -32,15 +33,56 @@ const myConfig = {
         }
 
     ]
-};
+};*/
+
+/**
+ * Props information
+ * 
+ * @prop id   <== id for display zingchart ( default: shortid )
+ * @prop type <== enum ( bar, line, area, pie, scatter )
+ * @prop title <== string ( default: '' )
+ * @prop series <== array ( default: [] )
+ * @prop noData <== object ( json type )
+ * @prop useTimezone <== boolean
+ * @prop height
+ * @prop width
+ */
 
 class ChartCard extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            id: this.props.id ? this.props.id : shortid.generate(),
+            noData: {},
+            series: []
+        }
+        
+    }
+
+    componentWillMount() {
+        const { type, series, utcTimezone, noData } = this.props;
+
+        this.setState({
+            type,
+            series,
+            utc: utcTimezone ? true : false,
+            timezone: 9,
+            noData: {
+                text: 'noData'
+            }
+        });
+    }
 
     render() {
-        const { id } = this.props;
+        const { id } = this.state;
+        const { title } = this.props;
+        const height = this.props.height ? this.props.height : 300;
+        const width = this.props.width ? this.props.width : 600;
+
         return (
-            <Card className={cx('chart-card')}>
-                <ZingChart id={id} data={myConfig} height="300" width="100%" />
+            <Card title={`${title ? title : ''}`} className={cx('chart-card')}>
+                <ZingChart id={id} data={this.state} height={height} width={width} />
             </Card>
         );
     }

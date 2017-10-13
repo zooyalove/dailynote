@@ -45,8 +45,103 @@ router.get('/', (req, res) => {
 
 });
 
+
 /*
-	GET /api/orderer/:orderer
+	GET /api/orderer/stat
+
+
+	ERROR CODES
+	1 : PERMISSION DENIED
+*/
+router.get('/stat', (req, res) => {
+	const session = req.session;
+	
+	if (typeof session.loginInfo === 'undefined') {
+		console.log('perm denied');
+		return res.status(401).json({
+			error: 'PERMISSION DENIED',
+			code: 1
+		});
+	}
+
+	const c_year = (new Date()).getFullYear();
+	
+	OrderNote.aggregate([
+		{ $match: {
+			'delivery.date': {
+				$gte: new Date((c_year-1), 0, 1),
+				$lt: new Date((c_year+1), 0, 1)
+			}
+		}},
+		{ $group: {
+			_id: null,
+			totalPrice: { $sum: '$delivery.price' },
+			ordererPrice: { $sum: {
+								$cond: {
+									if: { $ne: ['$orderer.id', 'no'] },
+									then: '$delivery.price',
+									else: 0
+								}
+							}}
+		}}
+	], (err, p_res) => {
+		if (err) {
+			console.log(err);
+			throw err;
+		}
+
+		if (!p_res || p_res.length === 0) {
+			return res.json({
+				priceData: null,
+				yearData: null
+			});
+		}
+
+		OrderNote.aggregate([
+			{ $match: {
+				$and : [
+					{ 'delivery.date': {
+						$gte: new Date((c_year-1), 0, 1),
+						$lt: new Date((c_year+1), 0, 1)
+					}},
+					{ 'orderer.id': {
+						$ne: 'no'
+					}}
+				]}					
+			},
+			{ $project: {
+				yearMonth: { $dateToString: { format: '%Y-%m', date: '$delivery.date' }},
+				price: '$delivery.price'
+			}},
+			{ $group: {
+				_id: '$yearMonth',
+				monthPrice: { $sum: '$price' }
+			}},
+			{ $sort: { _id: 1 }}
+		], (err2, y_res) => {
+			if (err2) {
+				console.log(err2);
+				throw err2;
+			}
+
+			if (!y_res || y_res.length === 0) {
+				return res.json({
+					priceData: p_res[0],
+					yearData: null
+				});
+			}
+
+			return res.json({
+				priceData: p_res[0],
+				yearData: y_res
+			});
+		});
+	});
+});
+
+
+/*
+	GET /api/orderer/:id
 	특정 거래처 정보를 조회
 
 	ERROR CODES
@@ -75,7 +170,6 @@ router.get('/:id', (req, res) => {
 
 	Orderer.find({'_id': req.params.id}, (err, orderer) => {
 		if (err) throw err;
-		// console.log(orderer);
 
 		if (!orderer || orderer.length === 0) {
 			console.log('orderer not exists');
@@ -91,7 +185,7 @@ router.get('/:id', (req, res) => {
 			{ $match: 
 				{ $and: [
 					{'orderer.id': req.params.id},
-					{'delivery.date': {"$gte": new Date(c_year, 1, 1), "$lt": new Date((c_year+1), 1, 1)}}
+					{'delivery.date': {"$gte": new Date(c_year, 0, 1), "$lt": new Date((c_year+1), 0, 1)}}
 				]}
 			},
 			{ $group: {
@@ -110,6 +204,7 @@ router.get('/:id', (req, res) => {
 		});
 	});
 });
+
 
 /*
 	POST /api/orderer
@@ -192,6 +287,7 @@ router.post('/', (req, res) => {
     	});
     });
 });
+
 
 /*
 	PUT /api/orderer/:id
@@ -276,6 +372,7 @@ router.put('/:id', (req, res) => {
 		});
 	});
 });
+
 
 /*
 	DELETE /api/orderer/:id
