@@ -46,7 +46,7 @@ class LoginRoute extends Component {
             this.context.router.push('/');
         })
         .catch( (err) => {
-            console.log(err);
+            // console.log(err);
             if (header.get('visible')) {
                 HeaderActions.hideHeader();
             }

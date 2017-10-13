@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { core as ZingChart } from 'zingchart-react';
+import { Loader, Icon } from 'semantic-ui-react';
 import shortid from 'shortid';
 import classNames from 'classnames';
 
@@ -39,11 +40,10 @@ const cx = classNames.bind(styles);
  * Props information
  * 
  * @prop id   <== id for display zingchart ( default: shortid )
- * @prop type <== enum ( bar, line, area, pie, scatter )
+ * @prop type(required) <== enum ( bar, line, area, pie, scatter )
+ * @prop options(required) <== object ( json type )
+ * @prop series(required) <== array ( default: [] )
  * @prop title <== string ( default: '' )
- * @prop series <== array ( default: [] )
- * @prop noData <== object ( json type )
- * @prop useTimezone <== boolean
  * @prop height
  * @prop width
  */
@@ -54,35 +54,37 @@ class ChartCard extends Component {
 
         this.state = {
             id: this.props.id ? this.props.id : shortid.generate(),
-            noData: {},
-            series: []
-        }
-        
+            options: null
+        }        
     }
 
     componentWillMount() {
-        const { type, series, utcTimezone, noData } = this.props;
+        const { type, options, series } = this.props;
+        options['type'] = type;
+        options['series'] = [{ values: series[0] }];
 
-        this.setState({
-            type,
-            series,
-            utc: utcTimezone ? true : false,
-            timezone: 9,
-            noData: {
-                text: 'noData'
-            }
-        });
+        this.setState({options});
     }
 
     render() {
-        const { id } = this.state;
-        const { title } = this.props;
+        const { id, options } = this.state;
+        const { title, loading, series } = this.props;
         const height = this.props.height ? this.props.height : 300;
         const width = this.props.width ? this.props.width : 600;
 
+        console.log(this.state);
+        
         return (
-            <Card title={`${title ? title : ''}`} className={cx('chart-card')}>
-                <ZingChart id={id} data={this.state} height={height} width={width} />
+            <Card title={`${title ? title : ''}`}
+                className={cx('chart-card')}
+                style={{minHeight: height}}>
+                {loading
+                    ? <Loader size="big" active >Data is loading...</Loader>
+                    : (series
+                        ? <ZingChart id={id} data={options} height={height} width={width} />
+                        : <div className="no-data"><Icon name="warning sign" color="red" size="big"/> No Exists Data!</div>
+                    )
+                }
             </Card>
         );
     }

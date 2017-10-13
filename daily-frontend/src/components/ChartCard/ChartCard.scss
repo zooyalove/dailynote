@@ -1,5 +1,15 @@
 .chart-card {
-    flex: 1
+    flex: 1;
+    position: relative;
+
+    .no-data {
+        display: inline;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        font-size: 1.5rem;
+    }
 }
 
 .chart-card + .chart-card {

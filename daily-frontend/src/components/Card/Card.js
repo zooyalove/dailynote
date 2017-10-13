@@ -11,10 +11,16 @@ const Card = ({
     noshadow,
     transparent,
     className,
-    children
+    children,
+    ...rest
 }) => {
     return (
-        <div className={cx('card', {rectangle, noshadow, transparent}, color, className)}>
+        <div className={cx('card',
+                {rectangle, noshadow, transparent},
+                color,
+                className)}
+            {...rest}
+        >
             {title && (
                 <h4 className={cx('title')}>
                     {title}
