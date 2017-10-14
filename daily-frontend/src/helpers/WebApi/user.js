@@ -7,6 +7,10 @@ export const signIn = ({userid, password}) => {
     });
 };
 
+export const signOut = () => {
+    return axios.post('/api/user/logout');
+};
+
 export const getInfo = () => {
     return axios.get('/api/user/getinfo');
 };

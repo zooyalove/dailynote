@@ -41,15 +41,16 @@ class LoginRoute extends Component {
     componentWillMount() {
         const { HeaderActions, status: { header } } = this.props;
 
-		user.getInfo()
+        if (header.get('visible')) {
+            HeaderActions.hideHeader();
+        }
+
+        user.getInfo()
         .then( (info) => {
             this.context.router.push('/');
         })
         .catch( (err) => {
-            // console.log(err);
-            if (header.get('visible')) {
-                HeaderActions.hideHeader();
-            }
+            // console.log('Login Route user.getInfo error occurred =>', err);
         });
 
         document.addEventListener('keyup', this.handleEnter);
@@ -122,6 +123,7 @@ class LoginRoute extends Component {
 
             })
             .catch( (err) => {
+                
                 LoginActions.completeLoginAuth();
                 if (err.response) {
                     LoginActions.setLoginAuthMessage({
@@ -155,8 +157,6 @@ class LoginRoute extends Component {
                 }, 3000);
             }
         });
-        
-        // LoginActions.clearLoginFormInfo();
     }
 
     render() {

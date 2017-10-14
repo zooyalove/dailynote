@@ -4,6 +4,8 @@ import { Loader, Icon } from 'semantic-ui-react';
 import shortid from 'shortid';
 import classNames from 'classnames';
 
+import * as utils from 'helpers/utils';
+
 import styles from './ChartCard.scss';
 import Card from 'components/Card';
 
@@ -67,10 +69,6 @@ class ChartCard extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.props.series !== nextProps.series) {
-            // let values = nextProps.series.map((s) => {
-            //                 return { 'values': s };
-            //             });
-            // console.log(values);
 
             const options = JSON.parse(JSON.stringify(this.state.options));
             // options['series'] = values;
@@ -92,7 +90,7 @@ class ChartCard extends Component {
             >
                 {loading
                     ? <Loader size="big" active >Data is loading...</Loader>
-                    : (series
+                    : (!utils.empty(series)
                         ? <ZingChart id={id} data={options} height={h} width={w} />
                         : <div className="no-data"><Icon name="warning sign" color="red" size="big"/> No Exists Data!</div>
                     )

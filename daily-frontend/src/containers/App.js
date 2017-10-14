@@ -39,8 +39,10 @@ class App extends Component {
 		}
 	}
 
-	handleLogOut = () => {
+	handleLogOut = async () => {
 		if (storage.get('loginInfo')) {
+			await user.signOut();
+
 			storage.remove('loginInfo');
 			this.context.router.push('/login');
 		}
