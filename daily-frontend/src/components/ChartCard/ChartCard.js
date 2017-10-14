@@ -59,29 +59,41 @@ class ChartCard extends Component {
     }
 
     componentWillMount() {
-        const { type, options, series } = this.props;
+        const { type, options } = this.props;
         options['type'] = type;
-        options['series'] = [{ values: series[0] }];
 
         this.setState({options});
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.series !== nextProps.series) {
+            // let values = nextProps.series.map((s) => {
+            //                 return { 'values': s };
+            //             });
+            // console.log(values);
+
+            const options = JSON.parse(JSON.stringify(this.state.options));
+            // options['series'] = values;
+            options['series'] = nextProps.series;
+
+            this.setState({options});
+        }
+    }    
+
     render() {
         const { id, options } = this.state;
-        const { title, loading, series } = this.props;
-        const height = this.props.height ? this.props.height : 300;
-        const width = this.props.width ? this.props.width : 600;
+        const { title, loading, series, height, width, className } = this.props;
+        const h = height ? height : 300;
+        const w = width ? width : 600;
 
-        console.log(this.state);
-        
         return (
             <Card title={`${title ? title : ''}`}
-                className={cx('chart-card')}
-                style={{minHeight: height}}>
+                className={cx('chart-card', className)}
+            >
                 {loading
                     ? <Loader size="big" active >Data is loading...</Loader>
                     : (series
-                        ? <ZingChart id={id} data={options} height={height} width={width} />
+                        ? <ZingChart id={id} data={options} height={h} width={w} />
                         : <div className="no-data"><Icon name="warning sign" color="red" size="big"/> No Exists Data!</div>
                     )
                 }

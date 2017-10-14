@@ -13,16 +13,15 @@ const router = express.Router();
 
     ERROR CODES
         1 : EMPTY REQUIRED FIELD
-        2 : BAD PHONE NUMBER
-        3 : PERMISSION DENIED
+        2 : PERMISSION DENIED
 */
 router.post('/', (req, res) => {
-    let phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
+    // let phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
 
     if (typeof req.session.loginInfo === 'undefined') {
         res.status(401).json({
             error: 'PERMISSION DENIED',
-            code: 3
+            code: 2
         });
     }
 
@@ -33,12 +32,12 @@ router.post('/', (req, res) => {
         });
     }
 
-    if (!phoneRegex.test(req.body.orderer_phone)) {
-    	return res.status(400).json({
-    		error: 'BAD PHONE NUMBER',
-    		code: 2
-    	});
-    }
+    // if (!phoneRegex.test(req.body.orderer_phone)) {
+    // 	return res.status(400).json({
+    // 		error: 'BAD PHONE NUMBER',
+    // 		code: 2
+    // 	});
+    // }
 
     if (util.empty(req.body.receiver_name)) {
         return res.status(400).json({

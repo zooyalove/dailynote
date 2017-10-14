@@ -6,6 +6,7 @@
     text-align: left;
     background: white;
     font-size: 1.2rem;
+    min-height: 300px;
 
     // No Border Radius
     &.rectangle {
@@ -47,10 +48,20 @@
         font-weight: 600;
         // font-size: 1rem;
         // color: gray;
-        color: gray;
+        color: darkgray;
         margin-bottom: .7rem;
         letter-spacing: .5px;
         cursor: default;
         user-select: none;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10px;
+            right: 10px;
+            height: 1px;
+            background: radial-gradient(circle, lighten(gray, 40%), lighten(gray, 40%) 60%, rgba(255, 255, 255, .1));
+        }
     }
 }
