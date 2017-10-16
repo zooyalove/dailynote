@@ -32,13 +32,6 @@ router.post('/', (req, res) => {
         });
     }
 
-    // if (!phoneRegex.test(req.body.orderer_phone)) {
-    // 	return res.status(400).json({
-    // 		error: 'BAD PHONE NUMBER',
-    // 		code: 2
-    // 	});
-    // }
-
     if (util.empty(req.body.receiver_name)) {
         return res.status(400).json({
             error: 'EMPTY REQUIRED FIELD',

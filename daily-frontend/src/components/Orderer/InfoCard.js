@@ -5,6 +5,7 @@ import Button from 'components/Button';
 const InfoCard = ({
     backgroundImage,
     name,
+    moreButton,
     onDelete,
     onModify,
     children
@@ -24,6 +25,7 @@ const InfoCard = ({
                         </Icon.Group>
                     </Button>
                 </div>
+                {moreButton}
             </div>
             {children}
         </div>
