@@ -1,5 +1,7 @@
 import React from 'react';
 import { Icon } from 'semantic-ui-react';
+
+import AnimMoreButton from 'components/AnimMoreButton';
 import Button from 'components/Button';
 
 const InfoCard = ({
@@ -25,7 +27,7 @@ const InfoCard = ({
                         </Icon.Group>
                     </Button>
                 </div>
-                {moreButton}
+                {moreButton && <AnimMoreButton />}
             </div>
             {children}
         </div>

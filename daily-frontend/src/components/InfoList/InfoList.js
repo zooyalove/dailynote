@@ -27,9 +27,9 @@ const label_maps = {
 };
 
 const InfoList = ({
-    datalist
+    list
 }) => {
-    const { ordererInfo, data } = datalist;
+    const { ordererInfo, data } = list;
     const { date } = ordererInfo;
 
     const infos = info_maps.map((info, i) => {

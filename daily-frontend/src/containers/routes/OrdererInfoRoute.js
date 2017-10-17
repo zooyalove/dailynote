@@ -5,9 +5,10 @@ import { Button, Modal, Message, Icon, Loader } from 'semantic-ui-react';
 
 import { OrdererInfo, InfoCard } from 'components/Orderer';
 import InfoList from 'components/InfoList';
-import AnimMoreButton from 'components/AnimMoreButton';
+import DataList from 'components/DataList';
 
 import * as api from 'helpers/WebApi/orderer';
+import * as utils from 'helpers/utils';
 import * as ordererAction from 'redux/modules/base/orderer';
 
 import back1 from 'static/images/beach-love.jpg';
@@ -118,10 +119,12 @@ class OrdererInfoRoute extends Component {
             <OrdererInfo>
                 <InfoCard backgroundImage={backImages[random]}
                         name={ordererInfo.name}
-                        moreButton={<AnimMoreButton />}
+                        moreButton={!utils.empty(data) ? true : false}
                         onDelete={() => this.setState({del_open: true})}
                         onModify={handleModify}>
-                    <InfoList datalist={{ordererInfo, data}} />
+                    <InfoList list={{ordererInfo, data}} />
+                    
+                    <DataList datalist={{}} />
                 </InfoCard>
 				{del_open && (
 					<Modal dimmer='blurring'

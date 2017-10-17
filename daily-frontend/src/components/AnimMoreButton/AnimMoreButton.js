@@ -6,11 +6,11 @@ const cx = classNames.bind(styles);
 
 const AnimMoreButton = ({
     active,
-    onClick
+    onMoreClick
 }) => {
     return (
         <div className={cx('anim-more-wrapper')}>
-            <div className={cx('circle-wrapper')}>
+            <div className={cx('circle-wrapper', {active})} onClick={onMoreClick}>
                 <div className={cx('circle')}>
                     <div className={cx('more-icon')}>
                         <div className={cx('center-chevron')} />

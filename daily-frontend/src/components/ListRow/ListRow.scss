@@ -1,0 +1,7 @@
+.list-row {
+    height: 1.5rem;
+}
+
+.list-row + .list-row {
+    border-top: 1px solid darkgray;
+}
