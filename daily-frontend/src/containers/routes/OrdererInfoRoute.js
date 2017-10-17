@@ -60,9 +60,11 @@ class OrdererInfoRoute extends Component {
 
     handleOrdererInfo = async (id) => {
         const res = await api.getOrdererById({id});
+        console.log(res);        
 
         if (res.status === 200 && !!(res.data)) {
             const { data } = res;
+            
             this.setState({
                 ordererInfo: data.ordererInfo,
                 data: data.data
@@ -122,9 +124,11 @@ class OrdererInfoRoute extends Component {
                         moreButton={!utils.empty(data) ? true : false}
                         onDelete={() => this.setState({del_open: true})}
                         onModify={handleModify}>
-                    <InfoList list={{ordererInfo, data}} />
+                    <InfoList list={{ordererInfo, data: (!utils.empty(data) ? data['total'] : null)}} />
                     
-                    <DataList datalist={{}} />
+                    {!utils.empty(data) &&
+                        <DataList datalist={data.orders} />
+                    }
                 </InfoCard>
 				{del_open && (
 					<Modal dimmer='blurring'

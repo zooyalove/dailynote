@@ -9,9 +9,12 @@ const cx = classNames.bind(styles);
 const ListRow = ({
     data
 }) => {
-    const columns = data.map((c, i) => {
-        if ( i === 0 ) return (<ListColumn key={i} center >{c}</ListColumn>);
-        return (<ListColumn key={i}>{c}</ListColumn>);
+    console.log('List Row data :', data);
+
+    const columns = Object.keys(data).map((k, i) => {
+        if ( k === '_id' || k === '__v' ) return '';
+        // return (<ListColumn key={i} center >{c}</ListColumn>);
+        return (<ListColumn key={i} text={data[k]} />);
     });
 
     return (

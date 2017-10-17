@@ -40,7 +40,7 @@ const InfoList = ({
     return (
         <div className={cx('infolist_wrapper')}>
             {infos}
-            <InfoLabel label="최근 1년간 주문상황" info={(utils.empty(data) ? '등록된 건수가 없습니다' : data.totalPrice.toLocaleString()+'원 ('+data.count+'건)')} />
+            <InfoLabel label="최근 1년간 주문상황" info={(utils.empty(data) ? '등록된 건수가 없습니다' : data.price.toLocaleString()+'원 ('+data.count+'건)')} />
             <InfoLabel label="등록일자" info={(date.created === undefined ? '' : new Date(date.created).toLocaleString())} />
         </div>
     );

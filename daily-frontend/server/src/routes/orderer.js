@@ -181,25 +181,55 @@ router.get('/:id', (req, res) => {
 
 		const c_year = (new Date()).getFullYear();
 
-		OrderNote.aggregate([
-			{ $match: 
-				{ $and: [
-					{'orderer.id': req.params.id},
-					{'delivery.date': {"$gte": new Date(c_year, 0, 1), "$lt": new Date((c_year+1), 0, 1)}}
-				]}
-			},
-			{ $group: {
-				_id: null,
-				totalPrice: { $sum: '$delivery.price' },
-				count: { $sum: 1 }
-			}}
-		], (err, result) => {
-			if (err) throw err;
+		// OrderNote.aggregate([
+		// 	{ $match: 
+		// 		{ $and: [
+		// 			{'orderer.id': req.params.id},
+		// 			{'delivery.date': {"$gte": new Date(c_year, 0, 1), "$lt": new Date((c_year+1), 0, 1)}}
+		// 		]}
+		// 	},
+		// 	{ $group: {
+		// 		_id: null,
+		// 		totalPrice: { $sum: '$delivery.price' },
+		// 		count: { $sum: 1 }
+		// 	}}
+		// ], (err, order_total_res) => {
+		// 	if (err) throw err;
+
+		// 	return res.json({
+		// 		ordererInfo: orderer[0],
+		// 		data: order_total_res[0]
+		// 	});
+		// });
+		OrderNote.find({
+			$and: [
+				{'orderer.id': req.params.id},
+				{'delivery.date': { $gte: (new Date(c_year, 0, 1)), $lt: (new Date((c_year+1), 0, 1))}}
+			]
+		}, {
+			__v: 0,
+			orderer: 0,
+			date: 0,
+			memo: 0
+		}, (err2, orders_res) => {
+			const data = {};
+
+			if (orders_res.length > 0) {
+				let totalPrice = 0;
+				let count = 0;
+
+				orders_res.forEach((order) => {
+					totalPrice += order['delivery'].price;
+					count++;
+				});
+
+				data['total'] = {price: totalPrice, count};
+				data['orders'] = orders_res;
+			}
 
 			return res.json({
-				success: true,
 				ordererInfo: orderer[0],
-				data: result[0]
+				data
 			});
 		});
 	});

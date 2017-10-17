@@ -1,3 +1,5 @@
+import lodash from 'lodash';
+
 export const map = (y, i) => {
 	const ret = {};
 	ret['key'] = i;
@@ -21,5 +23,6 @@ export const numberArrayGenerator = (first, last, cb) => {
 };
 
 export const empty = (str) => {
-	return !!(!str || str.length === 0 || str === "");
+	return lodash.isEmpty(str);
+	// return !!(!str || str.length === 0 || str === "");
 };
