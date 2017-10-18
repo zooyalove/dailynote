@@ -1,13 +1,10 @@
 .contents-wrapper {
     display: block;
-    position: fixed;
-    top: $header-height;
-    left: $header-height;
-    right: 0;
-    bottom: 0;
+    padding-top: $header-height;
+    padding-left: $header-height;
     padding-bottom: 2rem;
-    z-index: 0;
     overflow-y: auto;
+    height: 100%;
     background: lighten(gray, 42%);
 
     .subcontents-wrapper {

@@ -41,7 +41,8 @@ class OrdererInfoRoute extends Component {
             },
             data: null,
             del_open: false,
-            hide: true
+            hide: true,
+            random: Math.floor(Math.random() * 5)
         };
     }
     componentWillMount() {
@@ -56,7 +57,10 @@ class OrdererInfoRoute extends Component {
         if (userid !== nextProps.params.userid &&
             nextProps.params.userid !== undefined) {
             this.handleOrdererInfo(nextProps.params.userid);
-            this.setState({hide: true});
+            this.setState({
+                hide: true,
+                random: Math.floor(Math.random() * 5)
+            });
         }
     }
 
@@ -120,8 +124,7 @@ class OrdererInfoRoute extends Component {
     }
 
     render() {
-        const random = Math.floor(Math.random() * 5);
-        const { ordererInfo, data, del_open, hide } = this.state;
+        const { ordererInfo, data, del_open, hide, random } = this.state;
         const { handleModify, handleDelete, handleCancel, handleMoreClick } = this;
 
         return (

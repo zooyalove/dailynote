@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Input, Dimmer } from 'semantic-ui-react';
+import { Input, Dimmer, Icon } from 'semantic-ui-react';
 
 import * as headerAction from 'redux/modules/base/header';
 import * as ordererAction from 'redux/modules/base/orderer';
@@ -9,11 +9,16 @@ import * as ordererAction from 'redux/modules/base/orderer';
 import Header, { Logo, UserInfo } from 'components/Header';
 import Sidebar, { MenuItem } from 'components/Sidebar';
 import Contents from 'components/Content';
+import Fab from 'components/Fab';
 
 import * as user from 'helpers/WebApi/user';
 import storage from 'helpers/storage';
 
 class App extends Component {
+
+	state = {
+		scrolling: false
+	}
 
 	static contextTypes = {
 		router: React.PropTypes.object
@@ -33,10 +38,25 @@ class App extends Component {
 			});
 	}
 
+	componentDidMount() {
+		const { status: { header } } = this.props;
+
+		if (header.get('visible')) {
+			window.addEventListener('scroll', this.handleScroll);
+		}
+	}
+
 	componentWillUnmount() {
+		const { status: { header } } = this.props;
+		
+		if (header.get('visible')) {
+			window.removeEventListener('scroll', this.handleScroll);
+		}
+
 		if(storage.get('loginInfo')) {
 			storage.remove('loginInfo');
 		}
+
 	}
 
 	handleLogOut = async () => {
@@ -48,15 +68,29 @@ class App extends Component {
 		}
 	}
 
+	handleScroll = (e) => {
+		if (window.scrollY > 220 && !this.state.scrolling) {
+			this.setState({scrolling: true});
+		} else if (window.scrollY <= 210 && this.state.scrolling) {
+			this.setState({scrolling: false});
+		}
+	}
+
+	handleFabClick = () => {
+		window.scrollTo(0, 0);
+	}
+
     render() {
-    	const { handleLogOut } = this;
-    	const { children, status: { header, orderer } } = this.props;
+    	const { handleLogOut, handleFabClick } = this;
+		const { children, status: { header, orderer } } = this.props;
+		const { scrolling } = this.state;
 		const visible = header.get('visible');
 		const username = storage.get('loginInfo') ? storage.get('loginInfo')['username'] : '';
 
         return (
 			<div>
-			{visible && (
+			{visible
+			? (
 				<div>
 					<Header>
 						<Logo />
@@ -71,6 +105,7 @@ class App extends Component {
 					</Sidebar>
 					<Contents>
 						{children}
+						{scrolling && <Fab onAction={handleFabClick}><Icon name="angle double up" size="big"/></Fab> }
 					</Contents>
 	                {orderer.getIn(['modal', 'fetch']) && 
 	                <Dimmer active page>
@@ -78,9 +113,9 @@ class App extends Component {
 	                </Dimmer>
 	                }
 				</div>
-				)
+			)
+			: children
 			}
-			{!visible && children}
 			</div>
         );
     }

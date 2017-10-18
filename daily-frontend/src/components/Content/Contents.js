@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Contents = ({ 
+const Contents = ({
     children
 }) => {
     return (

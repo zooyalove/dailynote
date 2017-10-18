@@ -23,7 +23,7 @@ a.menuitem {
     {
         &:after {
             content: "";
-            background: $oc-gray-1;
+            background: lighten(gray, 42%);
             position: absolute;
             right: -0.4rem;
             top: 50%;
