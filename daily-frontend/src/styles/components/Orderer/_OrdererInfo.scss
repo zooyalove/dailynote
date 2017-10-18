@@ -6,7 +6,7 @@
     right: 0px;
     bottom: 0px;
     padding: 1.5rem 1.5rem 0;
-    background: radial-gradient(circle at top left, rgba($oc-yellow-8, .5) 10%, rgba($oc-blue-7, .7)), linear-gradient(to left bottom, red 10%, rgba(14, 170, 0, 0.6) 70%, rgba(pink, .3));
+    // background: radial-gradient(circle at top left, rgba($oc-yellow-8, .5) 10%, rgba($oc-blue-7, .7)), linear-gradient(to left bottom, red 10%, rgba(14, 170, 0, 0.6) 70%, rgba(pink, .3));
 
     &.noid {
         text-align: center;
@@ -24,11 +24,12 @@
     }
 
     .orderer_info {
-        margin: 0px auto;
+        margin: 0px auto 1.5rem;
         max-width: 900px;
         box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, .25);
         position: relative;
         background: white;
+        padding-bottom: .5rem;
 
         @import 'InfoCard';
     }

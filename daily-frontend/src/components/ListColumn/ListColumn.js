@@ -6,21 +6,24 @@ const cx = classNames.bind(styles);
 
 const ListColumn = ({
     text,
+    bold,
     center,
+    right,
+    address,
+    date,
     className,
-    children
+    children,
+    ...rest
 }) => {
-    let display_text = '';
-
-    if (Object.keys(text).length > 0) {
-        display_text = Object.keys(text).map((t, i) => {
-            return <span key={i}>{text[t]}<br/></span>;
-        });
-    }
 
     return (
-        <div className={cx('list-column', { center }, className)}>
-            {display_text}
+        <div className={cx('list-column',
+                { bold, center, right, address, date },
+                className)}
+                {...rest}
+                title={text || children}
+        >
+            {text || children}
         </div>
     );
 };

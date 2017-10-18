@@ -1,7 +1,11 @@
 .list-row {
-    height: 1.5rem;
+    display: flex;
+    padding: 5px 0;
 }
 
 .list-row + .list-row {
-    border-top: 1px solid darkgray;
+    border-top: 1px solid lightgray;
+}
+.list-row:nth-child(odd) {
+    background-color: lighten(lightgray, 10%);
 }

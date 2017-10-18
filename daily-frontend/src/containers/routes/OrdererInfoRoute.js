@@ -40,7 +40,8 @@ class OrdererInfoRoute extends Component {
                 date: ''
             },
             data: null,
-            del_open: false
+            del_open: false,
+            hide: true
         };
     }
     componentWillMount() {
@@ -55,12 +56,12 @@ class OrdererInfoRoute extends Component {
         if (userid !== nextProps.params.userid &&
             nextProps.params.userid !== undefined) {
             this.handleOrdererInfo(nextProps.params.userid);
+            this.setState({hide: true});
         }
     }
 
     handleOrdererInfo = async (id) => {
         const res = await api.getOrdererById({id});
-        console.log(res);        
 
         if (res.status === 200 && !!(res.data)) {
             const { data } = res;
@@ -74,6 +75,12 @@ class OrdererInfoRoute extends Component {
 
     handleModify = () => {
 
+    }
+
+    handleMoreClick = () => {
+        const { hide } = this.state;
+
+        this.setState({hide: !hide});
     }
 
     handleDelete = async () => {
@@ -114,20 +121,22 @@ class OrdererInfoRoute extends Component {
 
     render() {
         const random = Math.floor(Math.random() * 5);
-        const { ordererInfo, data, del_open } = this.state;
-        const { handleModify, handleDelete, handleCancel } = this;
+        const { ordererInfo, data, del_open, hide } = this.state;
+        const { handleModify, handleDelete, handleCancel, handleMoreClick } = this;
 
         return (
             <OrdererInfo>
                 <InfoCard backgroundImage={backImages[random]}
                         name={ordererInfo.name}
                         moreButton={!utils.empty(data) ? true : false}
+                        onMoreClick={handleMoreClick}
                         onDelete={() => this.setState({del_open: true})}
-                        onModify={handleModify}>
+                        onModify={handleModify}
+                >
                     <InfoList list={{ordererInfo, data: (!utils.empty(data) ? data['total'] : null)}} />
                     
                     {!utils.empty(data) &&
-                        <DataList datalist={data.orders} />
+                        <DataList datalist={data.orders} hide={hide} />
                     }
                 </InfoCard>
 				{del_open && (

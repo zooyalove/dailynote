@@ -106,7 +106,6 @@ class NullInfoRoute extends Component {
     componentDidMount() {
         api.getOrdererStatistics()
             .then((res) => {
-                console.log(res);
                 const { priceData, yearData } = res.data;
 
                 const yearValues = {};

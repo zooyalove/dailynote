@@ -208,7 +208,9 @@ router.get('/:id', (req, res) => {
 			]
 		}, {
 			__v: 0,
+			_id: 0,
 			orderer: 0,
+			'delivery.text': 0,
 			date: 0,
 			memo: 0
 		}, (err2, orders_res) => {

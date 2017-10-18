@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Contents = ({ children }) => {
+const Contents = ({ 
+    children
+}) => {
     return (
         <div className="contents-wrapper">
             {children}
