@@ -181,26 +181,6 @@ router.get('/:id', (req, res) => {
 
 		const c_year = (new Date()).getFullYear();
 
-		// OrderNote.aggregate([
-		// 	{ $match: 
-		// 		{ $and: [
-		// 			{'orderer.id': req.params.id},
-		// 			{'delivery.date': {"$gte": new Date(c_year, 0, 1), "$lt": new Date((c_year+1), 0, 1)}}
-		// 		]}
-		// 	},
-		// 	{ $group: {
-		// 		_id: null,
-		// 		totalPrice: { $sum: '$delivery.price' },
-		// 		count: { $sum: 1 }
-		// 	}}
-		// ], (err, order_total_res) => {
-		// 	if (err) throw err;
-
-		// 	return res.json({
-		// 		ordererInfo: orderer[0],
-		// 		data: order_total_res[0]
-		// 	});
-		// });
 		OrderNote.find({
 			$and: [
 				{'orderer.id': req.params.id},
@@ -213,6 +193,10 @@ router.get('/:id', (req, res) => {
 			'delivery.text': 0,
 			date: 0,
 			memo: 0
+		}, {
+			sort: {
+				'delivery.date': -1	// 배송일자 내림차순 정렬
+			}
 		}, (err2, orders_res) => {
 			const data = {};
 
