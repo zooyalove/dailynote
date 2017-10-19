@@ -31,12 +31,13 @@ class OrdererRoute extends Component {
         return {
             open: () => {
                 if (!orderer.getIn(['modal', 'open'])) {
-                    OrdererActions.openAddOrdererModal(true);
+                    OrdererActions.openAddOrdererModal({open: true, mode: 'add'});
                 }
             },
 
             close: () => {
-                OrdererActions.openAddOrdererModal(false);
+                OrdererActions.setOrdererModifyInfo({info: null});
+                OrdererActions.openAddOrdererModal({open: false});
             }
         };
     })()
@@ -82,12 +83,16 @@ class OrdererRoute extends Component {
                     </OrdererList>
                 </OrdererWidget>
                 {children}
-                <OrdererAddModal
-                    open={orderer.getIn(['modal', 'open'])}
-                    className="bounceInUp"
-                    onClose={handleModal.close}
-                    onOrdererAdd={handleOrdererAdd}
-                />
+                {orderer.getIn(['modal', 'open']) &&
+                    <OrdererAddModal
+                        open={orderer.getIn(['modal', 'open'])}
+                        mode={orderer.getIn(['modal', 'mode'])}
+                        info={orderer.get('info')}
+                        className="bounceInUp"
+                        onClose={handleModal.close}
+                        onOrdererAdd={handleOrdererAdd}
+                    />
+                }
 			</div>
 		);
 	}

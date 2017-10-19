@@ -103,12 +103,12 @@ class WriteRoute extends Component {
         return {
             open: () => {
                 if (!orderer.getIn(['modal', 'open'])) {
-                    OrdererActions.openAddOrdererModal(true);
+                    OrdererActions.openAddOrdererModal({open: true, mode: 'add'});
                 }
             },
 
             close: () => {
-                OrdererActions.openAddOrdererModal(false);
+                OrdererActions.openAddOrdererModal({open: false});
             }
         };
     })()
@@ -358,7 +358,8 @@ class WriteRoute extends Component {
 					</Form.Group>
 				</Form>
 				<OrdererAddModal
-                    open={orderer.getIn(['modal', 'open'])}
+					open={orderer.getIn(['modal', 'open'])}
+					mode={orderer.getIn(['modal', 'mode'])}
                     className="bounceInUp"
                     onClose={handleModal.close}
 					onOrdererAdd={handleOrdererAdd}

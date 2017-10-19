@@ -4,28 +4,42 @@ import _ from 'lodash';
 
 /* actions */
 const ORDERER_ADD_MODAL_OPEN = "orderer/ORDERER_ADD_MODAL_OPEN";
+const ORDERER_MODIFY_INFO_SET = "orderer/ORDERER_MODIFY_INFO_SET";
 const ORDERER_DATA_FETCHING = "orderer/ORDERER_DATA_FETCHING";
 const ORDERER_DATA_SET = "orderer/ORDERER_DATA_SET";
 
 /* action creators */
 export const openAddOrdererModal = createAction(ORDERER_ADD_MODAL_OPEN);
+export const setOrdererModifyInfo = createAction(ORDERER_MODIFY_INFO_SET);
 export const fetchingOrdererData = createAction(ORDERER_DATA_FETCHING);
 export const setOrdererData = createAction(ORDERER_DATA_SET);
 
 const initialState = Map({
     modal: Map({
+        mode: '',
         open: false,
         fetch: false,
         message: ''
     }),
+    info: null,
     data: List([])
 });
 
 export default handleActions({
 	[ORDERER_ADD_MODAL_OPEN]: (state, action) => {
-        const open = action.payload;
+        const { open, mode } = action.payload;
 
-		return state.setIn(['modal', 'open'], open);
+        let m = '';
+
+        if (typeof mode !== 'undefined') m = mode;
+
+        return state.setIn(['modal', 'open'], open)
+                    .setIn(['modal', 'mode'], m);
+    },
+    [ORDERER_MODIFY_INFO_SET]: (state, action) => {
+        const { info } = action.payload;
+
+        return state.set('info', info);
     },
 	[ORDERER_DATA_FETCHING]: (state, action) => {
         const { fetch, message } = action.payload;

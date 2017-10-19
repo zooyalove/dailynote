@@ -312,9 +312,8 @@ router.post('/', (req, res) => {
 	ERROR CODES
 		1 : INVALID ID
 		2 : BAD ORDERER NAME
-		3 : BAD PHONE NUMBER
-		4 : PERMISSION DENIED
-		5 : ORDERER NOT EXISTS
+		3 : PERMISSION DENIED
+		4 : ORDERER NOT EXISTS
 */
 router.put('/:id', (req, res) => {
 	const session = req.session;
@@ -322,12 +321,10 @@ router.put('/:id', (req, res) => {
 	if (typeof session.loginInfo === 'undefined') {
 		return res.status(401).json({
 			error: 'PERMISSION DENIED',
-			code: 4
+			code: 3
 		});
 	}
 	
-	let phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
-
 	if(!shortid.isValid(req.params.id)) {
         return res.status(400).json({
             error: "INVALID ID",
@@ -342,20 +339,13 @@ router.put('/:id', (req, res) => {
     	});
     }
 
-    if (!phoneRegex.test(req.body.phone)) {
-    	return res.status(400).json({
-    		error: 'BAD PHONE NUMBER',
-    		code: 3
-    	});
-    }
-
     Orderer.findById(req.params.id, (err, orderer) => {
 		if (err) throw err;
 
 		if (!orderer) {
 			return res.status(400).json({
 				error: "ORDERER NOT EXISTS",
-				code: 5
+				code: 4
 			});
 		}
 
