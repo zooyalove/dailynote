@@ -29,8 +29,6 @@ class OrdererAddModal extends Component {
     componentWillMount() {
         const { info } = this.props;
 
-        console.log(info);
-
         if (info !== null && info !== undefined) {
             this.setState({data: {...info}});
         }
@@ -81,8 +79,6 @@ class OrdererAddModal extends Component {
                 description
             }
         } = this.state;
-
-        // console.log(this.state, this.props);
 
         return (
             <Modal

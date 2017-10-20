@@ -23,7 +23,7 @@ const label_maps = {
     manager_phone: '담당자 전화번호',
     address: '주 소',
     def_ribtext: '리본글씨',
-    description: '설명'
+    description: '설 명'
 };
 
 const InfoList = ({

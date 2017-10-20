@@ -373,7 +373,7 @@ router.put('/:id', (req, res) => {
 			
 			return res.json({
 				success: true,
-				data: orderer
+				orderer
 			});
 		});
 	});

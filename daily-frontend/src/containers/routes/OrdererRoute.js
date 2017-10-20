@@ -43,19 +43,16 @@ class OrdererRoute extends Component {
     })()
 
     handleOrdererAdd = async (formdata) => {
-		const { OrdererActions } = this.props;
-		const { handleModal } = this;
+		const { OrdererActions, status: { orderer } } = this.props;
+		const { handleModal, handleAdd, handleModify } = this;
 
 		OrdererActions.fetchingOrdererData({fetch: true, message: (<Loader>거래처 정보 업데이트중...</Loader>)});
 
-		await api.addOrderer(formdata)
-			.then( (res) => {
-				console.log('Orderer Add : ', res);
-				const orderer = res.data.orderer;
-				OrdererActions.setOrdererData({orderer});
-			}, (err) => {
-				console.log(err.response.data.error);
-			});
+        if (orderer.getIn(['modal', 'mode']) === 'add') {
+            await handleAdd(formdata);
+        } else {
+            await handleModify(formdata);
+        }
 		
 		OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" color="green" /> 거래처 등록완료!!!</div>)});
 
@@ -63,8 +60,34 @@ class OrdererRoute extends Component {
 			OrdererActions.fetchingOrdererData({fetch: false, message: ''});
 			handleModal.close();
 		}, 1500);
-	}
+    }
+    
+    handleAdd = (formdata) => {
+        const { OrdererActions } = this.props;
 
+		api.addOrderer(formdata)
+        .then( (res) => {
+            console.log('Orderer Add : ', res);
+            const orderer = res.data.orderer;
+            OrdererActions.setOrdererData({orderer});
+        }, (err) => {
+            console.log(err.response.data.error);
+        });
+    }
+
+    handleModify = (formdata) => {
+    	const { OrdererActions } = this.props;
+
+		api.modifyOrderer(formdata._id, formdata)
+			.then( (res) => {
+				console.log('Orderer Modify : ', res);
+				const orderer = res.data.orderer;
+				OrdererActions.setOrdererData({orderer});
+			}, (err) => {
+				console.log(err.response.data.error);
+			});
+    }
+    
 	render() {
         const { handleModal, handleOrdererAdd } = this;
         const { children, status: { orderer } } = this.props;

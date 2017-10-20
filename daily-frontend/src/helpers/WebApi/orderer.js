@@ -56,7 +56,7 @@ export const modifyOrderer = (id, {
 		def_ribtext,
 		description
 	});
-}
+};
 
 // 특정 거래처 정보 삭제하기
 export const deleteOrderer = ({id}) => {

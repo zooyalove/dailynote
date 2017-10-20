@@ -53,7 +53,6 @@ class OrdererInfoRoute extends Component {
 
     componentWillReceiveProps(nextProps) {
         const { userid } = this.props.params;
-        console.log(userid, nextProps.params.userid);
 
         if (userid !== nextProps.params.userid &&
             nextProps.params.userid !== undefined) {
@@ -63,11 +62,6 @@ class OrdererInfoRoute extends Component {
                 random: Math.floor(Math.random() * 5)
             });
         }
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        // return nextProps.params.userid === this.props.params.userid;
-        return true;
     }
 
     handleOrdererInfo = async (id) => {
@@ -84,54 +78,32 @@ class OrdererInfoRoute extends Component {
     }
 
     handleModal = (() => {
-        const { OrdererActions, params, status: { orderer } } = this.props;
+        const { OrdererActions, status: { orderer } } = this.props;
+
         return {
             open: () => {
                 if (!orderer.getIn(['modal', 'open'])) {
 
-                    console.log(params.userid);
+                    const info = this.getChangeInfo();
 
-                    const info = orderer.get('data')
-                                        .filter((d) => {
-                                            return d.get('_id') === params.userid;
-                                        })
-                                        .first()
-                                        .toJS();
-                    
                     OrdererActions.setOrdererModifyInfo({info});
                     OrdererActions.openAddOrdererModal({open: true, mode: 'mod'});
                 }
-            },
-
-            close: () => {
-                OrdererActions.setOrdererModifyInfo({info: null});
-                OrdererActions.openAddOrdererModal({open: false});
             }
         };
     })()
 
-    handleModify = async (formdata) => {
-    	const { OrdererActions } = this.props;
-		const { handleModal } = this;
+    getChangeInfo = () => {
+        const { status: { orderer }, params } = this.props;
 
-		OrdererActions.fetchingOrdererData({fetch: true, message: (<Loader>거래처 정보 업데이트중...</Loader>)});
-
-		await api.modifyOrderer(formdata)
-			.then( (res) => {
-				console.log('Orderer Modify : ', res);
-				const orderer = res.data.orderer;
-				OrdererActions.setOrdererData({orderer});
-			}, (err) => {
-				console.log(err.response.data.error);
-			});
-		
-		OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" color="green" /> 거래처 등록완료!!!</div>)});
-
-		setTimeout(() => {
-			OrdererActions.fetchingOrdererData({fetch: false, message: ''});
-			handleModal.close();
-		}, 1500);
-	}
+        const info = orderer.get('data')
+                            .filter((d) => {
+                                return d.get('_id') === params.userid;
+                            })
+                            .first()
+                            .toJS();
+        return info;
+    }
 
     handleMoreClick = () => {
         const { hide } = this.state;
