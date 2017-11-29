@@ -54,7 +54,7 @@ class OrdererRoute extends Component {
             await handleModify(formdata);
         }
 		
-		OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" color="green" /> 거래처 등록완료!!!</div>)});
+		OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" color="green" /> 거래처 {(orderer.getIn(['modal', 'mode']) === 'add') ? '등록' : '수정'}완료!!!</div>)});
 
 		setTimeout(() => {
 			OrdererActions.fetchingOrdererData({fetch: false, message: ''});
