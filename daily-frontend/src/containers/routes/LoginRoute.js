@@ -105,6 +105,7 @@ class LoginRoute extends Component {
                 const userInfo = info.data.info;
 
                 LoginActions.completeLoginAuth();
+                LoginActions.clearLoginFormInfo();
                 storage.set('loginInfo', userInfo);
 
                 LoginActions.setLoginAuthMessage({
