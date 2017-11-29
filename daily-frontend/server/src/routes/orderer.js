@@ -214,7 +214,6 @@ router.get('/:id', (req, res) => {
 			}
 
 			return res.json({
-				ordererInfo: orderer[0],
 				data
 			});
 		});
