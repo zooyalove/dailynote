@@ -29,16 +29,7 @@ class OrdererInfoRoute extends Component {
         super(props);
 
         this.state = {
-            ordererInfo: {
-                name: '',
-                phone: '',
-                manager: '',
-                manager_phone: '',
-                address: '',
-                def_ribtext: '',
-                description: '',
-                date: ''
-            },
+            index: -1,
             data: null,
             del_open: false,
             hide: true,
@@ -65,13 +56,17 @@ class OrdererInfoRoute extends Component {
     }
 
     handleOrdererInfo = async (id) => {
+        const { status: { orderer } } = this.props;
+
         const res = await api.getOrdererById({id});
 
         if (res.status === 200 && !!(res.data)) {
             const { data } = res;
+
+            const i = orderer.get('data').findIndex( d => d.get('_id') === id );
             
             this.setState({
-                ordererInfo: data.ordererInfo,
+                index: i,
                 data: data.data
             });
         }
@@ -113,17 +108,19 @@ class OrdererInfoRoute extends Component {
 
     handleDelete = async () => {
         const { OrdererActions, status: { orderer }, params: { userid } } = this.props;
-        const { ordererInfo } = this.state;
+        const { index } = this.state;
 
         this.setState({del_open: false});
 
-        OrdererActions.fetchingOrdererData({fetch: true, message: (<Loader>{ordererInfo.name} 님의 정보를 삭제중...</Loader>)});
+        const name = orderer.get('data').get(index).get('name');
+
+        OrdererActions.fetchingOrdererData({fetch: true, message: (<Loader>{name} 님의 정보를 삭제중...</Loader>)});
 
         await api.deleteOrderer({id: userid})
             .then((res) => {
                 console.log('res :', res);
                 
-                OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" size="big" color="green" />{ordererInfo.name} 님의 정보를 삭제했습니다...</div>)});
+                OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" size="big" color="green" />{name} 님의 정보를 삭제했습니다...</div>)});
 
                 setTimeout(() => {
                     const restList = orderer.get('data').filter((d) => d.get('_id') !== userid);
@@ -132,12 +129,13 @@ class OrdererInfoRoute extends Component {
 
                     OrdererActions.fetchingOrdererData({fetch: false, message: ''});
 
+                    this.setState({ index: -1 });
                     this.context.router.push('/orderer');
                 }, 3000);
             })
             .catch((err) => {
                 console.log(err);                
-                OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="cancel" size="big" color="red" />{ordererInfo.name} 님의 정보를 삭제하지 못했습니다...</div>)});
+                OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="cancel" size="big" color="red" />{name} 님의 정보를 삭제하지 못했습니다...</div>)});
 
                 setTimeout(() => OrdererActions.fetchingOrdererData({fetch: false, message: ''}), 3000);
             });
@@ -148,8 +146,13 @@ class OrdererInfoRoute extends Component {
     }
 
     render() {
-        const { ordererInfo, data, del_open, hide, random } = this.state;
+        const { status: { orderer } } = this.props;
+        const { index, data, del_open, hide, random } = this.state;
         const { handleModal, handleDelete, handleCancel, handleMoreClick } = this;
+
+        if (index === -1) return null;
+
+        const ordererInfo = orderer.get('data').get(index).toJS();
 
         return (
             <OrdererInfo>

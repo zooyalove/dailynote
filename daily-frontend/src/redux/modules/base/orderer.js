@@ -55,11 +55,14 @@ export default handleActions({
         if (orderer.length === undefined && orderer.size === undefined) {
             if (!data.isEmpty()) {
                 // console.log("무언가 있을때...");
-                if (data.findIndex((d) => d.get('name') === orderer.name) === -1) {
+                const index = data.findIndex((d) => d.get('_id') === orderer._id);
+
+                if (index === -1) {
                     data = data.insert(0, fromJS(orderer));
                     return state.set('data', data);
                 } else {
-                    return state;
+                    data = data.update(index, (v) => fromJS(orderer));
+                    return state.set('data', data);
                 }
             } else {
                 // console.log("무언가 없을때...");
