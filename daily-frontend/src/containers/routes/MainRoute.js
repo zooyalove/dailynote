@@ -26,7 +26,7 @@ class MainRoute extends Component {
 	render() {
 		return (
 			<div className="subcontents-wrapper">
-				MainRoute 페이지입니다.
+				<h3>오늘의 주문내역</h3>
 			</div>
 		);
 	}

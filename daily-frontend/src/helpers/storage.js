@@ -1,25 +1,25 @@
 const storage = {};
 
 storage.set = (key, object) => {
-    localStorage[key] = (typeof object) === 'string' ? object : JSON.stringify(object);
+    sessionStorage[key] = (typeof object) === 'string' ? object : JSON.stringify(object);
 }
 
 storage.get = (key) => {
-    if (!localStorage[key]) {
+    if (!sessionStorage[key]) {
         return null;
     }
 
     try {
-        const parsed = JSON.parse(localStorage[key]);
+        const parsed = JSON.parse(sessionStorage[key]);
         return parsed;
     } catch(e) {
-        return localStorage[key];
+        return sessionStorage[key];
     }
 }
 
 storage.remove = (key) => {
-    if (localStorage[key]) {
-        localStorage.removeItem(key);
+    if (sessionStorage[key]) {
+        sessionStorage.removeItem(key);
     }    
 }
 
