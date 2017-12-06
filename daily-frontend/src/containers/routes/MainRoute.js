@@ -27,12 +27,15 @@ class MainRoute extends Component {
 
 	getTodayData = async () => {
 		const result = await api.getTodayNotes();
-		console.log(result);
+		return (!result.data) ? null : result.data;
 	}
 
 	render() {
 		const { getTodayData } = this;
-		getTodayData().catch( (err) => console.log(err) );
+		const data = getTodayData();
+		if (data) {
+			
+		}
 
 		return (
 			<div className="subcontents-wrapper">
