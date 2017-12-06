@@ -14,3 +14,7 @@ export const getAllNotes = () => {
 export const getNote = (id, params={}) => {
     return axios.get(`/api/note/${id}`, params);
 };
+
+export const getTodayNotes = () => {
+    return axios.get('/api/note/today');
+}

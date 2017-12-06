@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import moment from 'moment';
 import OrderNote from './../models/OrderNote';
 import util from './../helper';
 
@@ -19,7 +20,7 @@ router.post('/', (req, res) => {
     // let phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
 
     if (typeof req.session.loginInfo === 'undefined') {
-        res.status(401).json({
+        return res.status(401).json({
             error: 'PERMISSION DENIED',
             code: 2
         });
@@ -92,7 +93,7 @@ router.post('/', (req, res) => {
 router.get('/', (req, res) => {
 
     if (typeof req.session.loginInfo === 'undefined') {
-        res.status(401).json({
+        return res.status(401).json({
             error: 'PERMISSION DENIED',
             code: 1
         });
@@ -125,6 +126,46 @@ router.get('/', (req, res) => {
 });
 
 /*
+    GET /api/note/today
+    특정 장부를 조회
+
+    ERROR CODES
+        2 : PERMISSION DENIED
+        3 : NO RESOURCE
+*/
+router.get('/today', (req, res) => {
+    if (typeof req.session.loginInfo === 'undefined') {
+        return res.status(401).json({
+            error: 'PERMISSION DENIED',
+            code: 2
+        });
+    }
+
+    const today = moment();
+    today.hour(1).minute(0);
+    
+    const tomorrow = moment(today).add(1, 'day');
+    tomorrow.hour(0).minute(0);
+
+    OrderNote.find({
+        'delivery.date': { $gte: today.toDate(), $lt: tomorrow.toDate() }
+    }, (err, notes) => {
+        if (err) throw err;
+
+        if (notes.length === 0) {
+            return res.status(400).json({
+                error: 'NO RESOURCE',
+                code: 3
+            });
+        }
+
+        return res.json({
+            data: notes
+        });
+    })
+});
+
+/*
     GET /api/note/:id
     특정 장부를 조회
 
@@ -135,7 +176,7 @@ router.get('/', (req, res) => {
 */
 router.get('/:id', (req, res) => {
     if (typeof req.session.loginInfo === 'undefined') {
-        res.status(401).json({
+        return res.status(401).json({
             error: 'PERMISSION DENIED',
             code: 2
         });
