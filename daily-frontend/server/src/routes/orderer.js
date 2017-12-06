@@ -142,7 +142,7 @@ router.get('/stat', (req, res) => {
 
 /*
 	GET /api/orderer/:id
-	특정 거래처 정보를 조회
+	특정 거래처 정보(1년간의 데이터)를 조회
 
 	ERROR CODES
 		1 : INVALID ID
