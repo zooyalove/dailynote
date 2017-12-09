@@ -17,7 +17,8 @@ class MainRoute extends Component {
 	}
 	
 	state = {
-		datas: null
+		datas: null,
+		fetch: true
 	}
 
 	componentWillMount() {
@@ -39,21 +40,34 @@ class MainRoute extends Component {
 
 	getTodayData = async () => {
 		const result = await api.getTodayNotes();
-		if (result.data !== undefined) { 
-			this.setState({datas: result.data.data});
-		}
+		// console.log(result);
+
+		const state = (result && result.data !== undefined)
+						? {	datas: result.data.data,
+							fetch: false }
+						: { fetch: false };
+
+		this.setState(state);
 	}
 
 	render() {
-		const { state: { datas } } = this;
+		const { state: { datas, fetch } } = this;
+		let total = 0;
+		if (datas) {
+			datas.forEach( (d) => {
+				total += d.delivery.price;
+			});
+		}
+
 		const lists = (<DataList datalist={datas} ordererView />);
 
 		return (
 			<div className="subcontents-wrapper">
 				<h3>오늘 ({moment().format("YYYY-MM-DD")})의 주문내역</h3>
+				<div className="total-price-wrapper">총합계 <span className="price">{total.toLocaleString()}</span>원</div>
 				{datas
 					? lists
-					: <Loader active />
+					: (fetch ? <Loader active /> : null)
 				}
 			</div>
 		);
