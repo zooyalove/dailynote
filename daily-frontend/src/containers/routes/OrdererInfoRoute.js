@@ -166,7 +166,7 @@ class OrdererInfoRoute extends Component {
                     <InfoList list={{ordererInfo, data: (!utils.empty(data) ? data['total'] : null)}} />
                     
                     {!utils.empty(data) &&
-                        <DataList datalist={data.orders} hide={hide} />
+                        <DataList datalist={data.orders} hide={hide} animation />
                     }
                 </InfoCard>
 				{del_open && (

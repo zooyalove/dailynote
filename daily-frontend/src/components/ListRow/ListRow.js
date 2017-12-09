@@ -9,10 +9,26 @@ const cx = classNames.bind(styles);
 
 const ListRow = ({
     data,
+    ordererView,
     children
 }) => {
-    const { delivery, receiver } = data;
-    // console.log('List Row data :', data);
+    if (!data) {
+        return (
+            <div className={cx('list-row')}>
+                <ListColumn text="해당되는 내용이 없습니다!" center red />
+            </div>
+        );
+    }
+
+    const { delivery, receiver, orderer } = data;
+
+    let oData = null;
+    if (ordererView) {
+        oData = Object.keys(orderer).map((o, i) => {
+            if (o === '_id' || o === 'id') return null;
+            return <ListColumn key={i} text={orderer[o]} center />;
+        });
+    }
 
     const deliveries = Object.keys(delivery).map((d, i) => {
         if (d === 'date') {
@@ -34,6 +50,7 @@ const ListRow = ({
 
     return (
         <div className={cx('list-row')}>
+            {ordererView && oData}
             {recv}
             {deliveries}
         </div>

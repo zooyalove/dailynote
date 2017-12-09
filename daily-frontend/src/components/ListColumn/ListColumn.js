@@ -11,6 +11,7 @@ const ListColumn = ({
     right,
     address,
     date,
+    red,
     className,
     children,
     ...rest
@@ -18,7 +19,7 @@ const ListColumn = ({
 
     return (
         <div className={cx('list-column',
-                { bold, center, right, address, date },
+                { bold, center, right, address, date, red },
                 className)}
                 {...rest}
                 title={text || children}

@@ -21,6 +21,9 @@
     &.date {
         flex: 2;
     }
+    &.red {
+        color: red;
+    }
 }
 .list-column + .list-column {
     border-left: 1px solid lighten(lightgray, 5%);
