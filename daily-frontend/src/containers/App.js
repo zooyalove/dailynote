@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Input, Dimmer, Icon } from 'semantic-ui-react';
+import { Dimmer, Icon } from 'semantic-ui-react';
 
 import * as headerAction from 'redux/modules/base/header';
 import * as ordererAction from 'redux/modules/base/orderer';
@@ -95,7 +95,6 @@ class App extends Component {
 					<Header>
 						<Logo />
 						<UserInfo username={username} onLogOut={handleLogOut} />
-						<Input className="quick-search" icon="search" placeholder="빠른 검색" />
 					</Header>
 					<Sidebar>
 						<MenuItem color="red" content="장부등록" icon="write" to="/write" />
