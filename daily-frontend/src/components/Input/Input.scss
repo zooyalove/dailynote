@@ -1,0 +1,25 @@
+.input {
+    outline: none;
+    border: 1px solid gray;
+    padding: .5rem .85rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: all .4s;
+    min-width: 300px !important;
+
+    &.icon {
+        padding-left: 2.2rem;
+    }
+
+    &.full-width {
+        width: 100%;
+    }
+    &:focus {
+        border: 1px solid #2f9244;
+        color: #08471f;
+
+        &::placeholder {
+            color: rgb(79, 173, 79);
+        }
+    }
+}
