@@ -147,22 +147,25 @@ router.get('/today', (req, res) => {
     const tomorrow = moment(today).add(1, 'day');
     tomorrow.hour(0).minute(0);
 
-    OrderNote.find({
-        'delivery.date': { $gte: today.toDate(), $lt: tomorrow.toDate() }
-    }, (err, notes) => {
-        if (err) throw err;
+    OrderNote
+        .find({
+            'delivery.date': { $gte: today.toDate(), $lt: tomorrow.toDate() }
+        })
+        .sort({ 'delivery.date': -1 })
+        .exec((err, notes) => {
+            if (err) throw err;
 
-        if (notes.length === 0) {
-            return res.status(400).json({
-                error: 'NO RESOURCE',
-                code: 3
+            if (notes.length === 0) {
+                return res.status(400).json({
+                    error: 'NO RESOURCE',
+                    code: 3
+                });
+            }
+
+            return res.json({
+                data: notes
             });
-        }
-
-        return res.json({
-            data: notes
         });
-    })
 });
 
 /*

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
-import { Loader } from 'semantic-ui-react';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 import DataList from 'components/DataList';
 
@@ -24,6 +24,8 @@ class MainRoute extends Component {
 	componentWillMount() {
 		const { HeaderActions, status: { header } } = this.props;
 
+		document.title = 'Daily Note - 홈';
+
 		if (!storage.get('loginInfo')) {
 			this.context.router.push('/login');
 		} else {
@@ -34,20 +36,22 @@ class MainRoute extends Component {
 	}
 
 	componentDidMount() {
-		const { getTodayData } = this;
-		getTodayData();
+		window.setTimeout(this.getTodayData, 2000);
 	}
 
-	getTodayData = async () => {
-		const result = await api.getTodayNotes();
-		// console.log(result);
+	getTodayData = () => {
+		const result = api.getTodayNotes();
 
-		const state = (result && result.data !== undefined)
-						? {	datas: result.data.data,
-							fetch: false }
-						: { fetch: false };
-
-		this.setState(state);
+		result
+			.then( (res) => {
+				this.setState({
+					datas: res.data.data,
+					fetch: false
+				});
+			})
+			.catch( (err) => {
+				this.setState({ fetch: false });
+			});
 	}
 
 	render() {
@@ -64,11 +68,9 @@ class MainRoute extends Component {
 		return (
 			<div className="subcontents-wrapper">
 				<h3>오늘 ({moment().format("YYYY-MM-DD")})의 주문내역</h3>
-				<div className="total-price-wrapper">총합계 <span className="price">{total.toLocaleString()}</span>원</div>
-				{datas
-					? lists
-					: (fetch ? <Loader active /> : null)
-				}
+				<div className="total-price-wrapper">총합계 <span className="price">{total === 0 ? total : total.toLocaleString()}</span>원</div>
+				{fetch && <Dimmer active><Loader>Data Loading...</Loader></Dimmer>}
+				{lists}
 			</div>
 		);
 	}

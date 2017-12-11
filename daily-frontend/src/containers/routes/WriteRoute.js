@@ -47,6 +47,8 @@ class WriteRoute extends Component {
 	componentWillMount() {
 		const { OrdererActions } = this.props;
 
+		document.title = 'Daily Note - 장부등록';
+
 		api.getOrdererAll()
 		.then( (res) => {
 			const orderer = res.data.orderers;

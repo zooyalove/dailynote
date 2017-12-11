@@ -41,6 +41,8 @@ class LoginRoute extends Component {
     componentWillMount() {
         const { HeaderActions, status: { header } } = this.props;
 
+        document.title = 'Daily Note - 로그인';
+        
         if (header.get('visible')) {
             HeaderActions.hideHeader();
         }
