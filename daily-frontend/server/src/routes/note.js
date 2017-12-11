@@ -169,6 +169,45 @@ router.get('/today', (req, res) => {
 });
 
 /*
+    GET /api/note/search/:searchTxt
+    특정 장부를 조회
+
+    ERROR CODES
+        2 : PERMISSION DENIED
+*/
+router.get('/search/:searchTxt', (req, res) => {
+    if (typeof req.session.loginInfo === 'undefined') {
+        return res.status(401).json({
+            error: 'PERMISSION DENIED',
+            code: 2
+        });
+    }
+
+    OrderNote
+        .find({
+            $or: [
+                {'orderer.name': new RegExp(req.params.searchTxt, 'i')},
+                {'orderer.phone': new RegExp(req.params.searchTxt, 'i')},
+                {'receiver.name': new RegExp(req.params.searchTxt, 'i')},
+                {'receiver.phone': new RegExp(req.params.searchTxt, 'i')},
+                {'delivery.address': new RegExp(req.params.searchTxt, 'i')},
+                {'delivery.text': new RegExp(req.params.searchTxt, 'i')},
+                {'memo': new RegExp(req.params.searchTxt, 'i')}
+            ]
+        })
+        .sort({'delivery.date': -1})
+        .exec( (err, notes) => {
+            if (err) throw err;
+
+            return res.json({
+                data: notes
+            });
+
+        });
+
+});
+
+/*
     GET /api/note/:id
     특정 장부를 조회
 
