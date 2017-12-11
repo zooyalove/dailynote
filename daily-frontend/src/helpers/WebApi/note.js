@@ -15,6 +15,12 @@ export const getNote = (id, params={}) => {
     return axios.get(`/api/note/${id}`, params);
 };
 
+// 오늘의 장부자료 가져오기
 export const getTodayNotes = () => {
     return axios.get('/api/note/today');
+}
+
+// 특정 검색어로 장부 검색하기
+export const searchNotes = (searchTxt) => {
+    return axios.get(`/api/note/search/${searchTxt}`);
 }
