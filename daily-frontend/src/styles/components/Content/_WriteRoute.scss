@@ -1,6 +1,14 @@
 
-.input {
-	min-width: 250px;
+.min-width {
+	min-width: 250px !important;
+}
+
+.ui {
+	&.input {
+		border: 0px;
+		padding: 0px;
+		min-width: 250px !important;
+	}
 }
 
 .active {

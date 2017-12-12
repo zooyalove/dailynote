@@ -7,6 +7,7 @@ const cx = classNames.bind(styles);
 const Input = ({
     fullWidth,
     icon,
+    rectangle,
     className,
     ...rest
 }) => {
@@ -14,7 +15,8 @@ const Input = ({
         <input
             className={cx('input', {
                 'full-width': fullWidth,
-                icon
+                icon,
+                rectangle
             }, className)}
             {...rest}
         />

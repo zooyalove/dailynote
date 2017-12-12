@@ -5,12 +5,14 @@
     border-radius: 5px;
     font-size: 1rem;
     transition: all .4s;
-    min-width: 300px !important;
+    min-width: 22rem !important;
 
     &.icon {
         padding-left: 2.2rem;
     }
-
+    &.rectangle {
+        border-radius: 0px;
+    }
     &.full-width {
         width: 100%;
     }
@@ -20,6 +22,9 @@
 
         &::placeholder {
             color: rgb(79, 173, 79);
+        }
+        &::selection {
+            background: #b2e9bd;
         }
     }
 }
