@@ -19,6 +19,7 @@ import {
 
 import { OrdererDropdown, OrdererAddModal } from 'components/Orderer';
 import Category from 'components/Category';
+import Input from 'components/Input';
 
 import * as ordererAction from 'redux/modules/base/orderer';
 import * as api from 'helpers/WebApi/orderer';
@@ -305,13 +306,14 @@ class WriteRoute extends Component {
 						<Form.Group inline>
 							<label className="prequired">상품가격</label>
 							<div className="ui input" style={{minWidth: '6rem'}}>
-								<input
+								<Input
 									name="delivery_price"
 									type="number"
 									placeholder="상품 가격을 적어주세요"
 									min="0"
 									inputMode="numeric"
 									tabIndex="10"
+									className="min-width"
 									value={parseInt(price, 10)}
 									style={{textAlign: 'right'}}
 									onChange={({target: { name, value }}) => {handleChange(null, {name, value});}}
