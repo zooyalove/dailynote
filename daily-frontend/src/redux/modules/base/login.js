@@ -37,9 +37,9 @@ const initialState = Map({
 
 export default handleActions({
 	[LOGIN_FORM_INFO_SET]: (state, action) => {
-        const { name, value } = action.payload;
+        const { name, data } = action.payload;
 
-		return state.setIn(['loginForm', name], value);
+		return state.setIn(['loginForm', name], data);
     },
     [LOGIN_FORM_REMEMBER_SET]: (state, action) => {
     	const checked = action.payload;

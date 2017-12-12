@@ -22,7 +22,6 @@ export const numberArrayGenerator = (first, last, cb) => {
 	return ag.map(cb);
 };
 
-export const empty = (str) => {
-	return lodash.isEmpty(str);
-	// return !!(!str || str.length === 0 || str === "");
+export const empty = (val) => {
+	return lodash.isEmpty(val);
 };
