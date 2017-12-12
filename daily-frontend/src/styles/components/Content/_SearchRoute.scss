@@ -1,0 +1,11 @@
+&.flex {
+    display: flex;
+
+    .search-list-wrapper {
+        flex: 7;
+    }
+
+    .day-picker {
+        flex: 1;
+    }
+}
