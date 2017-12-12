@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Checkbox, Dimmer, Icon, Input, Loader, Message } from 'semantic-ui-react';
+import { Checkbox, Dimmer, Icon, Loader, Message } from 'semantic-ui-react';
+
+import Input from 'components/Input';
 
 import * as header from 'redux/modules/base/header';
 import * as login from 'redux/modules/base/login';
@@ -22,8 +24,11 @@ const FormItem = ( {icon, name, placeholder, tabIndex, type, onTextChange} ) => 
                 placeholder={placeholder}
                 tabIndex={tabIndex}
                 type={type}
+                rectangle
                 onChange={
-                    (e, data) => {
+                    (e) => {
+                        const data = e.target.value;
+                        console.log(data);
                         onTextChange({name, data});
                     }
                 }
@@ -77,9 +82,10 @@ class LoginRoute extends Component {
 
     handleChange = ({name, data}) => {
         const { LoginActions } = this.props;
-        const value = data.value;
+        // const value = data.value;
+        console.log(`Change => ${name} ${data}`);
         
-        LoginActions.setLoginFormInfo({name, value});
+        LoginActions.setLoginFormInfo({name, data});
     }
 
     handleRemember = (e, data) => {
