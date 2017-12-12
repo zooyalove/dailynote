@@ -57,6 +57,7 @@ class MainRoute extends Component {
 	render() {
 		const { state: { datas, fetch } } = this;
 		let total = 0;
+		
 		if (datas) {
 			datas.forEach( (d) => {
 				total += d.delivery.price;
