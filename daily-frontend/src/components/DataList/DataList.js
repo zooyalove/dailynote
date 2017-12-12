@@ -11,7 +11,8 @@ const DataList = ({
     datalist,
     ordererView,
     animation,
-    hide
+    hide,
+    ...rest
 }) => {
     const hList = ordererView
                     ? ['주문자', '주문자연락처', '받는사람', '전화번호', '상품종류', '배달장소', '글씨', '배송일자', '가격']
@@ -40,7 +41,7 @@ const DataList = ({
     const anim = (animation) ? (!hide ? 'flipInX' : '') : '';
 
     return (
-        <div className={cx('data-list-wrapper', { hide }, anim)}>
+        <div className={cx('data-list-wrapper', { hide }, anim)} {...rest}>
             <div className={cx('header_row')}>
                 {header}
             </div>
