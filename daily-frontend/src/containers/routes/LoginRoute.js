@@ -82,8 +82,6 @@ class LoginRoute extends Component {
 
     handleChange = ({name, data}) => {
         const { LoginActions } = this.props;
-        // const value = data.value;
-        console.log(`Change => ${name} ${data}`);
         
         LoginActions.setLoginFormInfo({name, data});
     }
