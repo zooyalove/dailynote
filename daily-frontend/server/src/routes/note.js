@@ -183,16 +183,18 @@ router.get('/search/:searchTxt', (req, res) => {
         });
     }
 
+    const searchTxt = decodeURIComponent(req.params.searchTxt);
+
     OrderNote
         .find({
             $or: [
-                {'orderer.name': new RegExp(req.params.searchTxt, 'i')},
-                {'orderer.phone': new RegExp(req.params.searchTxt, 'i')},
-                {'receiver.name': new RegExp(req.params.searchTxt, 'i')},
-                {'receiver.phone': new RegExp(req.params.searchTxt, 'i')},
-                {'delivery.address': new RegExp(req.params.searchTxt, 'i')},
-                {'delivery.text': new RegExp(req.params.searchTxt, 'i')},
-                {'memo': new RegExp(req.params.searchTxt, 'i')}
+                {'orderer.name': new RegExp(searchTxt, 'i')},
+                {'orderer.phone': new RegExp(searchTxt, 'i')},
+                {'receiver.name': new RegExp(searchTxt, 'i')},
+                {'receiver.phone': new RegExp(searchTxt, 'i')},
+                {'delivery.address': new RegExp(searchTxt, 'i')},
+                {'delivery.text': new RegExp(searchTxt, 'i')},
+                {'memo': new RegExp(searchTxt, 'i')}
             ]
         })
         .sort({'delivery.date': -1})
