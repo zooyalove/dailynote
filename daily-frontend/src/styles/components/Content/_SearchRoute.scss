@@ -8,4 +8,48 @@
     .day-picker {
         flex: 1;
     }
+
+    .DayPicker-wrapper {
+        padding-bottom: 0px;
+
+        .DayPicker-Footer {
+            text-align: center;
+
+            > button {
+                outline: none;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                border-radius: 5px;
+
+                &:active {
+                    font-weight: bold;
+                    background: rgb(184, 234, 255);
+                }
+            }
+        }
+    }
+
+    .search-txt {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin: 1rem 1.7rem 0;
+        padding-top: 1.4rem;
+        border-top: 1px solid lightgray;
+
+        > b {
+            border-radius: 100%;
+            padding: .2rem .6rem;
+            background: white;
+            border: 1px solid darkgray;
+        }
+
+        > span {
+            color: red;
+            margin-left: .5rem;
+            padding: .2rem .4rem;
+            background: white;
+            border-radius: 3px;
+            border: 1px solid darkgray;
+        }
+    }
 }

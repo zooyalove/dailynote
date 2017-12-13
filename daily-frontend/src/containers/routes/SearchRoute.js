@@ -15,9 +15,10 @@ import * as utils from 'helpers/utils';
 
 class SearchRoute extends Component {
 	state = {
-		selectedDay: null,
 		fetch: false,
-		datas: null
+		datas: null,
+		searchTxt: null,
+		selectedDays: null
 	}
 
 	componentWillMount() {
@@ -25,7 +26,7 @@ class SearchRoute extends Component {
 	}
 
 	handleSearch = async (value) => {
-		this.setState({ fetch: true, datas: null });
+		this.setState({ fetch: true, datas: null, searchTxt: value, selectedDays: null });
 
 		const result = await api.searchNotes(value);
 		const data = result.data.data;
@@ -35,8 +36,24 @@ class SearchRoute extends Component {
 		}, 2000);
 	}
 
+	handlePickerSearch = async (day, { selected }) => {
+		if (!selected) {
+			let date = day.toLocaleDateString().replace(/ /g, '').replace(/\./g, '-');
+			date = date.substring(0, date.length-1);
+
+			this.setState({ fetch: true, datas: null, searchTxt: date, selectedDays: selected ? null : day });
+
+			const result = await api.searchNotes(date);
+			const data = result.data.data;
+
+			window.setTimeout(() => {
+				this.setState({ fetch: false, datas: (utils.empty(data) ? null : data) });
+			}, 2000);
+		}
+	}
+
 	render() {
-		const { handleSearch, state: { datas, fetch } } = this;
+		const { handleSearch, handlePickerSearch, state: { datas, fetch, searchTxt, selectedDays } } = this;
 		
 		const lists = (<DataList datalist={datas} ordererView style={{marginTop: '2rem'}} />);
 
@@ -46,13 +63,16 @@ class SearchRoute extends Component {
 					<span style={{marginRight: '1rem', fontWeight: 'bold', fontSize: '1.4rem'}}>찾고자 하는 검색어 입력 :</span>
 					<SearchInput placeholder="찾고 싶은 장부의 내용들을 검색해보세요!" icon onSearch={handleSearch}/>
 					{ fetch && <Dimmer active><Loader>Data Loading...</Loader></Dimmer> }
-					{lists}
+					{ searchTxt && <div className="search-txt"><b>></b> 입력하신 검색어는 <span>{searchTxt}</span></div> }
+					{ lists }
 				</div>
-				<Card>
+				<Card className="day-picker">
 					<DayPicker
-						className="day-picker"
 						localeUtils={MomentLocaleUtils}
 						locale="ko"
+						selectedDays={selectedDays}
+						todayButton="Go to Today"
+						onDayClick={handlePickerSearch}
 					/>
 				</Card>
 			</div>
