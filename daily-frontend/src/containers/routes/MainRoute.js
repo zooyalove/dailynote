@@ -36,7 +36,9 @@ class MainRoute extends Component {
 	}
 
 	componentDidMount() {
-		window.setTimeout(this.getTodayData, 2000);
+		if (storage.get('loginInfo')) {
+			window.setTimeout(this.getTodayData, 2000);
+		}
 	}
 
 	getTodayData = () => {
