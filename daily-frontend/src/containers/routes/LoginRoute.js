@@ -28,7 +28,6 @@ const FormItem = ( {icon, name, placeholder, tabIndex, type, onTextChange} ) => 
                 onChange={
                     (e) => {
                         const data = e.target.value;
-                        console.log(data);
                         onTextChange({name, data});
                     }
                 }
