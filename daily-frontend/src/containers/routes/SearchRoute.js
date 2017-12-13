@@ -41,7 +41,7 @@ class SearchRoute extends Component {
 			let date = day.toLocaleDateString().replace(/ /g, '').replace(/\./g, '-');
 			date = date.substring(0, date.length-1);
 
-			this.setState({ fetch: true, datas: null, searchTxt: date, selectedDays: selected ? null : day });
+			this.setState({ fetch: true, datas: null, searchTxt: date, selectedDays: day });
 
 			const result = await api.searchNotes(date);
 			const data = result.data.data;
