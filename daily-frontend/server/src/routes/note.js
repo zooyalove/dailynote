@@ -185,8 +185,23 @@ router.get('/search/:searchTxt', (req, res) => {
 
     const searchTxt = decodeURIComponent(req.params.searchTxt);
 
-    OrderNote
-        .find({
+    let condition = null;
+
+    // 찾고자 하는 날짜로 검색
+    if (searchTxt.indexOf('-') !== -1) {
+        const dateArray = [];
+        searchTxt.split('-').forEach( (d) => {
+            dateArray.push(parseInt(d, 10));
+        });
+
+        condition = {
+            'delivery.date': {
+                $gte: new Date(searchTxt),
+                $lt: new Date(dateArray[0], dateArray[1]-1, dateArray[2], 23, 0, 0)
+            }
+        };
+    } else {    // 찾고자 하는 검색어로 검색
+        condition = {
             $or: [
                 {'orderer.name': new RegExp(searchTxt, 'i')},
                 {'orderer.phone': new RegExp(searchTxt, 'i')},
@@ -196,7 +211,11 @@ router.get('/search/:searchTxt', (req, res) => {
                 {'delivery.text': new RegExp(searchTxt, 'i')},
                 {'memo': new RegExp(searchTxt, 'i')}
             ]
-        })
+        };
+    }
+
+    OrderNote
+        .find(condition)
         .sort({'delivery.date': -1})
         .exec( (err, notes) => {
             if (err) throw err;
