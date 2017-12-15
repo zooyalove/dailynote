@@ -24,3 +24,7 @@ export const getTodayNotes = () => {
 export const searchNotes = (searchTxt) => {
     return axios.get(`/api/note/search/${searchTxt}`);
 }
+
+export const getMonthNotes = (month) => {
+    return axios.get(`/api/note/month/${month}`);
+}

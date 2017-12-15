@@ -17,12 +17,25 @@ class SearchRoute extends Component {
 	state = {
 		fetch: false,
 		datas: null,
+		monthData: [],
 		searchTxt: null,
 		selectedDays: null
 	}
 
 	componentWillMount() {
 		document.title = 'Daily Note - 검색';
+
+		this.getMonthNotes(new Date());
+	}
+
+	getMonthNotes = async (month) => {
+		const date = month.getFullYear() + '-' + (month.getMonth()+1);
+		const res = await api.getMonthNotes(date);
+		const data = res.data.data;
+
+		console.log(data);
+
+		this.setState({ monthData: data });
 	}
 
 	handleSearch = async (value) => {

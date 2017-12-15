@@ -194,9 +194,11 @@ router.get('/search/:searchTxt', (req, res) => {
             dateArray.push(parseInt(d, 10));
         });
 
+        console.log(dateArray);
+
         condition = {
             'delivery.date': {
-                $gte: new Date(searchTxt),
+                $gte: new Date(dateArray[0], dateArray[1]-1, dateArray[2], 0, 0, 0),
                 $lt: new Date(dateArray[0], dateArray[1]-1, dateArray[2], 23, 0, 0)
             }
         };
@@ -214,10 +216,63 @@ router.get('/search/:searchTxt', (req, res) => {
         };
     }
 
+    console.log(condition);
+
     OrderNote
         .find(condition)
         .sort({'delivery.date': -1})
         .exec( (err, notes) => {
+            if (err) throw err;
+
+            console.log(notes);
+
+            return res.json({
+                data: notes
+            });
+
+        });
+
+});
+
+/*
+    GET /api/note/month/:month
+    특정 장부를 조회
+
+    ERROR CODES
+        2 : PERMISSION DENIED
+*/
+router.get('/month/:month', (req, res) => {
+    if (typeof req.session.loginInfo === 'undefined') {
+        return res.status(401).json({
+            error: 'PERMISSION DENIED',
+            code: 2
+        });
+    }
+
+    // 찾고자 하는 년, 월로 검색 (Calendar)
+    const now = new Date(req.params.month);
+    const lastDayOfMonth = new Date(now.getFullYear(), (now.getMonth()+1));
+    lastDayOfMonth.setHours(lastDayOfMonth.getHours()-1);
+
+    const condition = {
+        'delivery.date': {
+            $gt: now,
+            $lte: lastDayOfMonth
+        }
+    };
+
+    OrderNote
+        .aggregate([
+            { $match: condition },
+            { $project: {
+                d: {
+                    $dayOfMonth: '$delivery.date'
+                }
+            }},
+            { $group: {
+                _id: '$d'
+            }}
+        ], (err, notes) => {
             if (err) throw err;
 
             return res.json({

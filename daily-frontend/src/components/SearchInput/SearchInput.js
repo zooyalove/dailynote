@@ -24,7 +24,7 @@ const SearchInput = ({
                 {...rest}
                 onKeyUp={ (e) => {
                     if (e.keyCode !== 13) {
-                        value = e.target.value;
+                        value = e.target.value.trim();
                     } else {
                         if (value && value !== "") onSearch(value);
                     }
