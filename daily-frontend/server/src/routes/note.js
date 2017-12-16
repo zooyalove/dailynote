@@ -194,8 +194,6 @@ router.get('/search/:searchTxt', (req, res) => {
             dateArray.push(parseInt(d, 10));
         });
 
-        console.log(dateArray);
-
         condition = {
             'delivery.date': {
                 $gte: new Date(dateArray[0], dateArray[1]-1, dateArray[2], 0, 0, 0),
@@ -216,15 +214,11 @@ router.get('/search/:searchTxt', (req, res) => {
         };
     }
 
-    console.log(condition);
-
     OrderNote
         .find(condition)
         .sort({'delivery.date': -1})
         .exec( (err, notes) => {
             if (err) throw err;
-
-            console.log(notes);
 
             return res.json({
                 data: notes
@@ -271,6 +265,9 @@ router.get('/month/:month', (req, res) => {
             }},
             { $group: {
                 _id: '$d'
+            }},
+            { $sort: {
+                _id: 1
             }}
         ], (err, notes) => {
             if (err) throw err;
