@@ -13,6 +13,22 @@
         padding-bottom: 0px;
         outline: none;
 
+        .DayPicker-Day--existOrder {
+            position: relative;
+
+            &:after {
+                content: '';
+                display: inline-block;
+                position: absolute;
+                width: 4px;
+                height: 4px;
+                border-radius: 100%;
+                background: red;
+                right: 2px;
+                top: 2px;
+            }
+        }
+
         .DayPicker-Footer {
             text-align: center;
 

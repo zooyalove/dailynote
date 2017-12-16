@@ -19,7 +19,8 @@ class SearchRoute extends Component {
 		datas: null,
 		monthData: [],
 		searchTxt: null,
-		selectedDays: null
+		selectedDays: null,
+		selectedMonth: null
 	}
 
 	componentWillMount() {
@@ -29,13 +30,28 @@ class SearchRoute extends Component {
 	}
 
 	getMonthNotes = async (month) => {
+		this.setState({ selectedMonth: `${month.getFullYear()}-${month.getMonth()}`});
+
 		const date = month.getFullYear() + '-' + (month.getMonth()+1);
 		const res = await api.getMonthNotes(date);
 		const data = res.data.data;
 
-		console.log(data);
+		const monthData = [];
 
-		this.setState({ monthData: data });
+		if (data.length > 0) {
+			data.forEach( (d) => {
+				monthData.push(d._id);
+			});
+		}
+
+		this.setState({ monthData });
+	}
+
+	existOrder = (day) => {
+		const { state: { monthData, selectedMonth }} = this;
+		const yearMonth = `${day.getFullYear()}-${day.getMonth()}`;
+
+		return monthData.includes(day.getDate()) && selectedMonth === yearMonth;
 	}
 
 	handleSearch = async (value) => {
@@ -66,7 +82,7 @@ class SearchRoute extends Component {
 	}
 
 	render() {
-		const { handleSearch, handlePickerSearch, state: { datas, fetch, searchTxt, selectedDays } } = this;
+		const { existOrder, getMonthNotes, handleSearch, handlePickerSearch, state: { datas, fetch, searchTxt, selectedDays } } = this;
 		
 		const lists = (<DataList datalist={datas} ordererView style={{marginTop: '2rem'}} />);
 
@@ -83,8 +99,10 @@ class SearchRoute extends Component {
 					<DayPicker
 						localeUtils={MomentLocaleUtils}
 						locale="ko"
+						modifiers={{ existOrder }}
 						selectedDays={selectedDays}
 						todayButton="Go to Today"
+						onMonthChange={getMonthNotes}
 						onDayClick={handlePickerSearch}
 					/>
 				</Card>
