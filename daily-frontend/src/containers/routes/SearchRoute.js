@@ -92,7 +92,7 @@ class SearchRoute extends Component {
 					<span style={{marginRight: '1rem', fontWeight: 'bold', fontSize: '1.4rem'}}>찾고자 하는 검색어 입력 :</span>
 					<SearchInput placeholder="찾고 싶은 장부의 내용들을 검색해보세요!" icon onSearch={handleSearch}/>
 					{ fetch && <Dimmer active><Loader>Data Loading...</Loader></Dimmer> }
-					{ searchTxt && <div className="search-txt"><b>></b> 입력하신 검색어는 <span>{searchTxt}</span></div> }
+					{ searchTxt && <div className="search-txt"><b>▶</b> 입력하신 검색어는 <span>{searchTxt}</span></div> }
 					{ lists }
 				</div>
 				<Card className="day-picker">

@@ -37,10 +37,11 @@
                 padding-top: 5px;
                 padding-bottom: 5px;
                 border-radius: 5px;
+                color: rgb(34, 146, 0);
 
                 &:active {
                     font-weight: bold;
-                    background: rgb(184, 234, 255);
+                    background: rgb(178, 253, 154);
                 }
             }
         }
@@ -52,12 +53,16 @@
         margin: 1rem 1.7rem 0;
         padding-top: 1.4rem;
         border-top: 1px solid lightgray;
+        line-height: 1.2;
 
         > b {
             border-radius: 100%;
-            padding: .2rem .6rem;
+            padding: .2rem .25rem;
             background: white;
             border: 1px solid darkgray;
+            font-size: .7rem;
+            vertical-align: middle;
+            color: gray;
         }
 
         > span {
