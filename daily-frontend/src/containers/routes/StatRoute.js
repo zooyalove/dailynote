@@ -1,51 +1,23 @@
 import React, { Component } from 'react';
-import { Dropdown } from 'semantic-ui-react';
 
 import Card from 'components/Card';
+import CategoryStatistics from 'components/CategoryStatistics';
 
 import * as api from 'helpers/WebApi/note';
-
-const productCategory = [
-	'꽃다발',
-	'꽃바구니',
-	'꽃상자',
-	'동양란',
-	'서양란',
-	'관엽식물',
-	'영정바구니',
-	'근조화환',
-	'축하화환',
-	'과일바구니',
-	'기타'
-];
-
-const ProductTitle = ({
-	value,
-	onChange
-}) => {
-	return (
-		<div>
-			▶ 상품종류별 현황
-			<Dropdown
-				selection
-				placeholder="상품종류"
-				options={productCategory.map((c, i) => { return {'key': i, 'text': c, 'value': c}; })}
-				value={value}
-				onChange={onChange}
-			/>
-		</div>
-	);
-};
 
 class StatRoute extends Component {
 
 	state = {
-		selectedCategory: '근조화환',
-		filters: []
+		selectedCategory: '',
+		filters: ['구미시', '김천시']
 	}
 
 	componentWillMount() {
+		const { handleChangeCategory } = this;
+
 		document.title = 'Daily Note - 통계';
+
+		handleChangeCategory(null, { value: '근조화환'});
 	}
 
 	handleChangeCategory = async (e, data) => {
@@ -65,7 +37,7 @@ class StatRoute extends Component {
 			<div className="subcontents-wrapper">
 				<Card
 					className="category-graph"
-					title={<ProductTitle
+					title={<CategoryStatistics
 								value={selectedCategory}
 								onChange={handleChangeCategory}
 							/>}
