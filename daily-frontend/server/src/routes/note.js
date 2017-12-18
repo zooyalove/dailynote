@@ -230,7 +230,7 @@ router.get('/search/:searchTxt', (req, res) => {
 
 /*
     GET /api/note/month/:month
-    특정 장부를 조회
+    month 월에 해당하는 자료를 조회
 
     ERROR CODES
         2 : PERMISSION DENIED
@@ -274,6 +274,61 @@ router.get('/month/:month', (req, res) => {
 
             return res.json({
                 data: notes
+            });
+
+        });
+
+});
+
+/*
+    GET /api/note/stat
+    상품종류에 해당하는 자료를 조회(필터링된 조건을 분석해서)하여 2년사이의 데이터를 반환
+
+    ERROR CODES
+        2 : PERMISSION DENIED
+*/
+router.get('/stat', (req, res) => {
+    if (typeof req.session.loginInfo === 'undefined') {
+        return res.status(401).json({
+            error: 'PERMISSION DENIED',
+            code: 2
+        });
+    }
+
+    const { category } = req.query;
+
+    // 찾고자 하는 자료를 2년내로 한정한다
+	const c_year = (new Date()).getFullYear();
+    const date = {
+        $gte: new Date((c_year-1), 0, 1),
+        $lt: new Date((c_year+1), 0, 1)
+    };
+
+    const condition = {
+        $and: [
+            { 'delivery.date': date },
+            { 'delivery.category': category }
+        ]
+    };
+
+    OrderNote
+        .aggregate([
+            { $match: condition },
+            { $project: {
+				yearMonth: { $dateToString: { format: '%Y-%m', date: '$delivery.date' }}
+            }},
+            { $group: {
+                _id: '$yearMonth',
+                count: { $sum: 1 }
+            }},
+            { $sort: {
+                _id: 1
+            }}
+        ], (err, stats) => {
+            if (err) throw err;
+
+            return res.json({
+                data: stats
             });
 
         });
