@@ -295,7 +295,8 @@ router.get('/stat', (req, res) => {
         });
     }
 
-    const { category } = req.query;
+    const { category, filters } = req.query;
+    console.log(category, filters);
 
     // 찾고자 하는 자료를 2년내로 한정한다
 	const c_year = (new Date()).getFullYear();
@@ -310,6 +311,17 @@ router.get('/stat', (req, res) => {
             { 'delivery.category': category }
         ]
     };
+
+    if (filters && filters.length > 0) {
+        const regex = new RegExp(filters.join('|'), 'gi');
+
+        condition['$and'].push({
+            $or: [
+                { 'delivery.address': regex },
+                { 'delivery.text': regex }
+            ]
+        })
+    }
 
     OrderNote
         .aggregate([
