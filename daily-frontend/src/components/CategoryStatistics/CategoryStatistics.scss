@@ -17,6 +17,20 @@
             height: 40.7px;
             font-weight: 600;
             font-size: 1.07rem;
+            color: #2185d0;
+
+            &:focus {
+                border: 1px solid #2185d0;
+
+                &::placeholder {
+                    color: #7aa6c7;
+                }
+            }
+        }
+
+        .filter-list {
+            display: inline-block;
+            margin-left: 2rem;
         }
     }
 }

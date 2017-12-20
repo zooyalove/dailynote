@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import styles from './CategoryStatistics.scss';
-import { Dropdown } from 'semantic-ui-react';
+import { Button, Dropdown, Icon } from 'semantic-ui-react';
 
 import Input from 'components/Input';
 
@@ -21,10 +21,34 @@ const productCategory = [
 	'기타'
 ];
 
+let filterText = "";
+
+const filterTextChange = (e) => {
+	filterText = e.target.value.trim();
+};
+
 const CategoryStatistics = ({
-    value,
-    onChange
+	value,
+	filter,
+	onChange,
+	onAddFilter,
+	onDeleteFilter
 }) => {
+	const filterTextArray = filter.map( (f, i) => {
+		return (
+		<Button
+			key={i}
+			icon
+			labelPosition="right"
+			// size="mini"
+			onClick={() => { onDeleteFilter(f); }}
+		>
+			<Icon name="trash" color="red" />
+			{f}
+		</Button>
+		);
+	});
+
     return (
 		<div className={cx('category-stat-wrapper')}>
 			<div className={cx('category-header')}>
@@ -41,9 +65,30 @@ const CategoryStatistics = ({
 				필터링
 				<Input
 					type="text"
-					onChange={(e) => { console.log(e.target.value); }}
-					onKeyUp={(e) => { console.log(e); }}
-				/>
+					id="filterInput"
+					placeholder="단어를 추가해보세요."
+					onChange={filterTextChange}
+				/>{' '}
+				<Button
+					icon
+					color="blue"
+					style={{height: '40.7px'}}
+					onClick={() => {
+						onAddFilter(filterText);
+						document.getElementById('filterInput').value = "";
+						filterText = "";
+					}}
+				>
+					<Icon name="add" />
+					추가
+				</Button>
+				{filterTextArray && 
+					(
+						<div className={cx('filter-list')}>
+							{filterTextArray}
+						</div>
+					)
+				}
 			</div>
 		</div>
     );
