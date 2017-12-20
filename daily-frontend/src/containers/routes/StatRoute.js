@@ -57,7 +57,7 @@ class StatRoute extends Component {
 		loading: true,
 		selectedCategory: '',
 		series: [],
-		filters: ['구미시', '김천시']
+		filters: []
 	}
 
 	componentWillMount() {
@@ -69,11 +69,17 @@ class StatRoute extends Component {
 	}
 
 	handleChangeCategory = async (e, data) => {
-		const { state: { filters }} = this;
+		const { state: { selectedCategory, filters }} = this;
 
-		this.setState({ selectedCategory: data.value, loading: true, series: [] });
+		let result;
 
-		const result = await api.getCategoryStatistics(data.value, filters);
+		if (data === undefined || data.value === undefined) {
+			this.setState({ loading: true, series: [] });
+			result = await api.getCategoryStatistics(selectedCategory, filters);
+		} else {
+			this.setState({ selectedCategory: data.value, loading: true, series: [] });
+			result = await api.getCategoryStatistics(data.value, filters);
+		}
 
 		const cdata = result.data.data;
 
@@ -107,10 +113,39 @@ class StatRoute extends Component {
 				series: yearSeries
 			});
 		}, 2000);
-}
+	}
+
+	handleAddFilter = (filterText) => {
+		const { handleChangeCategory, state: { filters }} = this;
+
+		if (!utils.empty(filterText) && filters.indexOf(filterText) === -1) {
+			let copyFilters = filters;
+			copyFilters.push(filterText);
+
+			this.setState({
+				filters: copyFilters
+			});
+
+			handleChangeCategory();
+		}
+	}
+
+	handleDeleteFilter = (filterText) => {
+		const { handleChangeCategory, state: { filters }} = this;
+		const i = filters.indexOf(filterText);
+		let copyFilters = filters;
+		copyFilters.splice(i, 1);
+
+		this.setState({
+			filters: copyFilters
+		});
+
+		handleChangeCategory();
+	}
 
 	render() {
-		const { handleChangeCategory, state: { loading, selectedCategory, series }} = this;
+		const { handleChangeCategory, handleAddFilter, handleDeleteFilter } = this;
+		const { filters, loading, selectedCategory, series } = this.state;
 
 		return (
 			<div className="subcontents-wrapper">
@@ -122,7 +157,11 @@ class StatRoute extends Component {
 					series={series}
 					title={<CategoryStatistics
 								value={selectedCategory}
-								onChange={handleChangeCategory}/>}
+								filter={filters}
+								onChange={handleChangeCategory}
+								onAddFilter={handleAddFilter}
+								onDeleteFilter={handleDeleteFilter}
+							/>}
 					width="100%"
 					className="category-graph"
 				/>
