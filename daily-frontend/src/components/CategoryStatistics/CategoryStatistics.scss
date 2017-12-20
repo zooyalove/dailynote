@@ -1,0 +1,22 @@
+.category-stat-wrapper {
+    display: flex;
+    align-items: center;
+
+    .category-header {
+        width: 380px;
+    }
+
+    .category-filter {
+        flex: 1;
+        border-left: 1px solid lightgray;
+        padding-left: 2rem;
+
+        > input[type=text] {
+            margin-left: .8rem;
+            min-width: 3rem !important;
+            height: 40.7px;
+            font-weight: 600;
+            font-size: 1.07rem;
+        }
+    }
+}
