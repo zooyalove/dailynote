@@ -85,7 +85,7 @@ class ChartCard extends Component {
         const w = width ? width : 600;
 
         return (
-            <Card title={`${title ? title : ''}`}
+            <Card title={title ? title : ''}
                 className={cx('chart-card', className)}
             >
                 {loading
