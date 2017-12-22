@@ -26,10 +26,10 @@ const lineChartOptions = {
 		aspect: 'spline',
         animation: {
             delay: 400,
-            effect: 'ANIMATION_SLIDE_BOTTOM',
+            // effect: 'ANIMATION_SLIDE_BOTTOM',
             method: 'ANIMATION_BOUNCE_EASE_OUT',
             sequence: 'ANIMATION_BY_PLOT_AND_NODE',
-            speed: 500 //'ANIMATION_FAST'
+            speed: 20 //'ANIMATION_FAST'
         }
     },
     scaleX: {
@@ -42,7 +42,7 @@ const lineChartOptions = {
         maxItems: 12
     },
     scaleY: {
-		values: "0:50:10",
+		// values: "0:40:10",
         guide: {
             'line-style': 'dotted'
         }
