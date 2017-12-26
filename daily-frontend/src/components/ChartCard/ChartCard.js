@@ -80,7 +80,7 @@ class ChartCard extends Component {
 
     render() {
         const { id, options } = this.state;
-        const { title, loading, series, height, width, className } = this.props;
+        const { title, loading, series, height, width, className, children } = this.props;
         const h = height ? height : 300;
         const w = width ? width : 600;
 
@@ -91,7 +91,10 @@ class ChartCard extends Component {
                 {loading
                     ? <Loader size="big" active >Data is loading...</Loader>
                     : (!utils.empty(series)
-                        ? <ZingChart id={id} data={options} height={h} width={w} />
+                        ? (<div className={cx('chart-wrapper')}>
+                                <ZingChart id={id} data={options} height={h} width={w} />
+                            { children ? children : null }</div>
+                            )
                         : <div className="no-data"><Icon name="warning sign" color="red" size="big"/> No Exists Data!</div>
                     )
                 }

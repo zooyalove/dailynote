@@ -10,6 +10,10 @@
         transform: translateX(-50%) translateY(-50%);
         font-size: 1.5rem;
     }
+
+    .chart-wrapper {
+        display: flex;
+    }
 }
 
 .chart-card + .chart-card {
