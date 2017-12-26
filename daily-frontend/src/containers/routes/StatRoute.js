@@ -15,7 +15,7 @@ const lineChartOptions = {
     },
     plotarea:{
         marginTop: '7%',
-        marginLeft: '10%',
+        marginLeft: '6%',
         marginRight: '6%',
         marginBottom: '10%'
     },
@@ -57,7 +57,8 @@ class StatRoute extends Component {
 		loading: true,
 		selectedCategory: '',
 		series: [],
-		filters: []
+		filters: [],
+		detailData: null
 	}
 
 	componentWillMount() {
@@ -85,6 +86,7 @@ class StatRoute extends Component {
 
 		const yearValues = {};
 		const yearSeries = [];
+		const detailData = {};
 		
 		if (!utils.empty(cdata)) {
 
@@ -97,6 +99,14 @@ class StatRoute extends Component {
 				}
 
 				yearValues[year][(month-1)] = obj.count;
+
+				obj.detail.forEach( (d) => {
+					if ( !(d.price in detailData) ) {
+						detailData[d.price] = d.count;
+					} else {
+						detailData[d.price] += d.count;
+					}
+				});
 			});
 
 			Object.keys(yearValues).forEach((y) => {
@@ -110,7 +120,8 @@ class StatRoute extends Component {
 		setTimeout(() => {
 			this.setState({
 				loading: false,
-				series: yearSeries
+				series: yearSeries,
+				detailData
 			});
 		}, 2000);
 	}
@@ -145,7 +156,22 @@ class StatRoute extends Component {
 
 	render() {
 		const { handleChangeCategory, handleAddFilter, handleDeleteFilter } = this;
-		const { filters, loading, selectedCategory, series } = this.state;
+		const { filters, loading, selectedCategory, series, detailData } = this.state;
+
+		const detailKeys = !utils.empty(detailData) ? Object.keys(detailData) : [];
+		detailKeys.sort();
+
+		const Detail = ({
+			price,
+			count
+		}) => {
+			return (
+				<div>{price} 원 => {count} 건</div>
+			);
+		};
+		const detail = detailKeys.map( (d, i) => {
+			return <Detail key={i} price={parseInt(d, 10).toLocaleString()} count={detailData[d]} />
+		});
 
 		return (
 			<div className="subcontents-wrapper">
@@ -164,7 +190,9 @@ class StatRoute extends Component {
 							/>}
 					width="100%"
 					className="category-graph"
-				/>
+				>
+					<div style={{flex: '1', height: '100%'}}>{detail}</div>
+				</ChartCard>
 			</div>
 		);
 	}
