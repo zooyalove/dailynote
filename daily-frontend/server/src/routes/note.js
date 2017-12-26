@@ -296,7 +296,7 @@ router.get('/stat', (req, res) => {
     }
 
     const { category, filters } = req.query;
-    console.log(category, filters);
+    console.log(category);
 
     // 찾고자 하는 자료를 2년내로 한정한다
 	const c_year = (new Date()).getFullYear();
@@ -327,11 +327,22 @@ router.get('/stat', (req, res) => {
         .aggregate([
             { $match: condition },
             { $project: {
-				yearMonth: { $dateToString: { format: '%Y-%m', date: '$delivery.date' }}
+                yearMonth: { $dateToString: { format: '%Y-%m', date: '$delivery.date' }},
+                price: '$delivery.price'
             }},
             { $group: {
-                _id: '$yearMonth',
+                _id: {
+                    yearMonth: '$yearMonth',
+                    price: '$price'
+                },
                 count: { $sum: 1 }
+            }},
+            { $group: {
+                _id: '$_id.yearMonth',
+                count: { $sum: '$count' },
+                detail: {
+                    $push: { price: '$_id.price', count: '$count' }
+                }
             }},
             { $sort: {
                 _id: 1
