@@ -3,23 +3,50 @@
     transition: all .4s;
 
     #category-chart {
-        flex: 3;
+        flex: 5;
     }
 
     .category-detail {
         flex: 1;
         height: 100%;
-        border: 1px solid darkgray;
-        border-radius: 3px;
-        margin-right: 1rem;
-        padding-bottom: .5rem;
+        border: 1px solid $oc-blue-4;
+        border-radius: 4px;
+        margin-right: 3rem;
+        padding-bottom: .15rem;
+        background: $oc-blue-7;
 
         .detail-title {
             padding: .7rem 1rem;
             background: $oc-blue-6;
             color: white;
+            margin-bottom: 0px;
+            border-radius: inherit;
         }
-    }
+
+        .detail-content {
+            padding: .6rem 1.5rem;
+            background: white;
+            position: relative;
+
+            .detail-count {
+                display: inline-block;
+                position: absolute;
+                right: 1rem;
+                top: 50%;
+                background: $oc-blue-7;
+                color: white;
+                transform: translateY(-50%);
+                // font-size: .8rem;
+                border-radius: 100%;
+                padding: .2rem .55rem;
+            }
+        }
+
+        .detail-content + .detail-content {
+            border-bottom: 1px solid darkgray;
+            border-top: 1px solid lightgray;
+        }
+}
 
     .title {
         margin-bottom: 1.5rem;

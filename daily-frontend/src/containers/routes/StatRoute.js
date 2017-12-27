@@ -75,10 +75,10 @@ class StatRoute extends Component {
 		let result;
 
 		if (data === undefined || data.value === undefined) {
-			this.setState({ loading: true, series: [] });
+			this.setState({ loading: true, series: [], detailData: null });
 			result = await api.getCategoryStatistics(selectedCategory, filters);
 		} else {
-			this.setState({ selectedCategory: data.value, loading: true, series: [] });
+			this.setState({ selectedCategory: data.value, loading: true, series: [], detailData: null });
 			result = await api.getCategoryStatistics(data.value, filters);
 		}
 
@@ -166,7 +166,7 @@ class StatRoute extends Component {
 			count
 		}) => {
 			return (
-				<div>{price} 원 => {count} 건</div>
+				<div className="detail-content">{price} 원 <div className="detail-count">{count}</div></div>
 			);
 		};
 		const detail = detailKeys.map( (d, i) => {
