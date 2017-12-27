@@ -6,6 +6,21 @@
         flex: 3;
     }
 
+    .category-detail {
+        flex: 1;
+        height: 100%;
+        border: 1px solid darkgray;
+        border-radius: 3px;
+        margin-right: 1rem;
+        padding-bottom: .5rem;
+
+        .detail-title {
+            padding: .7rem 1rem;
+            background: $oc-blue-6;
+            color: white;
+        }
+    }
+
     .title {
         margin-bottom: 1.5rem;
         

@@ -191,7 +191,10 @@ class StatRoute extends Component {
 					width="100%"
 					className="category-graph"
 				>
-					<div style={{flex: '1', height: '100%'}}>{detail}</div>
+					<div className="category-detail">
+						<h3 className="detail-title">금액별 배송현황</h3>
+						{detail}
+					</div>
 				</ChartCard>
 			</div>
 		);
