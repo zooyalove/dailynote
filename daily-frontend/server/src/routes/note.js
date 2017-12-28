@@ -17,7 +17,6 @@ const router = express.Router();
         2 : PERMISSION DENIED
 */
 router.post('/', (req, res) => {
-    // let phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
 
     if (typeof req.session.loginInfo === 'undefined') {
         return res.status(401).json({
@@ -296,7 +295,6 @@ router.get('/stat', (req, res) => {
     }
 
     const { category, filters } = req.query;
-    console.log(category);
 
     // 찾고자 하는 자료를 2년내로 한정한다
 	const c_year = (new Date()).getFullYear();
@@ -305,22 +303,37 @@ router.get('/stat', (req, res) => {
         $lt: new Date((c_year+1), 0, 1)
     };
 
-    const condition = {
-        $and: [
-            { 'delivery.date': date },
-            { 'delivery.category': category }
-        ]
-    };
+    let condition;
+
+    if ( category === '전체') {
+        condition = {
+            'delivery.date': date
+        };
+    } else {
+        condition = {
+            $and: [
+                { 'delivery.date': date },
+                { 'delivery.category': category }
+            ]
+        };
+    }
 
     if (filters && filters.length > 0) {
         const regex = new RegExp(filters.join('|'), 'gi');
 
-        condition['$and'].push({
-            $or: [
+        if ( category === '전체') {
+            condition['$or'] = [
                 { 'delivery.address': regex },
                 { 'delivery.text': regex }
-            ]
-        })
+            ];
+        } else {
+            condition['$and'].push({
+                $or: [
+                    { 'delivery.address': regex },
+                    { 'delivery.text': regex }
+                ]
+            });
+        }
     }
 
     OrderNote

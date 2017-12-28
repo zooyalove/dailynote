@@ -8,6 +8,7 @@ import Input from 'components/Input';
 const cx = classNames.bind(styles);
 
 const productCategory = [
+	'전체',
 	'꽃다발',
 	'꽃바구니',
 	'꽃상자',
