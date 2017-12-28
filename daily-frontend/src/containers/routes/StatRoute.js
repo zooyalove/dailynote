@@ -159,7 +159,7 @@ class StatRoute extends Component {
 		const { filters, loading, selectedCategory, series, detailData } = this.state;
 
 		const detailKeys = !utils.empty(detailData) ? Object.keys(detailData) : [];
-		detailKeys.sort();
+		detailKeys.sort( (a, b) => parseInt(a, 10) > parseInt(b, 10) ? -1 : 1 );
 
 		const Detail = ({
 			price,
