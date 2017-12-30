@@ -5,7 +5,7 @@ module.exports = (function() {
     
     return {
         connect () {
-            mongoose.connect('mongodb://localhost/zyapp', {
+            mongoose.connect('mongodb://localhost/dailynote', {
                 useMongoClient: true
             }).then(
                 () => {
