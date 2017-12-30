@@ -9,6 +9,7 @@ import db from './models';
 
 const app = express();
 
+const host = process.env.NODE_ENV !== 'production' ? '127.0.0.1' : '0.0.0.0';
 const port = 4000; 
 
 app.use(morgan('dev'));
@@ -43,6 +44,6 @@ app.use(function(err, req, res, next) {
   res.status(500).send('Something broke!');
 });
 
-app.listen(port, () => {
+app.listen(port, host, () => {
 	console.log('Express server is listening on port ', port);
 });
