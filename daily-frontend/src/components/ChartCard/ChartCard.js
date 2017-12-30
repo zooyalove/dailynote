@@ -11,33 +11,6 @@ import Card from 'components/Card';
 
 const cx = classNames.bind(styles);
 
-/*const myConfig = {
-    type: 'bar',
-    title: {
-        text: '최근 1년간 데이터 비교'
-    },
-    utc: true,
-    timezone: 9,
-    'scale-x': {
-        minValue: (new Date('2016-1-2')).getTime(),
-        step: '1month',
-        transform: {
-            type: 'date',
-            all: '%m月'
-        },
-        'max-items': 12
-    },
-    series : [
-        {
-            values : [35,42,67,89,25,34,67,85,123,43,15,12]
-        },
-        {
-            values : [12,34,25,68,94,25,16,37,56,27,34,91]
-        }
-
-    ]
-};*/
-
 /**
  * Props information
  * 
@@ -71,7 +44,7 @@ class ChartCard extends Component {
         if (this.props.series !== nextProps.series) {
 
             const options = JSON.parse(JSON.stringify(this.state.options));
-            // options['series'] = values;
+            
             options['series'] = nextProps.series;
 
             this.setState({options});
@@ -93,7 +66,7 @@ class ChartCard extends Component {
                     : (!utils.empty(series)
                         ? (<div className={cx('chart-wrapper')}>
                                 <ZingChart id={id} data={options} height={h} width={w} />
-                            { children ? children : null }</div>
+                            { children }</div>
                             )
                         : <div className="no-data"><Icon name="warning sign" color="red" size="big"/> No Exists Data!</div>
                     )
