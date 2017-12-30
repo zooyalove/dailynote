@@ -1,7 +1,7 @@
 {
     "scripts": {
         "build": "babel src -d build --presets=es2015",
-        "start": "cross-env NODE_ENV=production node ./build/main.js",
+        "start": "pm2 start deploy.config.json",
         "dev": "node ./scripts/development.js"
     }
 }
