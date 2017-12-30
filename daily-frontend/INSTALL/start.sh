@@ -31,6 +31,12 @@ echo "==================================="
 echo " DailyNote - Install NPM Libraries "
 echo "==================================="
 sudo npm install
+echo ""
+echo "========================"
+echo "DailyNote - App Build..."
+echo "========================"
+sudo npm run build
+echo ""
 echo "DailyNote - Finished"
 echo ""
 echo "DailyNote - Start DailyNote and set to start on boot?"
