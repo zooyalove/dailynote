@@ -10,7 +10,7 @@ import db from './models';
 const app = express();
 
 const host = process.env.NODE_ENV !== 'production' ? '127.0.0.1' : '0.0.0.0';
-const port = 4000; 
+const port = process.env.NODE_ENV !== 'production' ? 4000 : 5100;
 
 app.use(morgan('dev'));
 
