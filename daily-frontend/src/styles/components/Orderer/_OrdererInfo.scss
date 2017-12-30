@@ -20,7 +20,10 @@
 
     .statinfo_wrapper {
         display: flex;
-        // position: relative;
+        
+        .chart-wrapper {
+            display: block;
+        }
     }
 
     .orderer_info {
