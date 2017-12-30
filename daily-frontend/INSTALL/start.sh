@@ -30,12 +30,12 @@ echo ""
 echo "==================================="
 echo " DailyNote - Install NPM Libraries "
 echo "==================================="
-sudo npm install
+npm install
 echo ""
 echo "========================"
 echo "DailyNote - App Build..."
 echo "========================"
-sudo npm run build
+npm run build
 echo ""
 echo "DailyNote - Finished"
 echo ""
@@ -44,8 +44,8 @@ echo "(y)es or (N)o"
 read startDailyNote
 if [ "$startDailyNote" = "y" ]; then
     cd server
-    sudo pm2 start deploy.config.json
-    sudo pm2 startup
-    sudo pm2 save
-    sudo pm2 list
+    pm2 start deploy.config.json
+    pm2 startup
+    pm2 save
+    pm2 list
 fi
