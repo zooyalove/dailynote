@@ -34,6 +34,9 @@ class App extends Component {
 				}
 			})
 			.catch( (err) => {
+				if (storage.get('loginInfo')) {
+					storage.remove('loginInfo');
+				}
 				this.context.router.push('/login');
 			});
 	}
@@ -53,7 +56,7 @@ class App extends Component {
 			window.removeEventListener('scroll', this.handleScroll);
 		}
 
-		if(storage.get('loginInfo')) {
+		if (storage.get('loginInfo')) {
 			storage.remove('loginInfo');
 		}
 
