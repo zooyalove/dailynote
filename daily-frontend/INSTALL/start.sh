@@ -44,7 +44,7 @@ echo "(y)es or (N)o"
 read startDailyNote
 if [ "$startDailyNote" = "y" ]; then
     cd server
-    pm2 start deploy.config.json
+    npm start
     pm2 startup
     pm2 save
     pm2 list
