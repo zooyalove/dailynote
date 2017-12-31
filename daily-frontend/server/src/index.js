@@ -30,12 +30,12 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use('/', express.static(path.join(__dirname, './../../public')));
+app.use('/', express.static(path.join(__dirname, './../../build')));
 
 app.use('/api', api);
 
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './../../public/index.html'));
+    res.sendFile(path.resolve(__dirname, './../../build/index.html'));
 });
 
 /* handle error */
