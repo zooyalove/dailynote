@@ -58,4 +58,4 @@ const OrderNote = new Schema({
 	}
 });
 
-export default mongoose.model('ordernote', OrderNote);
+module.exports = mongoose.model('ordernote', OrderNote);

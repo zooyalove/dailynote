@@ -172,4 +172,4 @@ router.get('/getinfo', (req, res) => {
     return res.json({ info: req.session.loginInfo });
 });
 
-export default router;
+module.exports = router;

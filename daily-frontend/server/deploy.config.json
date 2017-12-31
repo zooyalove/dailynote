@@ -1,7 +1,7 @@
 {
     "apps": [{
         "name": "dailynote",
-        "script" : "./scripts/development.js",
+        "script" : "./src",
         "watch": false,
         "env": {
             "NODE_PATH": "src",
