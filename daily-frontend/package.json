@@ -84,7 +84,7 @@
     "zingchart-react": "^1.0.6"
   },
   "scripts": {
-    "dev": "node scripts/start.js",
+    "start:dev": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "start": "chmod +x INSTALL/start.sh && INSTALL/start.sh"

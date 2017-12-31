@@ -30,12 +30,14 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use('/', express.static(path.join(__dirname, './../../build')));
+const publicFolder = process.env.NODE_ENV === 'production' ? './../../build' : './../../public';
+
+app.use('/', express.static(path.join(__dirname, publicFolder)));
 
 app.use('/api', api);
 
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './../../build/index.html'));
+    res.sendFile(path.resolve(__dirname, publicFolder + '/index.html'));
 });
 
 /* handle error */
