@@ -1,7 +1,7 @@
-import express from 'express';
-import user from './user';
-import orderer from './orderer';
-import note from './note';
+const express = require('express');
+const user = require('./user');
+const orderer = require('./orderer');
+const note = require('./note');
 
 const router = express.Router();
 

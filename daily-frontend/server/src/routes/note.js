@@ -1,8 +1,8 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import moment from 'moment';
-import OrderNote from './../models/OrderNote';
-import util from './../helper';
+const express = require('express');
+const mongoose = require('mongoose');
+const moment = require('moment');
+const OrderNote = require('./../models/OrderNote');
+const util = require('./../helper');
 
 mongoose.Promise = global.Promise;
 

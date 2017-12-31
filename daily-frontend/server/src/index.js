@@ -1,11 +1,11 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import path from 'path';
-import session from 'express-session';
-import morgan from 'morgan';
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const session = require('express-session');
+const morgan = require('morgan');
 
-import api from './routes';
-import db from './models';
+const api = require('./routes');
+const db = require('./models');
 
 const app = express();
 

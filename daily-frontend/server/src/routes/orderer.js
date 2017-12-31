@@ -1,8 +1,8 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import shortid from 'shortid';
-import Orderer from './../models/Orderer';
-import OrderNote from './../models/OrderNote';
+const express = require('express');
+const mongoose = require('mongoose');
+const shortid = require('shortid');
+const Orderer = require('./../models/Orderer');
+const OrderNote = require('./../models/OrderNote');
 
 mongoose.Promise = global.Promise;
 

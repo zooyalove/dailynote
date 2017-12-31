@@ -1,7 +1,7 @@
 {
     "scripts": {
         "build": "babel src -d build --presets=es2015",
-        "start": "pm2 start --interpreter babel-node deploy.config.json",
+        "start": "pm2 start deploy.config.json",
         "dev": "node ./scripts/development.js"
     }
 }

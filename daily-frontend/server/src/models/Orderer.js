@@ -1,5 +1,6 @@
-import mongoose, { Schema } from 'mongoose';
-import shortid from 'shortid';
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const shortid = require('shortid');
 
 const Orderer = new Schema({
     _id: {
