@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Sidebar extends Component {
-
-    render() {
-        const { children } = this.props;
-        return (
-            <nav>
-                {children}
-            </nav>
-        );
-    }
+const Sidebar = ({
+    active,
+    children
+}) => {
+    return (
+        <nav className={`${active ? 'active' : ''}`}>
+            {children}
+        </nav>
+    );
 }
 
 export default Sidebar;

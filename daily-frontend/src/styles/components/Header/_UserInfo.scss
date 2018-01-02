@@ -1,5 +1,5 @@
 .user-info {
-	display: inline-block;
+	// display: inline-block;
 	float: right;
 	height: 2.6rem;
 	margin-top: 0.7rem;
@@ -8,6 +8,10 @@
 	line-height: 2.6rem;
 	font-weight: 700;
 	user-select: none;
+
+	@include media("<=phone") {
+		padding-right: 0;
+	}
 
 	.user-name {
 		display: inline-block;

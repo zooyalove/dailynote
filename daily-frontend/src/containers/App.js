@@ -17,6 +17,7 @@ import storage from 'helpers/storage';
 class App extends Component {
 
 	state = {
+		active: false,
 		scrolling: false
 	}
 
@@ -83,10 +84,18 @@ class App extends Component {
 		window.scrollTo(0, 0);
 	}
 
+	handleSidebarClick = () => {
+		const { active } = this.state;
+
+		this.setState({
+			active: !active
+		});
+	}
+
     render() {
-    	const { handleLogOut, handleFabClick } = this;
+    	const { handleLogOut, handleFabClick, handleSidebarClick } = this;
 		const { children, status: { header, orderer } } = this.props;
-		const { scrolling } = this.state;
+		const { active, scrolling } = this.state;
 		const visible = header.get('visible');
 		const username = storage.get('loginInfo') ? storage.get('loginInfo')['username'] : '';
 
@@ -96,10 +105,10 @@ class App extends Component {
 			? (
 				<div>
 					<Header>
-						<Logo />
+						<Logo active={active} onSidebarClick={handleSidebarClick} />
 						<UserInfo username={username} onLogOut={handleLogOut} />
 					</Header>
-					<Sidebar>
+					<Sidebar active={active}>
 						<MenuItem color="red" content="장부등록" icon="write" to="/write" />
 						<MenuItem color="grape" content="거래처 관리" icon="users" to="/orderer" />
 						<MenuItem color="green" content="장부검색" icon="search" to="/search" />

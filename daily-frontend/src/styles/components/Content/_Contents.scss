@@ -7,6 +7,10 @@
     height: 100%;
     background: lighten(gray, 42%);
 
+    @include media("<=tablet") {
+        padding-left: 0;
+    }
+
     .subcontents-wrapper {
     	padding: 2rem 2rem 0;
         height: 100%;

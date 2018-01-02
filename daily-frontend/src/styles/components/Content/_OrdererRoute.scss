@@ -1,6 +1,13 @@
 .orderer-wrapper {
-    // height: 100vh;
+    height: calc(100vh - 4rem);
+    // position: relative;
 
     @import './../Orderer/all';
     @import './../Orderer/OrdererInfo';
+
+    @include media("<tablet") {
+        .orderer-widget {
+            display: none;
+        }
+    }
 }

@@ -1,14 +1,42 @@
+@include media("<=phone") {
+	.ui.form {
+		.fields:first-child {
+			margin-bottom: 1rem;
+			> button {
+				position: absolute;
+				right: .8rem;
+				top: 2.4rem;
+			}
+		}
+		.fields {
+			span {
+				margin-right: 0 !important;
+			}
+		}
+
+		.ui.buttons {
+			margin-top: .5rem;
+			display: block;
+			text-align: center;
+			width: 100%;
+		}
+	}
+}
+
+@include media("<tablet") {
+	.ui.form {
+		.fields:first-child {
+			margin-bottom: 1rem;
+		}
+	}
+	.number, .number > input {
+		min-width: 150px !important;
+		width: 200px !important;
+	}
+}
 
 .min-width {
 	min-width: 250px !important;
-}
-
-.ui {
-	&.input {
-		border: 0px;
-		padding: 0px;
-		min-width: 250px !important;
-	}
 }
 
 .active {

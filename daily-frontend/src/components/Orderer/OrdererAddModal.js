@@ -92,7 +92,7 @@ class OrdererAddModal extends Component {
                 <Modal.Header>
                     <Icon name="user add" /> 중요 거래처 추가
                 </Modal.Header>
-                <Modal.Content>
+                <Modal.Content scrolling={true}>
                     <Form>
                         <Form.Input error={validate.name} name="name" label="이름 또는 회사명" placeholder='이름 또는 회사명을 적어주세요' value={name} required onChange={handleChange} />
                         <Form.Input error={validate.phone} name="phone" label="연락처" placeholder='연락처(ex. 012-3456-7890)를 적어주세요' value={phone} required onChange={handleChange} />

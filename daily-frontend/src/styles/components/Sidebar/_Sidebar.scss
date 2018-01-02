@@ -9,5 +9,14 @@ nav {
     width: auto;
     z-index: $z-index-sidebar;
 
+    @include media("<=tablet") {
+        left: -70px;
+        transition: all .3s ease-in;
+
+        &.active {
+            left: 0;
+        }
+    }
+
     @import 'MenuItem';
 }

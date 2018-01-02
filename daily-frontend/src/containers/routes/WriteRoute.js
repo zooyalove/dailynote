@@ -276,7 +276,7 @@ class WriteRoute extends Component {
 							required
 							inline
 							value={receiver_name}
-							style={{marginLeft: '0.66em'}}
+							// style={{marginLeft: '0.66em'}}
 							tabIndex="3"
 							onChange={handleChange} />
 						<Form.Input
@@ -305,7 +305,7 @@ class WriteRoute extends Component {
 							onChange={handleChange}/>
 						<Form.Group inline>
 							<label className="prequired">상품가격</label>
-							<div className="ui input" style={{minWidth: '6rem'}}>
+							<div className="ui input number">
 								<Input
 									name="delivery_price"
 									type="number"
@@ -349,7 +349,7 @@ class WriteRoute extends Component {
 							tabIndex="13"
 							onChange={handleChange}/>
 					</Segment>
-					<Form.Group inline style={{float: 'right'}}>
+					<Form.Group inline style={{float: 'right', marginRight: '3.5rem'}}>
 						<Form.Button
 							negative
 							content="취소"
