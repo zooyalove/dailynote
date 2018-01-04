@@ -17,7 +17,9 @@ const OrdererList = ({children, count}) => {
 		<div className="orderer-list">
 			<div className="orderer-title">거래처 리스트 <span className="badges">{count}</span></div>
 			<Scrollbars
-				style={{ height: '42.5rem' }}
+				// style={{ height: '42.5rem' }}
+				className="orderer-list-scrollbar"
+				autoHide
 				renderThumbVertical={renderThumb}
 				renderThumbHorizontal={renderThumb}>
 				<div className="orderer-list-item">

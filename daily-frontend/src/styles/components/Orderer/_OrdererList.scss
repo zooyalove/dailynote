@@ -26,6 +26,10 @@
         }
     }
 
+    .orderer-list-scrollbar {
+        height: calc(100vh - 13rem) !important;
+    }
+
     .orderer-list-item {
         background: $oc-gray-9;
         color: white;
