@@ -26,7 +26,7 @@ const Card = ({
                     {title}
                 </h4>
             )}
-            <div>{children}</div>
+            {children}
         </div>
     );
 };

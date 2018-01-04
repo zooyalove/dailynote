@@ -93,17 +93,19 @@ class SearchRoute extends Component {
 					{ searchTxt && <div className="search-txt"><b>▶</b> 입력하신 검색어는 <span>{searchTxt}</span></div> }
 					<DataList datalist={datas} ordererView style={{marginTop: '2rem'}} />
 				</div>
-				<Card className="day-picker">
-					<DayPicker
-						localeUtils={MomentLocaleUtils}
-						locale="ko"
-						modifiers={{ existOrder }}
-						selectedDays={selectedDays}
-						todayButton="Go to Today"
-						onMonthChange={getMonthNotes}
-						onDayClick={handlePickerSearch}
-					/>
-				</Card>
+				<div className="day-picker">
+					<Card>
+						<DayPicker
+							localeUtils={MomentLocaleUtils}
+							locale="ko"
+							modifiers={{ existOrder }}
+							selectedDays={selectedDays}
+							todayButton="Go to Today"
+							onMonthChange={getMonthNotes}
+							onDayClick={handlePickerSearch}
+						/>
+					</Card>
+				</div>
 			</div>
 		);
 	}
