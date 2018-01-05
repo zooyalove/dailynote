@@ -139,7 +139,9 @@ class WriteRoute extends Component {
 		}, 1500);
 	}
 
-	handlePriceClick = (price) => {
+	handlePriceClick = (e, price) => {
+		e.preventDefault();
+
 		this.setState({delivery_price: price});
 	}
 
@@ -320,8 +322,10 @@ class WriteRoute extends Component {
 									/>
 							</div>{' '}<span style={{margin: '0 1rem 0 .4rem'}}><b>원</b></span>{' '}
 							<Button.Group>
-								<Button color="blue" onClick={(e) => { e.preventDefault(); handlePriceClick(50000);}}>50,000원</Button>
-								<Button color="red" onClick={(e) => { e.preventDefault(); handlePriceClick(100000);}}>100,000원</Button>
+								<Button color="teal" className="price-button" onClick={(e) => { handlePriceClick(e, 40000);}}>40,000</Button>
+								<Button color="blue" className="price-button" onClick={(e) => { handlePriceClick(e, 50000);}}>50,000</Button>
+								<Button color="orange" className="price-button" onClick={(e) => { handlePriceClick(e, 60000);}}>60,000</Button>
+								<Button color="red" className="price-button" onClick={(e) => { handlePriceClick(e, 100000);}}>100,000</Button>
 							</Button.Group>
 						</Form.Group>
 						<Divider />
@@ -349,7 +353,7 @@ class WriteRoute extends Component {
 							tabIndex="13"
 							onChange={handleChange}/>
 					</Segment>
-					<Form.Group inline style={{float: 'right', marginRight: '3.5rem'}}>
+					<Form.Group inline className="write-action-btns">
 						<Form.Button
 							negative
 							content="취소"

@@ -4,7 +4,7 @@
 			margin-bottom: 1rem;
 			> button {
 				position: absolute;
-				right: .8rem;
+				right: 1.5rem;
 				top: 2.4rem;
 			}
 		}
@@ -58,4 +58,20 @@
 	color: #db2828;
 	vertical-align: top;
 	display: inline-block;
+}
+
+.write-action-btns {
+	float: right;
+	margin-right: 3.5rem;
+}
+
+@include media("<tablet") {
+	.price-button {
+		padding: .5rem 1rem;
+	}
+
+	.write-action-btns {
+		justify-content: center;
+		float: none;
+	}
 }
