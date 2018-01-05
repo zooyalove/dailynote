@@ -109,10 +109,10 @@ class App extends Component {
 						<UserInfo username={username} onLogOut={handleLogOut} />
 					</Header>
 					<Sidebar active={active}>
-						<MenuItem color="red" content="장부등록" icon="write" to="/write" />
-						<MenuItem color="grape" content="거래처 관리" icon="users" to="/orderer" />
-						<MenuItem color="green" content="장부검색" icon="search" to="/search" />
-						<MenuItem color="blue" content="통계" icon="bar graph" to="/stat" />
+						<MenuItem color="red" content="장부등록" icon="write" to="/write" onClick={handleSidebarClick} />
+						<MenuItem color="grape" content="거래처 관리" icon="users" to="/orderer" onClick={handleSidebarClick} />
+						<MenuItem color="green" content="장부검색" icon="search" to="/search" onClick={handleSidebarClick} />
+						<MenuItem color="blue" content="통계" icon="bar graph" to="/stat" onClick={handleSidebarClick} />
 					</Sidebar>
 					<Contents>
 						{children}
