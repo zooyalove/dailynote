@@ -3,7 +3,8 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 const renderThumb = ({style, ...props}) => {
 	const thumbStyle = {
-		backgroundColor: 'rgba(255, 255, 255, .65)'
+		backgroundColor: 'rgba(255, 255, 255, .65)',
+		borderRadius: '2px'
 	};
 	return (
 		<div
@@ -17,7 +18,6 @@ const OrdererList = ({children, count}) => {
 		<div className="orderer-list">
 			<div className="orderer-title">거래처 리스트 <span className="badges">{count}</span></div>
 			<Scrollbars
-				// style={{ height: '42.5rem' }}
 				className="orderer-list-scrollbar"
 				autoHide
 				renderThumbVertical={renderThumb}
