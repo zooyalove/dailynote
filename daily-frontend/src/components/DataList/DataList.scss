@@ -1,7 +1,7 @@
 .data-list-wrapper {
     margin: 0 1.5rem 1rem;
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
     border-bottom: 2px solid gray;
 
     &.hide {
@@ -14,8 +14,8 @@
         animation-fill-mode: both;
     }
 
-    .header_row {
-        flex: 1;
+    .header-row {
+        // flex: 1;
         display: flex;
         padding: 5px 0;
         border-top: 2px solid gray;

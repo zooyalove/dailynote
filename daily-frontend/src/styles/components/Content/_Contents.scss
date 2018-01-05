@@ -1,9 +1,9 @@
 .contents-wrapper {
-    display: block;
     padding-top: $header-height;
     padding-left: $header-height;
     padding-bottom: 2rem;
     overflow-y: auto;
+    width: 100%;
     height: 100%;
     background: lighten(gray, 42%);
 
@@ -12,7 +12,8 @@
     }
 
     .subcontents-wrapper {
-    	padding: 2rem 2rem 0;
+        padding: 2rem 2rem 0;
+        width: 100%;
         height: 100%;
 
         .main-title {

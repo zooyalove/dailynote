@@ -42,7 +42,7 @@ const DataList = ({
 
     return (
         <div className={cx('data-list-wrapper', { hide }, anim)} {...rest}>
-            <div className={cx('header_row')}>
+            <div className={cx('header-row')}>
                 {header}
             </div>
             {datas}

@@ -2,11 +2,11 @@
     display: flex;
 
     .search-list-wrapper {
-        flex: 7;
+        flex-grow: 1;
     }
 
     .day-picker {
-        flex: 1;
+        flex-grow: 0;
     }
 
     .DayPicker-wrapper {

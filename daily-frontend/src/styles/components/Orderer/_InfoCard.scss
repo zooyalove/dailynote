@@ -24,4 +24,16 @@
         right: 1rem;
         top: 1rem;
     }
+
+    @include media("<tablet") {
+        .label {
+            top: 53%;
+            font-size: 1.5rem;
+            padding: .7rem .7rem .7rem 2.2rem;
+        }
+
+        .actions {
+            right: .7rem;
+        }
+    }
 }

@@ -39,5 +39,21 @@
 
     @include media("<tablet") {
         left: 0;
+        margin-left: 0px;
+
+        &.noid {
+            .bar-chart {
+                flex: 1;
+            }
+        }
+
+        .statinfo_wrapper {
+            flex-direction: column;
+            flex-wrap: wrap;
+
+            .card:last-child {
+                margin: 1rem 0;
+            }
+        }
     }
 }
