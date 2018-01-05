@@ -28,6 +28,15 @@
             }
         }
 
+        @include media("<tablet") {
+            padding: 1rem 1rem 0;
+
+            .main-title {
+                font-size: 1.3rem;
+                margin-bottom: .5rem;
+            }
+        }
+
         @import 'MainRoute';
         @import 'WriteRoute';
         @import 'SearchRoute';
