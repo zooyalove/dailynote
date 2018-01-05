@@ -40,6 +40,21 @@ a.menuitem {
         }
     }
 
+    @include media("<tablet") {
+        &.active,
+        &.white.active,
+        &.red.active,
+        &.green.active,
+        &.teal.active,
+        &.blue.active,
+        &.grape.active
+        {
+            &:after {
+                content: none;
+            }
+        }
+    }
+
     &.red {
         &:hover, &.active, &:active {
             background: $oc-red-8;
