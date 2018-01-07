@@ -9,7 +9,7 @@ const MenuItem = ({ children, color, content, icon, to, onClick }) => {
 	          	<Link to={to} activeClassName="active" className={`menuitem ${color}`} onClick={onClick} >
 	            	<Icon name={icon} />
 	        	</Link>
-	        }
+			}
         	content={content}
         	position='right center' />
     );
