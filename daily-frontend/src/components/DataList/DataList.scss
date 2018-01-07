@@ -22,6 +22,17 @@
         border-bottom: 1px solid darkgray;
         background: lighten(darkgray, 20%);
     }
+
+    @media(max-width: 767px) {
+      .header-row, .list-row {
+        .list-column:not(:first-child) {
+          display: none;
+        }
+        .list-column:last-child {
+          display: block;
+        }
+      }
+    }
 }
 
 /*base code*/
