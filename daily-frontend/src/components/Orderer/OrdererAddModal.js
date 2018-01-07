@@ -40,7 +40,7 @@ class OrdererAddModal extends Component {
     handleChange = (e, dat) => {
         const {name, value} = dat;
 
-        this.setState({data: {...this.state.data, [name]: value.trim()}});
+        this.setState({data: {...this.state.data, [name]: value}});
     }
 
     handleClose = () => {
@@ -60,7 +60,7 @@ class OrdererAddModal extends Component {
                 phone: utils.empty(phone)
             }});
         } else {
-            onOrdererAdd(this.state.data);
+            onOrdererAdd(Object.assign({}, ...Object.keys(this.state.data).map( (d) => { return { [d]: this.state.data[d].trim() }; })));
         }
     }
 
