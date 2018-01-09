@@ -39,6 +39,8 @@ const ListRow = ({
             return <ListColumn key={i} text={delivery[d]} address />;
         } else if (d === 'price') {
             return <ListColumn key={i} text={delivery[d].toLocaleString()} right />;
+        } else if (d === 'category') {
+            return <ListColumn key={i} text={delivery[d]} center className="category" />;
         }
 
         return <ListColumn key={i} text={delivery[d]} center />;

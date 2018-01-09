@@ -18,7 +18,9 @@ const DataList = ({
                     ? ['주문자', '주문자연락처', '받는사람', '전화번호', '상품종류', '배달장소', '글씨', '배송일자', '가격']
                     : ['받는사람', '전화번호', '상품종류', '배달장소', '배송일자', '가격']
     const header = hList.map((h, i) => {
-        if ( h === '배달장소' ) {
+        if ( h === '상품종류') {
+            return (<ListColumn key={i} center bold className="category">{h}</ListColumn>);
+        } else if ( h === '배달장소' ) {
             return (<ListColumn key={i} center bold address>{h}</ListColumn>);
         } else if ( h === '배송일자' ) {
             return (<ListColumn key={i} center bold date>{h}</ListColumn>);

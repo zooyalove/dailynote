@@ -28,7 +28,7 @@
         .list-column:not(:first-child) {
           display: none;
         }
-        .list-column:last-child {
+        .list-column:last-child, .list-column.category {
           display: block;
         }
       }
