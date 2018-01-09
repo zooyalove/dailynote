@@ -36,6 +36,35 @@
 
     @media(max-width: 767px) {
         flex-direction: column;
+
+        .category-header {
+            width: 100%;
+            margin-bottom: .5rem;
+        }
+
+        .category-filter {
+            padding: .5rem 0 0;
+            border: 0;
+            border-top: 1px solid lightgray;
+            width: 100%;
+
+            > input[type=text] {
+                width: 11.2rem;
+            }
+
+            .filter-list {
+                margin-left: 1rem;
+
+                > button.right.labeled {
+                    padding-left: 1rem !important;
+                    padding-right: 3.5rem !important;
+                }
+            }
+        }
+    }
+
+    @media(max-width: 360px) {
+        flex-direction: column;
         position: relative;
 
         .category-header {
@@ -49,8 +78,7 @@
         }
 
         .category-filter {
-            padding: 0;
-            padding-top: .5rem;
+            padding-top: .5rem 0 0;
             border: 0;
             border-top: 1px solid lightgray;
 
