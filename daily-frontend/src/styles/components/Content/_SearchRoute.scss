@@ -3,10 +3,83 @@
 
     .search-list-wrapper {
         flex-grow: 1;
+
+        @include media("<tablet") {
+            span:first-child {
+                display: none;
+            }
+
+            input {
+                width: 41rem;
+            }
+        }
+
+        @include media("<=phone") {
+            input {
+                min-width: 21rem !important;
+                width: 100%;
+            }
+        }
     }
 
     .day-picker {
         flex-grow: 0;
+
+        .calendar-icon {
+            display: none;
+        }
+
+        @include media("<tablet") {
+            position: absolute;
+            right: .5rem;
+
+            .calendar-icon {
+                display: inline-block;
+                position: absolute;
+                top: 2px;
+                right: 0;
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                border: 1px solid rgb(122, 197, 97);
+                background: white;
+                text-align: center;
+                color: gray;
+                font-size: 1.2rem;
+                padding-top: 4px;
+                padding-left: 5px;
+
+                &:hover {
+                    border-color: rgb(34, 146, 0);
+                    color: rgb(34, 146, 0);
+                }
+
+                &:active, &.active {
+                    border-color: rgb(34, 146, 0);
+                    color: red;
+                }
+            }
+
+            .card {
+                display: none;
+                padding-bottom: .5rem;
+                min-height: 0;
+                margin-bottom: 1rem;
+
+                &.active {
+                    display: block;
+                    position: absolute;
+                    top: 2.5rem;
+                    right: .5rem;
+                }
+            }
+        }
+
+        @include media("<=phone") {
+            .calendar-icon {
+                right: 2px;
+            }
+        }
     }
 
     .DayPicker-wrapper {
@@ -45,6 +118,16 @@
                 }
             }
         }
+
+        @include media("<tablet") {
+            .DayPicker-Month {
+                margin: .2rem;
+            }
+
+            .DayPicker-Footer {
+                padding: 0;
+            }
+        }
     }
 
     .search-txt {
@@ -54,6 +137,11 @@
         padding-top: 1.4rem;
         border-top: 1px solid lightgray;
         line-height: 1.2;
+
+        @include media("<tablet") {
+            margin: .8rem 0 0;
+            padding-top: 1rem;
+        }
 
         > b {
             border-radius: 100%;

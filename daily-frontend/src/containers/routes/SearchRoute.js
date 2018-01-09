@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimmer, Loader } from 'semantic-ui-react';
+import { Dimmer, Loader, Button } from 'semantic-ui-react';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
@@ -20,7 +20,8 @@ class SearchRoute extends Component {
 		monthData: [],
 		searchTxt: null,
 		selectedDays: null,
-		selectedMonth: null
+		selectedMonth: null,
+		calendarActive: false
 	}
 
 	componentWillMount() {
@@ -76,13 +77,13 @@ class SearchRoute extends Component {
 			const data = result.data.data;
 
 			window.setTimeout(() => {
-				this.setState({ fetch: false, datas: (utils.empty(data) ? null : data) });
+				this.setState({ fetch: false, datas: (utils.empty(data) ? null : data),  calendarActive: false});
 			}, 2000);
 		}
 	}
 
 	render() {
-		const { existOrder, getMonthNotes, handleSearch, handlePickerSearch, state: { datas, fetch, searchTxt, selectedDays } } = this;
+		const { existOrder, getMonthNotes, handleSearch, handlePickerSearch, state: { datas, fetch, searchTxt, selectedDays, calendarActive } } = this;
 		
 		return (
 			<div className="subcontents-wrapper flex">
@@ -94,7 +95,8 @@ class SearchRoute extends Component {
 					<DataList datalist={datas} ordererView style={{marginTop: '2rem'}} />
 				</div>
 				<div className="day-picker">
-					<Card>
+					<Button circular icon="calendar" className={`calendar-icon${calendarActive ? ' active' : ''}`} onClick={() => this.setState({ calendarActive: !calendarActive })} />
+					<Card className={`${calendarActive ? 'active' : ''}`}>
 						<DayPicker
 							localeUtils={MomentLocaleUtils}
 							locale="ko"
