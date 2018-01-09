@@ -44,13 +44,19 @@
         .detail-content + .detail-content {
             border-top: 1px solid lightgray;
         }
-}
+    }
 
     .title {
         margin-bottom: 1.5rem;
         
         .dropdown {
             margin-left: 1rem;
+        }
+    }
+
+    @include media("<tablet") {
+        .category-detail {
+            display: none;
         }
     }
 }

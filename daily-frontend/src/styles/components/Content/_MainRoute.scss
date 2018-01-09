@@ -8,3 +8,9 @@
         color: red;
     }
 }
+
+@include media("<tablet") {
+    .data-list-wrapper {
+        margin: 0 0 1rem;
+    }
+}

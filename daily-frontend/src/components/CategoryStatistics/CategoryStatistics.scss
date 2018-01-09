@@ -33,4 +33,36 @@
             margin-left: 2rem;
         }
     }
+
+    @media(max-width: 767px) {
+        flex-direction: column;
+        position: relative;
+
+        .category-header {
+            max-width: 300px;
+
+            .selection {
+                display: block !important;
+                width: 300px;
+                margin: .5rem 0 !important;
+             }
+        }
+
+        .category-filter {
+            padding: 0;
+            padding-top: .5rem;
+            border: 0;
+            border-top: 1px solid lightgray;
+
+            > input[type=text] {
+                margin-left: 2px !important;
+                width: 12.8rem;
+            }
+
+            .filter-list {
+                margin: 5px 0 0;
+                display: block;
+            }
+        }
+    }
 }
