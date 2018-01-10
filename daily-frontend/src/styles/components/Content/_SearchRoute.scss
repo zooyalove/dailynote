@@ -3,6 +3,7 @@
 
     .search-list-wrapper {
         flex-grow: 1;
+        width: 70%;
 
         @include media("<tablet") {
             span:first-child {
