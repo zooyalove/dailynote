@@ -5,6 +5,22 @@
         flex-grow: 1;
         width: 70%;
 
+        .total-price-wrapper {
+            text-align: right;
+            margin-bottom: 0;
+            margin-right: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        
+            .price {
+                color: red;
+            }
+        }
+
+        .data-list-wrapper {
+            margin-top: 1rem !important;
+        }
+        
         @include media("<tablet") {
             span:first-child {
                 display: none;

@@ -85,6 +85,14 @@ class SearchRoute extends Component {
 	render() {
 		const { existOrder, getMonthNotes, handleSearch, handlePickerSearch, state: { datas, fetch, searchTxt, selectedDays, calendarActive } } = this;
 		
+		let total = 0;
+		
+		if (datas) {
+			datas.forEach( (d) => {
+				total += d.delivery.price;
+			});
+		}
+
 		return (
 			<div className="subcontents-wrapper flex">
 				<div className="search-list-wrapper">
@@ -92,6 +100,7 @@ class SearchRoute extends Component {
 					<SearchInput placeholder="찾고 싶은 장부의 내용들을 검색해보세요!" icon onSearch={handleSearch}/>
 					{ fetch && <Dimmer active><Loader>Data Loading...</Loader></Dimmer> }
 					{ searchTxt && <div className="search-txt"><b>▶</b> 입력하신 검색어는 <span>{searchTxt}</span></div> }
+					<div className="total-price-wrapper">총합계 <span className="price">{total === 0 ? total : total.toLocaleString()}</span>원</div>
 					<DataList datalist={datas} ordererView style={{marginTop: '2rem'}} />
 				</div>
 				<div className="day-picker">
