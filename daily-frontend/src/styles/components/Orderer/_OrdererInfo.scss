@@ -34,6 +34,7 @@
     @include media("<tablet") {
         left: 0;
         margin-left: 0px;
+        padding-top: 4.5rem;
 
         &.noid {
             .bar-chart {

@@ -4,10 +4,4 @@
 
     @import './../Orderer/all';
     @import './../Orderer/OrdererInfo';
-
-    @include media("<tablet") {
-        .orderer-widget {
-            display: none;
-        }
-    }
 }

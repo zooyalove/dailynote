@@ -56,7 +56,7 @@ class OrdererInfoRoute extends Component {
     }
 
     handleOrdererInfo = async (id) => {
-        const { status: { orderer } } = this.props;
+        const { OrdererActions, status: { orderer } } = this.props;
 
         const res = await api.getOrdererById({id});
 
@@ -64,6 +64,7 @@ class OrdererInfoRoute extends Component {
             const { data } = res;
 
             const i = orderer.get('data').findIndex( d => d.get('_id') === id );
+            OrdererActions.setSelectedOrderer(id);
             
             this.setState({
                 index: i,

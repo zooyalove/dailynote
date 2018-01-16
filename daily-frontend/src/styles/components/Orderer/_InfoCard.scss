@@ -26,10 +26,13 @@
     }
 
     @include media("<tablet") {
+        height: 150px; 
+
         .label {
             top: 53%;
             font-size: 1.5rem;
-            padding: .7rem .7rem .7rem 2.2rem;
+            padding: .5rem;
+            padding-left: 1.7rem;
         }
 
         .actions {

@@ -7,12 +7,14 @@ const ORDERER_ADD_MODAL_OPEN = "orderer/ORDERER_ADD_MODAL_OPEN";
 const ORDERER_MODIFY_INFO_SET = "orderer/ORDERER_MODIFY_INFO_SET";
 const ORDERER_DATA_FETCHING = "orderer/ORDERER_DATA_FETCHING";
 const ORDERER_DATA_SET = "orderer/ORDERER_DATA_SET";
+const ORDERER_SELECTED_SET = "orderer/ORDERER_SELECTED_SET";
 
 /* action creators */
 export const openAddOrdererModal = createAction(ORDERER_ADD_MODAL_OPEN);
 export const setOrdererModifyInfo = createAction(ORDERER_MODIFY_INFO_SET);
 export const fetchingOrdererData = createAction(ORDERER_DATA_FETCHING);
 export const setOrdererData = createAction(ORDERER_DATA_SET);
+export const setSelectedOrderer = createAction(ORDERER_SELECTED_SET);
 
 const initialState = Map({
     modal: Map({
@@ -22,6 +24,7 @@ const initialState = Map({
         message: ''
     }),
     info: null,
+    selected: null,
     data: List([])
 });
 
@@ -72,5 +75,10 @@ export default handleActions({
         }
 
         return state.set('data', fromJS(orderer));
+    },
+    [ORDERER_SELECTED_SET]: (state, action) => {
+        const selectedId = action.payload;
+        
+        return state.set('selected', selectedId);
     }
 }, initialState);

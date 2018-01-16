@@ -12,6 +12,14 @@ import * as api from 'helpers/WebApi/orderer';
 
 class OrdererRoute extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            listActive: false
+        };
+    }
+
     componentWillMount() {
         const { OrdererActions } = this.props;
 
@@ -90,20 +98,36 @@ class OrdererRoute extends Component {
 			});
     }
     
+    handleOrdererListClick = (listActive) => {
+        this.setState({ listActive });
+    }
+
 	render() {
-        const { handleModal, handleOrdererAdd } = this;
+        const { handleModal, handleOrdererAdd, handleOrdererListClick, state: { listActive } } = this;
         const { children, status: { orderer } } = this.props;
 
         const orderers = (orderer.get('data') && orderer.get('data').size > 0) ?
                 orderer.get('data').map( (data, index) => {
-                    return (<OrdererItem key={index} name={data.get('name')} to={data.get('_id')} />);
+                    return (<OrdererItem key={index} name={data.get('name')} to={data.get('_id')} onItemClick={handleOrdererListClick} />);
                 }) : (<OrdererItem>No Results...</OrdererItem>);
+
+        let index = ( orderer.get('selected') !== null)
+                        ? orderer.get('data').findIndex( (d) => d.get('_id') === orderer.get('selected') )
+                        : -1;
         
+        let selected = ( index !== -1 ) ? orderer.get('data').get(index).toJS()['name'] : '';
+        console.log(index, selected);
+
 		return (
 			<div className="orderer-wrapper">
                 <OrdererWidget>
                     <OrdererAdd onAdd={handleModal.open} />
-                    <OrdererList count={orderers.size ? orderers.size : 0}>
+                    <OrdererList
+                        active={listActive}
+                        selected={selected}
+                        count={orderers.size ? orderers.size : 0}
+                        onListClick={handleOrdererListClick}
+                    >
                         {orderers}
                     </OrdererList>
                 </OrdererWidget>

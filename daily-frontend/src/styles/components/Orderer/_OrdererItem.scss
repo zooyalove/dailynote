@@ -44,3 +44,11 @@ a.orderer-item {
 .orderer-item + .orderer-item {
     border-top: 1px solid $oc-gray-7;
 }
+
+@include media("<tablet") {
+    a.orderer-item {
+        .orderer-chevron {
+            display: none;
+        }
+    }
+}

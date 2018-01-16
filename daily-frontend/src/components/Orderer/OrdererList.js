@@ -13,12 +13,13 @@ const renderThumb = ({style, ...props}) => {
 	);
 };
 
-const OrdererList = ({children, count}) => {
+const OrdererList = ({active, children, count, selected, onListClick}) => {
 	return (
 		<div className="orderer-list">
 			<div className="orderer-title">거래처 리스트 <span className="badges">{count}</span></div>
+			<div className={`orderer-selected${active ? ' active' : ''}`} onClick={() => onListClick(!active)}>{selected}</div>
 			<Scrollbars
-				className="orderer-list-scrollbar"
+				className={`orderer-list-scrollbar${active ? ' active' : ''}`}
 				autoHide
 				renderThumbVertical={renderThumb}
 				renderThumbHorizontal={renderThumb}>

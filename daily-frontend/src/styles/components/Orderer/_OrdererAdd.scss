@@ -22,4 +22,19 @@
             background: $oc-grape-7;
         }
     }
+
+    @include media("<tablet") {
+        float: right;
+        width: auto;
+
+        .add-btn {
+            i {
+                margin: 0;
+            }
+            
+            span {
+                display: none;
+            }
+        }
+    }
 }
