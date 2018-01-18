@@ -16,20 +16,14 @@ class Pager extends Component {
         datas: null
     }
 
+    componentWillMount() {
+        
+    }
+
     render() {
-        const { ordererView, animation, hide, className } = this.props;
         return (
-            <div className={cx('pager-wrapper', {}, className)}>
-                <div className={cx('pager-body')}>
-                    <DataList
-                        datalist={[]}
-                        ordererView={ordererView}
-                        animation={animation}
-                        hide={hide}
-                        />
-                </div>
-                <div className={cx('pager-bottom')}></div>            
-            </div>
+            <ul className={cx('pager-wrapper')}>
+            </ul>
         );
     }
 };
