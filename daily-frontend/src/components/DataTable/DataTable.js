@@ -23,11 +23,37 @@ class DataTable extends Component {
 
     render() {
         const { handlePageClick, state: { currentPage, datas } } = this;
-        const { countPerPage, displayPage } = this.props;
+        const { countPerPage, displayPage, ordererView, animation, hide } = this.props;
+
+        let datalist;
+        let startIndex = 0;
+
+        if (datas.length === 0) {
+            datalist = [];
+        } else {
+            startIndex = datas.length - ((currentPage-1) * countPerPage);
+
+            if (currentPage === 1) {
+                if (datas.length <= countPerPage) {
+                    datalist = datas;
+                } else {
+                    datalist = datas.slice(0, 10);
+                }
+            } else {
+                const pageOffset = currentPage * countPerPage;
+                datalist = datas.slice(pageOffset, (pageOffset + countPerPage));
+            }
+        }
 
         return (
             <div className={cx('data-table')}>
-                <DataList/>
+                <DataList
+                    startIndex={startIndex}
+                    datalist={datalist}
+                    ordererView={ordererView ? true : false}
+                    animation={animation ? true : false}
+                    hide={hide ? true : false}
+                />
                 <Pager
                     datas={datas}
                     current={currentPage}

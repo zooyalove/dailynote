@@ -8,6 +8,7 @@ import ListColumn from 'components/ListColumn';
 const cx = classNames.bind(styles);
 
 const ListRow = ({
+    index,
     data,
     ordererView,
     children
@@ -52,6 +53,7 @@ const ListRow = ({
 
     return (
         <div className={cx('list-row')}>
+            <ListColumn text={index} center />
             {ordererView && oData}
             {recv}
             {deliveries}
