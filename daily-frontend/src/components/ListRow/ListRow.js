@@ -53,7 +53,7 @@ const ListRow = ({
 
     return (
         <div className={cx('list-row')}>
-            <ListColumn text={index} center />
+            <ListColumn text={index} center className="no" />
             {ordererView && oData}
             {recv}
             {deliveries}

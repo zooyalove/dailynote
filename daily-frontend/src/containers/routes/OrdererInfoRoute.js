@@ -5,7 +5,7 @@ import { Button, Modal, Message, Icon, Loader } from 'semantic-ui-react';
 
 import { OrdererInfo, InfoCard } from 'components/Orderer';
 import InfoList from 'components/InfoList';
-import DataList from 'components/DataList';
+import DataTable from 'components/DataTable';
 
 import * as api from 'helpers/WebApi/orderer';
 import * as utils from 'helpers/utils';
@@ -119,7 +119,6 @@ class OrdererInfoRoute extends Component {
 
         await api.deleteOrderer({id: userid})
             .then((res) => {
-                console.log('res :', res);
                 
                 OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" size="big" color="green" />{name} 님의 정보를 삭제했습니다...</div>)});
 
@@ -135,7 +134,6 @@ class OrdererInfoRoute extends Component {
                 }, 3000);
             })
             .catch((err) => {
-                console.log(err);                
                 OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="cancel" size="big" color="red" />{name} 님의 정보를 삭제하지 못했습니다...</div>)});
 
                 setTimeout(() => OrdererActions.fetchingOrdererData({fetch: false, message: ''}), 3000);
@@ -155,6 +153,7 @@ class OrdererInfoRoute extends Component {
 
         const ordererInfo = orderer.get('data').get(index).toJS();
 
+
         return (
             <OrdererInfo>
                 <InfoCard backgroundImage={backImages[random]}
@@ -167,7 +166,13 @@ class OrdererInfoRoute extends Component {
                     <InfoList list={{ordererInfo, data: (!utils.empty(data) ? data['total'] : null)}} />
                     
                     {!utils.empty(data) &&
-                        <DataList datalist={data.orders} hide={hide} animation />
+                        <DataTable
+                            datas={data.orders}
+                            countPerPage={10}
+                            displayPage={5}
+                            hide={hide}
+                            animation
+                        />
                     }
                 </InfoCard>
 				{del_open && (

@@ -7,7 +7,7 @@ import MomentLocaleUtils from 'react-day-picker/moment';
 import 'moment/locale/ko';
 
 import SearchInput from 'components/SearchInput';
-import DataList from 'components/DataList';
+import DataTable from 'components/DataTable';
 import Card from 'components/Card';
 
 import * as api from 'helpers/WebApi/note';
@@ -16,7 +16,7 @@ import * as utils from 'helpers/utils';
 class SearchRoute extends Component {
 	state = {
 		fetch: false,
-		datas: null,
+		datas: [],
 		monthData: [],
 		searchTxt: null,
 		selectedDays: null,
@@ -56,13 +56,13 @@ class SearchRoute extends Component {
 	}
 
 	handleSearch = async (value) => {
-		this.setState({ fetch: true, datas: null, searchTxt: value, selectedDays: null });
+		this.setState({ fetch: true, datas: [], searchTxt: value, selectedDays: null });
 
 		const result = await api.searchNotes(value);
 		const data = result.data.data;
 
 		window.setTimeout(() => {
-			this.setState({ fetch: false, datas: (utils.empty(data) ? null : data) });
+			this.setState({ fetch: false, datas: (utils.empty(data) ? [] : data) });
 		}, 2000);
 	}
 
@@ -71,13 +71,13 @@ class SearchRoute extends Component {
 			let date = day.toLocaleDateString().replace(/ /g, '').replace(/\./g, '-');
 			date = date.substring(0, date.length-1);
 
-			this.setState({ fetch: true, datas: null, searchTxt: date, selectedDays: day });
+			this.setState({ fetch: true, datas: [], searchTxt: date, selectedDays: day });
 
 			const result = await api.searchNotes(date);
 			const data = result.data.data;
 
 			window.setTimeout(() => {
-				this.setState({ fetch: false, datas: (utils.empty(data) ? null : data),  calendarActive: false});
+				this.setState({ fetch: false, datas: (utils.empty(data) ? [] : data),  calendarActive: false});
 			}, 2000);
 		}
 	}
@@ -101,7 +101,12 @@ class SearchRoute extends Component {
 					{ fetch && <Dimmer active><Loader>Data Loading...</Loader></Dimmer> }
 					{ searchTxt && <div className="search-txt"><b>▶</b> 입력하신 검색어는 <span>{searchTxt}</span></div> }
 					<div className="total-price-wrapper">총합계 <span className="price">{total === 0 ? total : total.toLocaleString()}</span>원</div>
-					<DataList datalist={datas} ordererView style={{marginTop: '2rem'}} />
+					<DataTable
+						datas={datas}
+						countPerPage={10}
+						displayPage={5}
+						ordererView
+						style={{marginTop: '2rem'}} />
 				</div>
 				<div className="day-picker">
 					<Button circular icon="calendar" className={`calendar-icon${calendarActive ? ' active' : ''}`} onClick={() => this.setState({ calendarActive: !calendarActive })} />

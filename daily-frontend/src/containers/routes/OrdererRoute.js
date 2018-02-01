@@ -77,11 +77,10 @@ class OrdererRoute extends Component {
 
 		api.addOrderer(formdata)
         .then( (res) => {
-            console.log('Orderer Add : ', res);
             const orderer = res.data.orderer;
             OrdererActions.setOrdererData({orderer});
         }, (err) => {
-            console.log(err.response.data.error);
+            console.error(err.response.data.error);
         });
     }
 
@@ -90,11 +89,10 @@ class OrdererRoute extends Component {
 
 		api.modifyOrderer(formdata._id, formdata)
 			.then( (res) => {
-				console.log('Orderer Modify : ', res);
 				const orderer = res.data.orderer;
 				OrdererActions.setOrdererData({orderer});
 			}, (err) => {
-				console.log(err.response.data.error);
+				console.error(err.response.data.error);
 			});
     }
     
@@ -116,7 +114,6 @@ class OrdererRoute extends Component {
                         : -1;
         
         let selected = ( index !== -1 ) ? orderer.get('data').get(index).toJS()['name'] : '';
-        console.log(index, selected);
 
 		return (
 			<div className="orderer-wrapper">

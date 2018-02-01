@@ -24,6 +24,10 @@
     &.red {
         color: red;
     }
+    &.no {
+        width: 3rem;
+        flex: none;
+    }
 }
 .list-column + .list-column {
     border-left: 1px solid lighten(lightgray, 5%);

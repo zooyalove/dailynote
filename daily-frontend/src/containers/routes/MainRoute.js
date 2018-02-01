@@ -4,11 +4,12 @@ import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
-import DataList from 'components/DataList';
+import DataTable from 'components/DataTable';
 
 import * as header from 'redux/modules/base/header';
 
 import storage from 'helpers/storage';
+import * as util from 'helpers/utils';
 import * as api from 'helpers/WebApi/note';
 
 class MainRoute extends Component {
@@ -17,7 +18,7 @@ class MainRoute extends Component {
 	}
 	
 	state = {
-		datas: null,
+		datas: [],
 		fetch: true
 	}
 
@@ -60,13 +61,17 @@ class MainRoute extends Component {
 		const { state: { datas, fetch } } = this;
 		let total = 0;
 		
-		if (datas) {
+		if (!util.empty(datas)) {
 			datas.forEach( (d) => {
 				total += d.delivery.price;
 			});
 		}
 
-		const lists = (<DataList datalist={datas} ordererView />);
+		const lists = (<DataTable
+							datas={datas}
+							countPerPage={10}
+							displayPage={5}
+							ordererView />);
 
 		return (
 			<div className="subcontents-wrapper">

@@ -17,6 +17,14 @@ class DataTable extends Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        const { datas } = this.state;
+
+        if (datas !== nextProps.datas) {
+            this.setState({ datas: nextProps.datas });
+        }
+    }
+
     handlePageClick = (page) => {
         this.setState({ currentPage: page });
     }
@@ -40,7 +48,7 @@ class DataTable extends Component {
                     datalist = datas.slice(0, 10);
                 }
             } else {
-                const pageOffset = currentPage * countPerPage;
+                const pageOffset = (currentPage-1) * countPerPage;
                 datalist = datas.slice(pageOffset, (pageOffset + countPerPage));
             }
         }
