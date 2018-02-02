@@ -60,7 +60,15 @@ class OrdererAddModal extends Component {
                 phone: utils.empty(phone)
             }});
         } else {
-            onOrdererAdd(Object.assign({}, ...Object.keys(this.state.data).map( (d) => { return { [d]: this.state.data[d].trim() }; })));
+            onOrdererAdd(Object.assign({}, ...Object.keys(this.state.data).map( (d) => {
+                if (utils.empty(this.state.data[d])) {
+                    return { [d]: '' };
+                } else if (d === 'date' ) {
+                    return { [d]: this.state.data[d] }; 
+                }
+    
+                return { [d]: this.state.data[d].trim() };
+            })));
         }
     }
 
