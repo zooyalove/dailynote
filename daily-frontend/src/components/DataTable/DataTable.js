@@ -21,7 +21,7 @@ class DataTable extends Component {
         const { datas } = this.state;
 
         if (datas !== nextProps.datas) {
-            this.setState({ datas: nextProps.datas });
+            this.setState({ currentPage: 1, datas: nextProps.datas });
         }
     }
 
