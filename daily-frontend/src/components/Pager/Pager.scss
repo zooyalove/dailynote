@@ -3,12 +3,16 @@
     text-align: center;
     -webkit-padding-start: 0;
 
+    &.hide {
+        display: none;
+    }
+
     li {
         display: inline-block;
         cursor: pointer;
         user-select: none;
-        // padding-right: 0px !important;
     }
+
     .pager-number {
         width: 20px;
         height: 20px;

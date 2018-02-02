@@ -42,6 +42,7 @@ const Pager = ({
     countPerPage=10,
     displayPage=5,
     datas=[],
+    hide,
     onPageClick
 }) => {
 
@@ -70,7 +71,7 @@ const Pager = ({
     }
 
     return (
-        <ul className="pager-wrapper">
+        <ul className={`pager-wrapper${hide ? ' hide' : ''}`}>
             <FirstPage onClick={onPageClick} />
             <PrevPage page={(current === 1 ? 1 : (current - 1))} onClick={onPageClick} />
             {pagenumber}

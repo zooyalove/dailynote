@@ -67,6 +67,7 @@ class DataTable extends Component {
                     current={currentPage}
                     countPerPage={countPerPage}
                     displayPage={displayPage}
+                    hide={hide ? true : false}
                     onPageClick={handlePageClick}
                 />
             </div>
