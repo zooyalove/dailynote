@@ -124,11 +124,11 @@ class WriteRoute extends Component {
 
 		await api.addOrderer(formdata)
 			.then( (res) => {
-				console.log('Orderer Add : ', res);
+				// console.log('Orderer Add : ', res);
 				const orderer = res.data.orderer;
 				OrdererActions.setOrdererData({orderer});
 			}, (err) => {
-				console.log(err.response.data.error);
+				console.error(err.response.data.error);
 			});
 		
 		OrdererActions.fetchingOrdererData({fetch: true, message: (<div><Icon name="checkmark" color="green" /> 거래처 등록완료!!!</div>)});
@@ -198,7 +198,7 @@ class WriteRoute extends Component {
 		});
 		
 		setTimeout(() => {
-			this.setState(initialState);
+			this.setState({...initialState, 'delivery_date': moment()});
 			OrdererActions.fetchingOrdererData({fetch: false, message: ''});
 		}, 1500);
 	}
@@ -246,8 +246,6 @@ class WriteRoute extends Component {
 
 		const price = (String(delivery_price).indexOf(',') > -1) ?
 						String(delivery_price).replace(',', '') : delivery_price;
-
-		// console.log(this.state);
 
 		return (
 			<div className="subcontents-wrapper">
