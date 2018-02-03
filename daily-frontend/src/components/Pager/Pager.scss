@@ -11,6 +11,12 @@
         display: inline-block;
         cursor: pointer;
         user-select: none;
+
+        &.pager {
+            &.pager-number:last-child {
+                margin-right: 0px;
+            }
+        }
     }
 
     .pager {
@@ -39,10 +45,6 @@
                 background: black;
                 color: white;
             }
-        }
-
-        &.pager-number:last-child {
-            margin-right: 0;
         }
 
         &.pager-first, &.pager-last, &.pager-prev, &.pager-next {

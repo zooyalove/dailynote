@@ -47,7 +47,10 @@ const Pager = ({
 }) => {
 
     const dataLength = (datas.length > 0) ? datas.length : 0;
-    const totalPage = Math.ceil(dataLength/countPerPage);
+
+    let totalPage = Math.ceil(dataLength/countPerPage);
+    if (totalPage === 0) totalPage = 1;
+    
     const pagenumber = [];
 
     if (dataLength === 0 || totalPage === 1) {
