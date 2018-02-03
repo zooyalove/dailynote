@@ -12,7 +12,7 @@ const PageNumber = ({
 }) => {
     return (
         <li
-            className={`${className ? className : 'pager-number'}${active ? ' active' : ''}`}
+            className={`pager ${className ? className : 'pager-number'}${active ? ' active' : ''}`}
             onClick={() => onClick(page)}
             {...rest}
         >
@@ -50,33 +50,31 @@ const Pager = ({
     const totalPage = Math.ceil(dataLength/countPerPage);
     const pagenumber = [];
 
-    if (dataLength === 0) {
-        pagenumber.push(<PageNumber key={1} page={1} active={true} style={{cursor: 'default'}} />);
+    if (dataLength === 0 || totalPage === 1) {
+        pagenumber.push(<PageNumber key={1} page={1} active onClick={() => {}} style={{cursor: 'default'}} />);
     } else {
-        var i;
-
+        let i, j;
         if (totalPage <= displayPage) {
-            for(i=1; i<=totalPage; i++) {
-                pagenumber.push(<PageNumber key={i} page={i} active={(current === i) ? true : false} onClick={onPageClick} />);
-            }
+            i = 1; j = totalPage + 1;
         } else {
-            for(i=current; i<(current+displayPage); i++) {
-                if (i > totalPage) {
-                    break;
-                } else {
-                    pagenumber.push(<PageNumber key={i} page={i} active={(current === i) ? true : false} onClick={onPageClick} />)
-                }
+            i = current; j = current + displayPage;
+        }
+        for(i; i<j; i++) {
+            if (i > totalPage) {
+                break;
+            } else {
+                pagenumber.push(<PageNumber key={i} page={i} active={(current === i) ? true : false} onClick={onPageClick} />);
             }
         }
     }
 
     return (
         <ul className={`pager-wrapper${hide ? ' hide' : ''}`}>
-            <FirstPage onClick={onPageClick} />
-            <PrevPage page={(current === 1 ? 1 : (current - 1))} onClick={onPageClick} />
+            { (current !== 1) && <FirstPage onClick={onPageClick} /> }
+            { (current !== 1) && <PrevPage page={(current === 1 ? 1 : (current - 1))} onClick={onPageClick} /> }
             {pagenumber}
-            <NextPage page={(current === totalPage ? totalPage : (current + 1))} onClick={onPageClick} />
-            <LastPage page={totalPage} onClick={onPageClick} />
+            { (current !== totalPage) && <NextPage page={(current === totalPage ? totalPage : (current + 1))} onClick={onPageClick} /> }
+            { (current !== totalPage) && <LastPage page={totalPage} onClick={onPageClick} /> }
         </ul>
     );
 };

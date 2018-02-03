@@ -13,45 +13,54 @@
         user-select: none;
     }
 
-    .pager-number {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 1px solid gray;
-        transition: all .3s ease-in-out;
-        color: black;
+    .pager {
+        color: gray;
+        transition: all .2s ease-in-out;
 
-        &:hover {
-            background: gray;
+        &.pager-number {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid gray;
             color: black;
+
+            &:hover {
+                background: gray;
+            }
+
+            &:active, &.active {
+                width: 24px;
+                height: 24px;
+                padding-top: 2px;
+                font-size: 1.2rem;
+                font-weight: 600;
+                border: 0;
+                background: black;
+                color: white;
+            }
         }
 
-        &:active, &.active {
-            width: 24px;
-            height: 24px;
-            padding-top: 2px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            border: 0;
-            background: black;
-            color: white;
+        &.pager-number + &.pager-number {
+            margin-left: .5rem;
         }
-    }
 
-    .pager-number + .pager-number {
-        margin-left: .5rem;
-    }
+        &.pager-first, &.pager-last, &.pager-prev, &.pager-next {
+            &:hover {
+                color: black;
+            }
+        }
 
-    .pager-first {
-        margin-right: .5rem;
-    }
-    .pager-last {
-        margin-left: .5rem;
-    }
-    .pager-prev {
-        margin-right: 1rem;
-    }
-    .pager-next {
-        margin-left: 1rem;
+        &.pager-first {
+            margin-right: .5rem;
+        }
+        &.pager-last {
+            margin-left: .5rem;
+        }
+        &.pager-prev {
+            margin-right: 1rem;
+        }
+        &.pager-next {
+            margin-left: 1rem;
+        }
     }
 }
