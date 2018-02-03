@@ -23,6 +23,7 @@
             border-radius: 50%;
             border: 1px solid gray;
             color: black;
+            margin-right: .5rem;
 
             &:hover {
                 background: gray;
@@ -40,8 +41,8 @@
             }
         }
 
-        &.pager-number + &.pager-number {
-            margin-left: .5rem;
+        &.pager-number:last-child {
+            margin-right: 0;
         }
 
         &.pager-first, &.pager-last, &.pager-prev, &.pager-next {
