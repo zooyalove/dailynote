@@ -1,43 +1,13 @@
-@include media("<=phone") {
-	.ui.form {
-		.fields:first-child {
-			label:first-child {
-				display: block;
-			}
+.react-datepicker {
+	ul {
+		-webkit-padding-start: 0px !important;
+		padding-right: 0px !important;
 
-			> button {
-				position: absolute;
-				right: 1rem;
-				top: 2.4rem;
-			}
-		}
-		.fields {
-			span {
-				margin-right: 0 !important;
-			}
-		}
-
-		.ui.buttons {
-			margin-top: .5rem;
-			display: block;
-			text-align: center;
-			width: 100%;
+		li[class*="item--disabled"] {
+			display: none;
 		}
 	}
 }
-
-@include media("<tablet") {
-	.ui.form {
-		.fields:first-child {
-			margin-bottom: 1rem;
-		}
-	}
-	.number, .number > input {
-		min-width: 150px !important;
-		width: 200px !important;
-	}
-}
-
 .min-width {
 	min-width: 250px !important;
 }
@@ -69,6 +39,17 @@
 }
 
 @include media("<tablet") {
+	.ui.form {
+		.fields:first-child {
+			margin-bottom: 1rem;
+		}
+	}
+
+	.number, .number > input {
+		min-width: 150px !important;
+		width: 200px !important;
+	}
+
 	.price-button {
 		padding: .5rem 1rem;
 	}
@@ -76,5 +57,33 @@
 	.write-action-btns {
 		justify-content: center;
 		float: none;
+	}
+}
+
+@include media("<=phone") {
+	.ui.form {
+		.fields:first-child {
+			label:first-child {
+				display: block;
+			}
+
+			> button {
+				position: absolute;
+				right: 1rem;
+				top: 2.4rem;
+			}
+		}
+		.fields {
+			span {
+				margin-right: 0 !important;
+			}
+		}
+
+		.ui.buttons {
+			margin-top: .5rem;
+			display: block;
+			text-align: center;
+			width: 100%;
+		}
 	}
 }
