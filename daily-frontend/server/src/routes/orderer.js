@@ -203,13 +203,16 @@ router.get('/:id', (req, res) => {
 			if (orders_res.length > 0) {
 				let totalPrice = 0;
 				let count = 0;
+				let graphData = (new Array(12)).fill(0);
 
 				orders_res.forEach((order) => {
 					totalPrice += order['delivery'].price;
+					graphData[(new Date(order['delivery'].date)).getMonth()] += order['delivery'].price;
 					count++;
 				});
 
 				data['total'] = {price: totalPrice, count};
+				data['graph'] = graphData;
 				data['orders'] = orders_res;
 			}
 
