@@ -34,7 +34,6 @@ const initialState = {
 	'receiver_phone': '',
 	'delivery_category': '',
 	'delivery_price': 0,
-	'delivery_date': moment(),
 	'delivery_address': '',
 	'delivery_text': '',
 	'memo': '',
@@ -43,7 +42,11 @@ const initialState = {
 
 class WriteRoute extends Component {
 
-	state = initialState
+	constructor(props) {
+		super(props);
+		
+		this.state = {...initialState, 	'delivery_date': moment()};
+	}
 
 	componentWillMount() {
 		const { OrdererActions } = this.props;
@@ -148,7 +151,7 @@ class WriteRoute extends Component {
 	handleCancel = (e) => {
 		e.preventDefault();
 
-		this.setState(initialState);
+		this.setState({...initialState,	'delivery_date': moment()});
 	}
 
 	handleSubmit = async (e) => {
