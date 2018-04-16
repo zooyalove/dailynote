@@ -45,7 +45,10 @@ read startDailyNote
 if [ "$startDailyNote" = "y" ]; then
     cd server
     npm start
+    echo ""
     pm2 startup
+    echo ""
     pm2 save
+    echo ""
     pm2 list
 fi

@@ -163,7 +163,7 @@ class OrdererInfoRoute extends Component {
                         onDelete={() => this.setState({del_open: true})}
                         onModify={handleModal.open}
                 >
-                    <InfoList list={{ordererInfo, data: (!utils.empty(data) ? data['total'] : null)}} />
+                    <InfoList list={{ordererInfo, data: (!utils.empty(data) ? {'total': data['total'], 'graph' : data['graph']} : null)}} />
                     
                     {!utils.empty(data) &&
                         <DataTable
