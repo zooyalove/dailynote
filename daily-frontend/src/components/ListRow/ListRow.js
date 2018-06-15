@@ -31,20 +31,26 @@ const ListRow = ({
         });
     }
 
-    const deliveries = Object.keys(delivery).map((d, i) => {
+    const deliveries = [];
+    
+    Object.keys(delivery).forEach((d, i) => {
         if (d === 'date') {
+            console.log(i);
             let dates = moment(new Date(delivery[d])).format('YYYY-MM-DD A hh시 mm분');
             dates = dates.replace('AM', '오전').replace('PM', '오후');
-            return <ListColumn key={i} text={dates} center date />;
+            deliveries.push(<ListColumn key={i} text={dates} center date />);
         } else if (d === 'address') {
-            return <ListColumn key={i} text={delivery[d]} address />;
+            deliveries.push(<ListColumn key={i} text={delivery[d]} address />);
         } else if (d === 'price') {
-            return <ListColumn key={i} text={delivery[d].toLocaleString()} right />;
+            deliveries.push(<ListColumn key={i} text={(delivery[d] * delivery['count']).toLocaleString()} right />);
         } else if (d === 'category') {
-            return <ListColumn key={i} text={delivery[d]} center className="category" />;
+            deliveries.push(<ListColumn key={i} text={delivery[d]} center className="category" />);
+        } else {
+            if (d !== 'count') {
+                console.log("Else", i);
+                deliveries.push(<ListColumn key={i} text={delivery[d]} center />);
+            }
         }
-
-        return <ListColumn key={i} text={delivery[d]} center />;
     });
 
     const recv = Object.keys(receiver).map((r, i) => {

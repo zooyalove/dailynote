@@ -73,13 +73,17 @@ router.get('/stat', (req, res) => {
 				$lt: new Date((c_year+1), 0, 1)
 			}
 		}},
+		{ $project: {
+			id: '$orderer.id',
+			price: { $multiply: ['$delivery.price', '$delivery.count'] }
+		}},
 		{ $group: {
 			_id: null,
-			totalPrice: { $sum: { $multiply: ['$price', '$count'] }},
+			totalPrice: { $sum: '$price'},
 			ordererPrice: { $sum: {
 								$cond: {
-									if: { $ne: ['$orderer.id', 'no'] },
-									then: { $multiply: ['$price', '$count'] },
+									if: { $ne: ['$id', 'no'] },
+									then: '$price',
 									else: 0
 								}
 							}}
@@ -111,12 +115,11 @@ router.get('/stat', (req, res) => {
 			},
 			{ $project: {
 				yearMonth: { $dateToString: { format: '%Y-%m', date: '$delivery.date' }},
-				price: '$delivery.price',
-				count: '$delivery.count'
+				price: { $multiply: ['$delivery.price', '$delivery.count']}
 			}},
 			{ $group: {
 				_id: '$yearMonth',
-				monthPrice: { $sum: { $multiply: ['$price', '$count'] }}
+				monthPrice: { $sum: '$price' }
 			}},
 			{ $sort: { _id: 1 }}
 		], (err2, y_res) => {
@@ -125,7 +128,7 @@ router.get('/stat', (req, res) => {
 				throw err2;
 			}
 
-			console.log("Server Data ", p_res[0], y_res);
+			console.log("Server Data ", p_res, y_res);
 			if (!y_res || y_res.length === 0) {
 				return res.json({
 					priceData: p_res[0],
