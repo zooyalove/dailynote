@@ -75,11 +75,11 @@ router.get('/stat', (req, res) => {
 		}},
 		{ $group: {
 			_id: null,
-			totalPrice: { $sum: '$delivery.price' },
+			totalPrice: { $sum: { $multiply: ['$price', '$count'] }},
 			ordererPrice: { $sum: {
 								$cond: {
 									if: { $ne: ['$orderer.id', 'no'] },
-									then: '$delivery.price',
+									then: { $multiply: ['$price', '$count'] },
 									else: 0
 								}
 							}}
@@ -111,11 +111,12 @@ router.get('/stat', (req, res) => {
 			},
 			{ $project: {
 				yearMonth: { $dateToString: { format: '%Y-%m', date: '$delivery.date' }},
-				price: '$delivery.price'
+				price: '$delivery.price',
+				count: '$delivery.count'
 			}},
 			{ $group: {
 				_id: '$yearMonth',
-				monthPrice: { $sum: '$price' }
+				monthPrice: { $sum: { $multiply: ['$price', '$count'] }}
 			}},
 			{ $sort: { _id: 1 }}
 		], (err2, y_res) => {
@@ -124,6 +125,7 @@ router.get('/stat', (req, res) => {
 				throw err2;
 			}
 
+			console.log("Server Data ", p_res[0], y_res);
 			if (!y_res || y_res.length === 0) {
 				return res.json({
 					priceData: p_res[0],
@@ -206,8 +208,8 @@ router.get('/:id', (req, res) => {
 				let graphData = (new Array(12)).fill(0);
 
 				orders_res.forEach((order) => {
-					totalPrice += order['delivery'].price;
-					graphData[(new Date(order['delivery'].date)).getMonth()] += order['delivery'].price;
+					totalPrice += (order['delivery'].price * order['delivery'].count);
+					graphData[(new Date(order['delivery'].date)).getMonth()] += (order['delivery'].price * order['delivery'].count);
 					count++;
 				});
 

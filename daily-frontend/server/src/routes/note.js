@@ -47,6 +47,7 @@ router.post('/', (req, res) => {
         receiver_phone,     // 받는 분 연락처
         delivery_category,  // 배달품 종류 (ex. 꽃바구니, 꽃다발, 관엽 등등...)
         delivery_price,     // 가격
+        delivery_count,     // 상품 갯수
         delivery_date,      // 배달일자
         delivery_address,   // 배달주소
         delivery_text,      // 글씨(경조사어 및 주문자 이름)
@@ -64,6 +65,7 @@ router.post('/', (req, res) => {
         'receiver.phone': receiver_phone,
         'delivery.category': delivery_category,
         'delivery.price': delivery_price,
+        'delivery.count': delivery_count,
         'delivery.date': new Date(delivery_date),
         'delivery.address': delivery_address,
         'delivery.text': delivery_text,
@@ -105,6 +107,7 @@ router.get('/', (req, res) => {
         'receiver.name': 1,
         'delivery.category': 1,
         'delivery.price': 1,
+        'delivery.count': 1,
         'delivery.address': 1,
         'delivery.date': 1,
         // 'delivery.image': 1,
@@ -341,14 +344,15 @@ router.get('/stat', (req, res) => {
             { $match: condition },
             { $project: {
                 yearMonth: { $dateToString: { format: '%Y-%m', date: '$delivery.date' }},
-                price: '$delivery.price'
+                price: '$delivery.price',
+                deliveryCount: '$delivery.count'
             }},
             { $group: {
                 _id: {
                     yearMonth: '$yearMonth',
                     price: '$price'
                 },
-                count: { $sum: 1 }
+                count: { $sum: '$deliveryCount' }
             }},
             { $group: {
                 _id: '$_id.yearMonth',

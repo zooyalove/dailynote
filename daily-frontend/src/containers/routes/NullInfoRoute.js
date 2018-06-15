@@ -112,7 +112,7 @@ class NullInfoRoute extends Component {
 
                 const yearSeries = [];
                 const priceSeries = [];
-                
+                console.log(yearData, priceData);
                 if (!utils.empty(yearData)) {
 
                     yearData.forEach((obj) => {

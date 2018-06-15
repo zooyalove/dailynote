@@ -30,6 +30,11 @@ const OrderNote = new Schema({
 			min: 0,
 			default: 0
 		},
+		count: {
+			type: Number,
+			min: 1,
+			default: 1
+		},
 		date: {
 			type: Date,
 			default: Date.now

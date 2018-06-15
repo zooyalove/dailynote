@@ -34,6 +34,7 @@ const initialState = {
 	'receiver_phone': '',
 	'delivery_category': '',
 	'delivery_price': 0,
+	'delivery_count': 1,
 	'delivery_address': '',
 	'delivery_text': '',
 	'memo': '',
@@ -166,6 +167,7 @@ class WriteRoute extends Component {
 			delivery_address,
 			delivery_date,
 			delivery_price,
+			delivery_count,
 			delivery_text,
 			memo
 		} = this.state;
@@ -191,6 +193,7 @@ class WriteRoute extends Component {
 			delivery_address,
 			delivery_date: delivery_date.toISOString(),
 			delivery_price: parseInt(delivery_price, 10),
+			delivery_count: parseInt(delivery_count, 10),
 			delivery_text,
 			memo
 		});
@@ -230,6 +233,7 @@ class WriteRoute extends Component {
 			delivery_date,
 			delivery_address,
 			delivery_price,
+			delivery_count,
 			delivery_text,
 			delivery_category,
 			memo,
@@ -329,6 +333,15 @@ class WriteRoute extends Component {
 								<Button color="red" className="price-button" onClick={(e) => { handlePriceClick(e, 100000);}}>100,000</Button>
 							</Button.Group>
 						</Form.Group>
+						<Form.Dropdown
+							name="delivery_count"
+							label="상품수량"
+							selection
+							placeholder="수량"
+							defaultValue={1}
+							options={[1,2,3,4,5]}
+							value={delivery_count}
+							onChange={handleChange} />
 						<Divider />
 						<Form.Input
 							name="delivery_address"
