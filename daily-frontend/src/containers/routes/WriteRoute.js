@@ -337,9 +337,11 @@ class WriteRoute extends Component {
 							name="delivery_count"
 							label="상품수량"
 							selection
+							inline
+							compact
 							placeholder="수량"
 							defaultValue={1}
-							options={[1,2,3,4,5]}
+							options={[1,2,3,4,5].map((v) => { return {'key': v, 'text': v, 'value': v }; })}
 							value={delivery_count}
 							onChange={handleChange} />
 						<Divider />

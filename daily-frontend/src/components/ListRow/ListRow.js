@@ -35,7 +35,7 @@ const ListRow = ({
     
     Object.keys(delivery).forEach((d, i) => {
         if (d === 'date') {
-            console.log(i);
+            // console.log(i);
             let dates = moment(new Date(delivery[d])).format('YYYY-MM-DD A hh시 mm분');
             dates = dates.replace('AM', '오전').replace('PM', '오후');
             deliveries.push(<ListColumn key={i} text={dates} center date />);
@@ -47,7 +47,7 @@ const ListRow = ({
             deliveries.push(<ListColumn key={i} text={delivery[d]} center className="category" />);
         } else {
             if (d !== 'count') {
-                console.log("Else", i);
+                // console.log("Else", i);
                 deliveries.push(<ListColumn key={i} text={delivery[d]} center />);
             }
         }
