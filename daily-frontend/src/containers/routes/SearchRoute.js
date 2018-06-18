@@ -89,7 +89,7 @@ class SearchRoute extends Component {
 		
 		if (datas) {
 			datas.forEach( (d) => {
-				total += d.delivery.price;
+				total += d.delivery.price * d.delivery.count;
 			});
 		}
 
