@@ -29,10 +29,10 @@ export const getMonthNotes = (month) => {
     return axios.get(`/api/note/month/${month}`);
 };
 
-export const getCategoryStatistics = (categoryValue, filters) => {
+export const getCategoryStatistics = (category, filters) => {
     return axios.get('/api/note/stat', {
         params: {
-            category: categoryValue,
+            category,
             filters
         }
     });

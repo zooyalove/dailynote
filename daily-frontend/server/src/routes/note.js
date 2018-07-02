@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const moment = require('moment');
 const OrderNote = require('./../models/OrderNote');
+const Orderer = require('./../models/Orderer');
 const util = require('./../helper');
 
 mongoose.Promise = global.Promise;
@@ -57,7 +58,68 @@ router.post('/', (req, res) => {
 
     } = req.body;
 
-    let note = new OrderNote({
+    let note;
+
+    if (orderer_id === 'no') {
+        const c_year = (new Date()).getFullYear();
+        const date = {
+            $gte: new Date(c_year, 0, 1),
+            $lt: new Date((c_year+1), 0, 1)
+        };
+
+        const condition = {
+            '$and': [
+                { 'orderer.id': 'no' },
+                { 'orderer.name': orderer_name.trim() },
+                { 'orderer.phone': orderer_phone },
+                { 'delivery.date': date }
+            ]
+        };
+    
+        OrderNote.count(condition, (errCount, count) => {
+            if (errCount) throw errCount;
+
+            if (count >= 9) {
+                let orderer = new Orderer({
+                    'name': orderer_name.trim(),
+                    'phone': orderer_phone,
+                    'def_ribtext': delivery_text
+                });
+
+                orderer.save( (errOrdererSave) => {
+                    if (errOrdererSave) throw errOrdererSave;
+
+                    
+                });
+            } else {
+                note = new OrderNote({
+                    'orderer.name': orderer_name.trim(),
+                    'orderer.phone': orderer_phone,
+                    'orderer.id': orderer_id,
+                    'receiver.name': receiver_name.trim(),
+                    'receiver.phone': receiver_phone,
+                    'delivery.category': delivery_category,
+                    'delivery.price': delivery_price,
+                    'delivery.count': delivery_count,
+                    'delivery.date': new Date(delivery_date),
+                    'delivery.address': delivery_address,
+                    'delivery.text': delivery_text,
+                    'memo': memo
+                }); 
+            
+                note.save( (errSave) => {
+                    if (errSave) throw errSave;
+            
+                    return res.json({
+                        success: true,
+                        id: note._id
+                    });
+                });
+            }
+        });
+    }
+
+    note = new OrderNote({
         'orderer.name': orderer_name.trim(),
         'orderer.phone': orderer_phone,
         'orderer.id': orderer_id,
@@ -69,13 +131,11 @@ router.post('/', (req, res) => {
         'delivery.date': new Date(delivery_date),
         'delivery.address': delivery_address,
         'delivery.text': delivery_text,
-        // 'delivery.image': delivery_image,
         'memo': memo
-        // 'is_payment': is_payment
     }); 
 
-    note.save( (err) => {
-        if (err) throw err;
+    note.save( (errSave) => {
+        if (errSave) throw errSave;
 
         return res.json({
             success: true,
