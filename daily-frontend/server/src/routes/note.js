@@ -89,7 +89,43 @@ router.post('/', (req, res) => {
                 orderer.save( (errOrdererSave) => {
                     if (errOrdererSave) throw errOrdererSave;
 
-                    
+                    OrderNote.updateMany({
+                        $and: [
+                            { 'orderer.id': 'no' },
+                            { 'orderer.name': orderer_name.trim() },
+                            { 'orderer.phone': orderer_phone }
+                        ]
+                    },
+                    { 'orderer.id': orderer._id },
+                    (errUpdate, raw) => {
+                        if (errUpdate) throw errUpdate;
+
+                        if (raw) {
+                            note = new OrderNote({
+                                'orderer.name': orderer_name.trim(),
+                                'orderer.phone': orderer_phone,
+                                'orderer.id': orderer._id,
+                                'receiver.name': receiver_name.trim(),
+                                'receiver.phone': receiver_phone,
+                                'delivery.category': delivery_category,
+                                'delivery.price': delivery_price,
+                                'delivery.count': delivery_count,
+                                'delivery.date': new Date(delivery_date),
+                                'delivery.address': delivery_address,
+                                'delivery.text': delivery_text,
+                                'memo': memo
+                            }); 
+                        
+                            note.save( (errSave) => {
+                                if (errSave) throw errSave;
+                        
+                                return res.json({
+                                    success: true,
+                                    id: note._id
+                                });
+                            });
+                        }
+                    });                    
                 });
             } else {
                 note = new OrderNote({
