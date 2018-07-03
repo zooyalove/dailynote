@@ -60,6 +60,7 @@ router.post('/', (req, res) => {
 
     let note;
 
+    // 등록된 거래처가 아닌 일반계정으로 장부 입력시
     if (orderer_id === 'no') {
         const c_year = (new Date()).getFullYear();
         const date = {
@@ -76,6 +77,8 @@ router.post('/', (req, res) => {
             ]
         };
     
+        // 똑같은 주문자명과 연락처로 장부건수가 1년사이 9건이 넘을 경우
+        // 10건째부터는 거래처로 등록한다.
         OrderNote.count(condition, (errCount, count) => {
             if (errCount) throw errCount;
 
@@ -89,6 +92,7 @@ router.post('/', (req, res) => {
                 orderer.save( (errOrdererSave) => {
                     if (errOrdererSave) throw errOrdererSave;
 
+                    // 기존 일반계정으로 등록되어 있던 장부들은 새로이 등록된 거래처 아이디로 업데이트한다.
                     OrderNote.updateMany({
                         $and: [
                             { 'orderer.id': 'no' },
@@ -127,7 +131,7 @@ router.post('/', (req, res) => {
                         }
                     });                    
                 });
-            } else {
+            } else {    // 9건이 넘지않을 경우에는 기존 방식대로 일반계정으로 등록한다.
                 note = new OrderNote({
                     'orderer.name': orderer_name.trim(),
                     'orderer.phone': orderer_phone,
@@ -153,31 +157,31 @@ router.post('/', (req, res) => {
                 });
             }
         });
-    }
+    } else {
+        note = new OrderNote({
+            'orderer.name': orderer_name.trim(),
+            'orderer.phone': orderer_phone,
+            'orderer.id': orderer_id,
+            'receiver.name': receiver_name.trim(),
+            'receiver.phone': receiver_phone,
+            'delivery.category': delivery_category,
+            'delivery.price': delivery_price,
+            'delivery.count': delivery_count,
+            'delivery.date': new Date(delivery_date),
+            'delivery.address': delivery_address,
+            'delivery.text': delivery_text,
+            'memo': memo
+        }); 
 
-    note = new OrderNote({
-        'orderer.name': orderer_name.trim(),
-        'orderer.phone': orderer_phone,
-        'orderer.id': orderer_id,
-        'receiver.name': receiver_name.trim(),
-        'receiver.phone': receiver_phone,
-        'delivery.category': delivery_category,
-        'delivery.price': delivery_price,
-        'delivery.count': delivery_count,
-        'delivery.date': new Date(delivery_date),
-        'delivery.address': delivery_address,
-        'delivery.text': delivery_text,
-        'memo': memo
-    }); 
+        note.save( (errSave) => {
+            if (errSave) throw errSave;
 
-    note.save( (errSave) => {
-        if (errSave) throw errSave;
-
-        return res.json({
-            success: true,
-            id: note._id
+            return res.json({
+                success: true,
+                id: note._id
+            });
         });
-    });
+    }
 });
 
 /*
