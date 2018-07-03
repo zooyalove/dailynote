@@ -32,6 +32,7 @@ const CategoryStatistics = ({
 	value,
 	filter,
 	onChange,
+	onEnterKeyUp,
 	onAddFilter,
 	onDeleteFilter
 }) => {
@@ -69,13 +70,20 @@ const CategoryStatistics = ({
 					id="filterInput"
 					placeholder="단어를 추가해보세요."
 					onChange={filterTextChange}
+					onKeyUp={(e) => {
+						if (e.keyCode === 13) { // 엔터키를 눌렀을 경우
+							onEnterKeyUp(filterText.trim());
+							document.getElementById('filterInput').value = "";
+							filterText = "";
+						}
+					}}
 				/>{' '}
 				<Button
 					icon
 					color="blue"
 					style={{height: '40.7px'}}
 					onClick={() => {
-						onAddFilter(filterText);
+						onAddFilter(filterText.trim());
 						document.getElementById('filterInput').value = "";
 						filterText = "";
 					}}

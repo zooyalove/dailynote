@@ -129,13 +129,31 @@ class StatRoute extends Component {
 	handleAddFilter = (filterText) => {
 		const { handleChangeCategory, state: { filters }} = this;
 
-		if (!utils.empty(filterText) && filters.indexOf(filterText) === -1) {
-			let copyFilters = filters;
-			copyFilters.push(filterText);
+		if (!utils.empty(filterText)) {
+			if (filterText.indexOf(" ") !== -1) {
+				let splitText = filterText.split(" ");
+				let copyFilters = filters;
 
-			this.setState({
-				filters: copyFilters
-			});
+				splitText.forEach( (t) => {
+					if (copyFilters.indexOf(t) === -1) {
+						copyFilters.push(t);
+					}
+				});
+
+				this.setState({
+					filters: copyFilters
+				});
+			} else {
+				let copyFilters = filters;
+
+				if (copyFilters.indexOf(filterText) === -1) {
+					copyFilters.push(filterText);
+
+					this.setState({
+						filters: copyFilters
+					});
+				}
+			}
 
 			handleChangeCategory();
 		}
@@ -185,6 +203,7 @@ class StatRoute extends Component {
 								value={selectedCategory}
 								filter={filters}
 								onChange={handleChangeCategory}
+								onEnterKeyUp={handleAddFilter}
 								onAddFilter={handleAddFilter}
 								onDeleteFilter={handleDeleteFilter}
 							/>}
