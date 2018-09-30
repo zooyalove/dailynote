@@ -68,8 +68,14 @@ class SearchRoute extends Component {
 
 	handlePickerSearch = async (day, { selected }) => {
 		if (!selected) {
-			let date = day.toLocaleDateString().replace(/ /g, '').replace(/\./g, '-');
-			date = date.substring(0, date.length-1);
+			let date = day.toLocaleDateString().replace(/ /g, '');
+			if (date.indexOf('/') > -1) {
+				date = date.split('/');
+				date = [].concat([date[2], date[0], date[1]]);
+				date = date.join('-');
+			} else {
+				date = date.replace(/\./g, '-').substring(0, date.length - 1);
+			}
 
 			this.setState({ fetch: true, datas: [], searchTxt: date, selectedDays: day });
 
