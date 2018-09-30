@@ -41,12 +41,10 @@ const Pager = ({
     current,
     countPerPage=10,
     displayPage=5,
-    datas=[],
+    dataLength=0,
     hide,
     onPageClick
 }) => {
-
-    const dataLength = (datas.length > 0) ? datas.length : 0;
 
     let totalPage = Math.ceil(dataLength/countPerPage);
     if (totalPage === 0) totalPage = 1;
