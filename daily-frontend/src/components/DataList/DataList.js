@@ -31,8 +31,6 @@ const DataList = ({
         return (<ListColumn key={i} center bold>{h}</ListColumn>);
     });
     
-    const oView = ordererView ? true : false;
-
     let datas;
 
     if (!datalist || datalist.length === 0) {
@@ -41,7 +39,7 @@ const DataList = ({
         let index = startIndex;
 
         datas = datalist.map((d, i) => {
-            return (<ListRow key={i} index={index--} data={d} ordererView={oView} />);
+            return (<ListRow key={i} index={index--} data={d} ordererView={ordererView} />);
         });
     }
 

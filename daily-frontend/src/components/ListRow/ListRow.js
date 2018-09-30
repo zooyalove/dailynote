@@ -5,6 +5,8 @@ import styles from './ListRow.scss';
 
 import ListColumn from 'components/ListColumn';
 
+import { empty } from 'helpers/utils';
+
 const cx = classNames.bind(styles);
 
 const ListRow = ({
@@ -21,13 +23,13 @@ const ListRow = ({
         );
     }
 
-    const { delivery, receiver, orderer } = data;
+    const { delivery, receiver, orderer, memo } = data;
 
     let oData = null;
     if (ordererView) {
         oData = Object.keys(orderer).map((o, i) => {
             if (o === '_id' || o === 'id') return null;
-            return <ListColumn key={i} text={orderer[o]} center />;
+            return <ListColumn key={i} text={orderer[o]} title={((o === 'name' && !empty(memo)) ? memo : '')} center />;
         });
     }
 

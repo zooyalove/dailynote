@@ -63,7 +63,7 @@ class DataTable extends Component {
                     hide={hide ? true : false}
                 />
                 <Pager
-                    datas={datas}
+                    dataLength={datas.length}
                     current={currentPage}
                     countPerPage={countPerPage}
                     displayPage={displayPage}

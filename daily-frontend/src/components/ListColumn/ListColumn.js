@@ -11,6 +11,7 @@ const ListColumn = ({
     right,
     address,
     date,
+    title="",
     red,
     className,
     children,
@@ -22,7 +23,7 @@ const ListColumn = ({
                 { bold, center, right, address, date, red },
                 className)}
                 {...rest}
-                title={text || children}
+                title={(title !== "") ? title : (text || children)}
         >
             {text || children}
         </div>
