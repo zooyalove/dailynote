@@ -90,7 +90,7 @@ router.get('/stat', (req, res) => {
 		}}
 	], (err, p_res) => {
 		if (err) {
-			console.log(err);
+			// console.log(err);
 			throw err;
 		}
 
@@ -103,28 +103,50 @@ router.get('/stat', (req, res) => {
 
 		OrderNote.aggregate([
 			{ $match: {
-				$and : [
-					{ 'delivery.date': {
-						$gte: new Date((c_year-1), 0, 1),
-						$lt: new Date((c_year+1), 0, 1)
-					}},
-					{ 'orderer.id': {
-						$ne: 'no'
-					}}
-				]}					
-			},
+				'delivery.date': {
+					$gte: new Date((c_year-1), 0, 1),
+					$lt: new Date((c_year+1), 0, 1)
+				}
+				// $and : [
+				// 	{ 'delivery.date': {
+				// 		$gte: new Date((c_year-1), 0, 1),
+				// 		$lt: new Date((c_year+1), 0, 1)
+				// 	}},
+					// { 'orderer.id': {
+					// 	$ne: 'no'
+					// }}
+				// ]}					
+			}},
 			{ $project: {
+				id: '$orderer.id',
 				yearMonth: { $dateToString: { format: '%Y-%m', date: '$delivery.date' }},
 				price: { $multiply: ['$delivery.price', '$delivery.count']}
 			}},
 			{ $group: {
 				_id: '$yearMonth',
-				monthPrice: { $sum: '$price' }
+				ordererPrice: {
+					$sum: {
+						$cond: {
+							if: { $ne: ['$id', 'no'] },
+							then: '$price',
+							else: 0
+						}
+					}
+				},
+				normalPrice: {
+					$sum: {
+						$cond: {
+							if: { $eq: ['$id', 'no'] },
+							then: '$price',
+							else: 0
+						}
+					}
+				}
 			}},
 			{ $sort: { _id: 1 }}
 		], (err2, y_res) => {
 			if (err2) {
-				console.log(err2);
+				// console.log(err2);
 				throw err2;
 			}
 
