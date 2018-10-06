@@ -128,7 +128,7 @@ class NullInfoRoute extends Component {
                     });
                     // console.log(yearValues);
 
-                    let stackPoint = 1;
+                    let stack = 1;
                     let startYear = 0;
                     let i = 0;
 
@@ -136,19 +136,19 @@ class NullInfoRoute extends Component {
                         if (startYear === 0) {
                             startYear = y;
                         } else if (startYear !== y) {
-                            ++stackPoint;
+                            ++stack;
                             startYear = y;
                         }
 
                         yearSeries[i] = {
                             values: [],
                             'legend-text': y,
-                            stackPoint
+                            stack
                         };
                         yearSeries[i+1] = {
                             values: [],
                             'legend-text': y,
-                            stackPoint
+                            stack
                         };
                         yearValues[y].forEach( (m) => {
                             yearSeries[i].values.push((typeof m === 'object') ? parseInt(m.ordererPrice, 10) : m);
