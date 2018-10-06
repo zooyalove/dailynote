@@ -34,6 +34,7 @@ const barChartOptions = {
         thousandsSeparator: ','
     },
     plot: {
+        stacked: true,
         animation: {
             delay: 400,
             effect: 'ANIMATION_SLIDE_BOTTOM',
@@ -112,7 +113,7 @@ class NullInfoRoute extends Component {
 
                 const yearSeries = [];
                 const priceSeries = [];
-                console.log(yearData, priceData);
+
                 if (!utils.empty(yearData)) {
 
                     yearData.forEach((obj) => {
@@ -123,16 +124,40 @@ class NullInfoRoute extends Component {
                             yearValues[year] = (new Array(12)).fill(0);
                         }
 
-                        yearValues[year][(month-1)] = obj.monthPrice;
+                        yearValues[year][(month-1)] = { 'ordererPrice': obj.ordererPrice, 'normalPrice': obj.normalPrice };
                     });
+                    // console.log(yearValues);
+
+                    let stackPoint = 1;
+                    let startYear = 0;
+                    let i = 0;
 
                     Object.keys(yearValues).forEach((y) => {
-                        yearSeries.push({
-                            values: yearValues[y],
-                            'legend-text': y
+                        if (startYear === 0) {
+                            startYear = y;
+                        } else if (startYear !== y) {
+                            ++stackPoint;
+                            startYear = y;
+                        }
+
+                        yearSeries[i] = {
+                            values: [],
+                            'legend-text': y,
+                            stackPoint
+                        };
+                        yearSeries[i+1] = {
+                            values: [],
+                            'legend-text': y,
+                            stackPoint
+                        };
+                        yearValues[y].forEach( (m) => {
+                            yearSeries[i].values.push((typeof m === 'object') ? parseInt(m.ordererPrice, 10) : m);
+                            yearSeries[i+1].values.push((typeof m === 'object') ? parseInt(m.normalPrice, 10) : m);
                         });
+
+                        i = i+2;
                     });
-                    // console.log(yearValues, yearSeries);
+                    // console.log(yearSeries);
                 }
 
                 if (!utils.empty(priceData)) {
