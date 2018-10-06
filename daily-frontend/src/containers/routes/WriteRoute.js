@@ -300,8 +300,8 @@ class WriteRoute extends Component {
 							<DatePicker
 								showTimeSelect
 								selected={delivery_date}
-								minTime={moment().hours(9).minutes(0)}
-								maxTime={moment().hours(20).minutes(30)}
+								minTime={moment().hours(8).minutes(0)}
+								maxTime={moment().hours(21).minutes(30)}
 								dateFormat="YYYY/MM/DD A HH시 mm분"
 								className="date_input"
 								onChange={handleDateChange} />
