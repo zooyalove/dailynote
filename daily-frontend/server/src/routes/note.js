@@ -362,10 +362,8 @@ router.get('/month/:month', (req, res) => {
             { $match: condition },
             { $project: {
                 d: {
-                    $dateToString: {
-                        date: '$delivery.date',
-                        format: '%d',
-                        timezone: 'Asia/Seoul'
+                    $dayOfMonth: {
+                        $add: ['$delivery.date', 9 * 60 * 60 * 1000 ]
                     }
                 }
             }},

@@ -36,12 +36,12 @@ class SearchRoute extends Component {
 		const date = month.getFullYear() + '-' + (month.getMonth()+1);
 		const res = await api.getMonthNotes(date);
 		const data = res.data.data;
-
+		console.log(data);
 		const monthData = [];
 
 		if (data.length > 0) {
 			data.forEach( (d) => {
-				monthData.push(parseInt(d._id, 10));
+				monthData.push(d._id);
 			});
 		}
 
