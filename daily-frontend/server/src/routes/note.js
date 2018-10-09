@@ -290,7 +290,7 @@ router.get('/search/:searchTxt', (req, res) => {
     let condition = null;
 
     // 찾고자 하는 날짜로 검색
-    if (searchTxt.indexOf('-') !== -1) {
+    if (searchTxt.indexOf('-') !== -1 && searchTxt.indexOf('0') !== 0) {
         const dateArray = [];
         searchTxt.split('-').forEach( (d) => {
             dateArray.push(parseInt(d, 10));
@@ -362,7 +362,10 @@ router.get('/month/:month', (req, res) => {
             { $match: condition },
             { $project: {
                 d: {
-                    $dayOfMonth: '$delivery.date'
+                    $dayOfMonth: {
+                        date: '$delivery.date',
+                        timezone: 'Asia/Seoul'
+                    }
                 }
             }},
             { $group: {
