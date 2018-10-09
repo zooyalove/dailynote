@@ -41,7 +41,7 @@ class SearchRoute extends Component {
 
 		if (data.length > 0) {
 			data.forEach( (d) => {
-				monthData.push(d._id);
+				monthData.push(parseInt(d._id, 10));
 			});
 		}
 
