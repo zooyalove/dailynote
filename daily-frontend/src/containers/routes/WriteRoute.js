@@ -174,7 +174,7 @@ class WriteRoute extends Component {
 
 		e.preventDefault();
 
-		if (utils.empty(orderer_name) || utils.empty(orderer_phone) || utils.empty(receiver_name)) {
+		if (utils.empty(orderer_name) || utils.empty(orderer_phone) || utils.empty(receiver_name) || parseInt(delivery_price, 10) === 0) {
 			this.setState({error: true});
 			return false;
 		}
@@ -304,10 +304,11 @@ class WriteRoute extends Component {
 								maxTime={moment().hours(21).minutes(30)}
 								dateFormat="YYYY/MM/DD A HH시 mm분"
 								className="date_input"
+								tabIndex="5"
 								onChange={handleDateChange} />
 						</Form.Group>
 						<Category
-							tabIndex="9"
+							tabIndex="6"
 							value={delivery_category}
 							onChange={handleChange}/>
 						<Form.Group inline>
@@ -318,8 +319,9 @@ class WriteRoute extends Component {
 									type="number"
 									placeholder="상품 가격을 적어주세요"
 									min="0"
+									step="5000"
 									inputMode="numeric"
-									tabIndex="10"
+									tabIndex="7"
 									className="min-width"
 									value={parseInt(price, 10)}
 									style={{textAlign: 'right'}}
@@ -330,6 +332,7 @@ class WriteRoute extends Component {
 								<Button color="teal" className="price-button" onClick={(e) => { handlePriceClick(e, 40000);}}>40,000</Button>
 								<Button color="blue" className="price-button" onClick={(e) => { handlePriceClick(e, 50000);}}>50,000</Button>
 								<Button color="orange" className="price-button" onClick={(e) => { handlePriceClick(e, 60000);}}>60,000</Button>
+								<Button color="green" className="price-button" onClick={(e) => { handlePriceClick(e, 80000);}}>80,000</Button>
 								<Button color="red" className="price-button" onClick={(e) => { handlePriceClick(e, 100000);}}>100,000</Button>
 							</Button.Group>
 						</Form.Group>
@@ -349,14 +352,14 @@ class WriteRoute extends Component {
 							name="delivery_address"
 							label="배달장소"
 							placeholder="배송지 주소 또는 위치를 적어주세요"
-							tabIndex="11"
+							tabIndex="8"
 							value={delivery_address}
 							onChange={handleChange} />
 						<Form.Input
 							name="delivery_text"
 							label="글 씨"
 							placeholder="보내는 분과 경조사어를 적어주세요"
-							tabIndex="12"
+							tabIndex="9"
 							value={delivery_text}
 							onChange={handleChange} />
 						<Form.TextArea
@@ -366,7 +369,7 @@ class WriteRoute extends Component {
 							inline
 							style={{height: '2.8rem'}}
 							value={memo}
-							tabIndex="13"
+							tabIndex="10"
 							onChange={handleChange}/>
 					</Segment>
 					<Form.Group inline className="write-action-btns">
