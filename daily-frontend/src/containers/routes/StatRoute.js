@@ -42,7 +42,6 @@ const lineChartOptions = {
         maxItems: 12
     },
     scaleY: {
-        // values: "0:40:10",
         guide: {
             "line-style": "dotted"
         }

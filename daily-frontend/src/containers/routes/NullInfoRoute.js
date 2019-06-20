@@ -168,7 +168,6 @@ class NullInfoRoute extends Component {
 
                         i += 2;
                     });
-                    // console.log(yearSeries);
                 }
 
                 if (!utils.empty(priceData)) {

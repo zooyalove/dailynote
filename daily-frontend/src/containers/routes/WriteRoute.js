@@ -328,7 +328,7 @@ class WriteRoute extends Component {
 									onChange={({target: { name, value }}) => {handleChange(null, {name, value});}}
 									/>
 							</div>{' '}<span style={{margin: '0 1rem 0 .4rem'}}><b>원</b></span>{' '}
-							<Button.Group>
+							<Button.Group> 
 								<Button color="teal" className="price-button" onClick={(e) => { handlePriceClick(e, 40000);}}>40,000</Button>
 								<Button color="blue" className="price-button" onClick={(e) => { handlePriceClick(e, 50000);}}>50,000</Button>
 								<Button color="orange" className="price-button" onClick={(e) => { handlePriceClick(e, 60000);}}>60,000</Button>
