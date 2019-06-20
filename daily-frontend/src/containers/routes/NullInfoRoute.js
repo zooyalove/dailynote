@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { OrdererInfo } from 'components/Orderer';
-import ChartCard from 'components/ChartCard';
+import { OrdererInfo } from "components/Orderer";
+import ChartCard from "components/ChartCard";
 
-import * as api from 'helpers/WebApi/orderer';
-import * as utils from 'helpers/utils';
+import * as api from "helpers/WebApi/orderer";
+import * as utils from "helpers/utils";
 
 const initialState = {
     priceChart: {
@@ -19,44 +19,44 @@ const initialState = {
 
 const barChartOptions = {
     legend: {
-        layout: '1x2',
-        align: 'center'
+        layout: "1x4",
+        align: "center"
         // x: '50%',
         // y: '5%'
     },
-    plotarea:{
-        marginTop: '7%',
-        marginLeft: '10%',
-        marginRight: '6%',
-        marginBottom: '10%'
+    plotarea: {
+        marginTop: "7%",
+        marginLeft: "10%",
+        marginRight: "6%",
+        marginBottom: "10%"
     },
     tooltip: {
-        thousandsSeparator: ','
+        thousandsSeparator: ","
     },
     plot: {
         stacked: true,
         animation: {
             delay: 400,
-            effect: 'ANIMATION_SLIDE_BOTTOM',
-            method: 'ANIMATION_BOUNCE_EASE_OUT',
-            sequence: 'ANIMATION_BY_PLOT_AND_NODE',
+            effect: "ANIMATION_SLIDE_BOTTOM",
+            method: "ANIMATION_BOUNCE_EASE_OUT",
+            sequence: "ANIMATION_BY_PLOT_AND_NODE",
             speed: 500 //'ANIMATION_FAST'
         }
     },
     scaleX: {
-        minValue: (new Date((new Date()).getFullYear() + '-1-2')).getTime(),
-        step: 'month',
+        minValue: new Date(new Date().getFullYear() + "-1-2").getTime(),
+        step: "month",
         transform: {
-            type: 'date',
-            all: '%m月'
+            type: "date",
+            all: "%m月"
         },
         maxItems: 12
     },
     scaleY: {
         guide: {
-            'line-style': 'dotted'
+            "line-style": "dotted"
         },
-        thousandsSeparator: ','
+        thousandsSeparator: ","
     },
     utc: true,
     timezone: 9
@@ -65,48 +65,49 @@ const barChartOptions = {
 const pieChartOptions = {
     legend: {},
     plot: {
-        slice: '70%',
+        slice: "70%",
         refAngle: 120,
-        valueBox: [{
-                type: 'all',
-                placement: 'out',
-                text: '%t'
+        valueBox: [
+            {
+                type: "all",
+                placement: "out",
+                text: "%t"
             },
             {
-                type: 'all',
-                placement: 'in',
+                type: "all",
+                placement: "in",
                 visible: true,
-                fontSize: '10'
+                fontSize: "10"
             }
         ],
         animation: {
             delay: 400,
-            effect: 'ANIMATION_SLIDE_BOTTOM',
-            method: 'ANIMATION_BOUNCE_EASE_OUT',
-            sequence: 'ANIMATION_BY_PLOT_AND_NODE',
-            speed: 'ANIMATION_FAST'
+            effect: "ANIMATION_SLIDE_BOTTOM",
+            method: "ANIMATION_BOUNCE_EASE_OUT",
+            sequence: "ANIMATION_BY_PLOT_AND_NODE",
+            speed: "ANIMATION_FAST"
         }
     },
     tooltip: {
         fontSize: 14,
-        anchor: 'c',
-        x: '50%',
-        y: '55%',
+        anchor: "c",
+        x: "50%",
+        y: "55%",
         sticky: true,
-        backgroundColor: 'none',
+        backgroundColor: "none",
         borderWidth: 0,
-        thousandsSeparator: ',',
-        text: '<span style="color:%color;font-weight:bold">%t 통합</span><br/><span style="color:%color">매출액 : %v</span>'
+        thousandsSeparator: ",",
+        text:
+            '<span style="color:%color;font-weight:bold">%t 통합</span><br/><span style="color:%color">매출액 : %v</span>'
     }
 };
 
 class NullInfoRoute extends Component {
-
-    state = initialState
+    state = initialState;
 
     componentDidMount() {
         api.getOrdererStatistics()
-            .then((res) => {
+            .then(res => {
                 const { priceData, yearData } = res.data;
 
                 const yearValues = {};
@@ -115,16 +116,18 @@ class NullInfoRoute extends Component {
                 const priceSeries = [];
 
                 if (!utils.empty(yearData)) {
-
-                    yearData.forEach((obj) => {
-                        let year = obj._id.split('-')[0];
-                        let month = parseInt(obj._id.split('-')[1], 10);
+                    yearData.forEach(obj => {
+                        let year = obj._id.split("-")[0];
+                        let month = parseInt(obj._id.split("-")[1], 10);
 
                         if (!(year in yearValues)) {
-                            yearValues[year] = (new Array(12)).fill(0);
+                            yearValues[year] = new Array(12).fill(0);
                         }
 
-                        yearValues[year][(month-1)] = { 'ordererPrice': obj.ordererPrice, 'normalPrice': obj.normalPrice };
+                        yearValues[year][month - 1] = {
+                            ordererPrice: obj.ordererPrice,
+                            normalPrice: obj.normalPrice
+                        };
                     });
                     // console.log(yearValues);
 
@@ -132,7 +135,7 @@ class NullInfoRoute extends Component {
                     let startYear = 0;
                     let i = 0;
 
-                    Object.keys(yearValues).forEach((y) => {
+                    Object.keys(yearValues).forEach(y => {
                         if (startYear === 0) {
                             startYear = y;
                         } else if (startYear !== y) {
@@ -142,20 +145,28 @@ class NullInfoRoute extends Component {
 
                         yearSeries[i] = {
                             values: [],
-                            'legend-text': y,
+                            "legend-text": y,
                             stack
                         };
-                        yearSeries[i+1] = {
+                        yearSeries[i + 1] = {
                             values: [],
-                            'legend-text': y,
+                            "legend-text": y,
                             stack
                         };
-                        yearValues[y].forEach( (m) => {
-                            yearSeries[i].values.push((typeof m === 'object') ? parseInt(m.ordererPrice, 10) : m);
-                            yearSeries[i+1].values.push((typeof m === 'object') ? parseInt(m.normalPrice, 10) : m);
+                        yearValues[y].forEach(m => {
+                            yearSeries[i].values.push(
+                                typeof m === "object"
+                                    ? parseInt(m.ordererPrice, 10)
+                                    : m
+                            );
+                            yearSeries[i + 1].values.push(
+                                typeof m === "object"
+                                    ? parseInt(m.normalPrice, 10)
+                                    : m
+                            );
                         });
 
-                        i = i+2;
+                        i += 2;
                     });
                     // console.log(yearSeries);
                 }
@@ -164,13 +175,13 @@ class NullInfoRoute extends Component {
                     const { totalPrice, ordererPrice } = priceData;
 
                     priceSeries.push({
-                        values: [(totalPrice - ordererPrice)],
-                        text: '일반'
+                        values: [totalPrice - ordererPrice],
+                        text: "일반"
                     });
 
                     priceSeries.push({
                         values: [ordererPrice],
-                        text: '거래처'
+                        text: "거래처"
                     });
                 }
 
@@ -187,7 +198,7 @@ class NullInfoRoute extends Component {
                     });
                 }, 3000);
             })
-            .catch((err) => {
+            .catch(err => {
                 console.log(err);
 
                 setTimeout(() => {
@@ -211,21 +222,25 @@ class NullInfoRoute extends Component {
         return (
             <OrdererInfo noid>
                 <div className="statinfo_wrapper">
-                    <ChartCard id="orderer-chart"
-                            loading={yearChart.loading}
-                            type="bar"
-                            options={barChartOptions}
-                            series={yearChart.series}
-                            title="거래처 연간 데이터 비교"
-                            width="100%"
-                            className="bar-chart"/>
-                    <ChartCard id="orderer-chart2"
-                            loading={priceChart.loading}
-                            type="pie"
-                            options={pieChartOptions}
-                            series={priceChart.series}
-                            title="유형별 매출액 비교"
-                            width="100%"/>
+                    <ChartCard
+                        id="orderer-chart"
+                        loading={yearChart.loading}
+                        type="bar"
+                        options={barChartOptions}
+                        series={yearChart.series}
+                        title="거래처 연간 데이터 비교"
+                        width="100%"
+                        className="bar-chart"
+                    />
+                    <ChartCard
+                        id="orderer-chart2"
+                        loading={priceChart.loading}
+                        type="pie"
+                        options={pieChartOptions}
+                        series={priceChart.series}
+                        title="유형별 매출액 비교"
+                        width="100%"
+                    />
                 </div>
             </OrdererInfo>
         );

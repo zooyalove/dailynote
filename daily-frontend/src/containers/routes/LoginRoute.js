@@ -1,20 +1,27 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Checkbox, Dimmer, Icon, Loader, Message } from 'semantic-ui-react';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Checkbox, Dimmer, Icon, Loader, Message } from "semantic-ui-react";
 
-import Input from 'components/Input';
+import Input from "components/Input";
 
-import * as header from 'redux/modules/base/header';
-import * as login from 'redux/modules/base/login';
+import * as header from "redux/modules/base/header";
+import * as login from "redux/modules/base/login";
 
-import * as user from 'helpers/WebApi/user';
-import * as utils from 'helpers/utils';
-import storage from 'helpers/storage';
+import * as user from "helpers/WebApi/user";
+import * as utils from "helpers/utils";
+import storage from "helpers/storage";
 
-import backImage from 'static/images/background.jpg';
+import backImage from "static/images/background.jpg";
 
-const FormItem = ( {icon, name, placeholder, tabIndex, type, onTextChange} ) => (
+const FormItem = ({
+    icon,
+    name,
+    placeholder,
+    tabIndex,
+    type,
+    onTextChange
+}) => (
     <div className="login-item">
         <div className="login-icon">
             <Icon name={icon} />
@@ -25,76 +32,81 @@ const FormItem = ( {icon, name, placeholder, tabIndex, type, onTextChange} ) => 
                 tabIndex={tabIndex}
                 type={type}
                 rectangle
-                onChange={
-                    (e) => {
-                        const data = e.target.value;
-                        onTextChange({name, data});
-                    }
-                }
+                onChange={e => {
+                    const data = e.target.value;
+                    onTextChange({ name, data });
+                }}
             />
         </div>
-     </div>
+    </div>
 );
 
 class LoginRoute extends Component {
-
     static contextTypes = {
         router: React.PropTypes.object
-    }
+    };
 
     componentWillMount() {
-        const { HeaderActions, status: { header } } = this.props;
+        const {
+            HeaderActions,
+            status: { header }
+        } = this.props;
 
-        document.title = 'Daily Note - 로그인';
-        
-        if (header.get('visible')) {
+        document.title = "Daily Note - 로그인";
+
+        if (header.get("visible")) {
             HeaderActions.hideHeader();
         }
 
         user.getInfo()
-        .then( (info) => {
-            this.context.router.push('/');
-        })
-        .catch( (err) => {
-            // console.log('Login Route user.getInfo error occurred =>', err);
-        });
+            .then(info => {
+                this.context.router.push("/");
+            })
+            .catch(err => {
+                // console.log('Login Route user.getInfo error occurred =>', err);
+            });
 
-        document.addEventListener('keyup', this.handleEnter);
+        document.addEventListener("keyup", this.handleEnter);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keyup', this.handleEnter);
+        document.removeEventListener("keyup", this.handleEnter);
     }
 
-    handleEnter = (e) => {
-        const { status: { login } } = this.props;
+    handleEnter = e => {
+        const {
+            status: { login }
+        } = this.props;
 
-        const userid = login.getIn(['loginForm', 'userid']);
-        const password = login.getIn(['loginForm', 'password']);
+        const userid = login.getIn(["loginForm", "userid"]);
+        const password = login.getIn(["loginForm", "password"]);
 
         if (e.keyCode === 13) {
             if (!utils.empty(userid) && !utils.empty(password)) {
                 this.handleSubmit(null);
             }
         }
-    }
+    };
 
-    handleChange = ({name, data}) => {
+    handleChange = ({ name, data }) => {
         const { LoginActions } = this.props;
-        
-        LoginActions.setLoginFormInfo({name, data});
-    }
+
+        LoginActions.setLoginFormInfo({ name, data });
+    };
 
     handleRemember = (e, data) => {
         const { LoginActions } = this.props;
         LoginActions.setLoginFormRemember(!data.checked);
-    }
+    };
 
-    handleSubmit = (e) => {
-        const { LoginActions, status: { login } } = this.props;
+    handleSubmit = e => {
+        const {
+            LoginActions,
+            status: { login }
+        } = this.props;
 
-        const userid = login.getIn(['loginForm', 'userid']);
-        const password = login.getIn(['loginForm', 'password']);
+        const userid = login.getIn(["loginForm", "userid"]);
+        const password = login.getIn(["loginForm", "password"]);
 
         LoginActions.fetchingLoginAuth();
 
@@ -102,82 +114,82 @@ class LoginRoute extends Component {
             userid,
             password
         })
-        .then( (res) => {
-            console.log('Success');
+            .then(res => {
+                // console.log('Success');
 
-            user.getInfo()
-            .then( (info) => {
-                const userInfo = info.data.info;
+                user.getInfo()
+                    .then(info => {
+                        const userInfo = info.data.info;
 
-                LoginActions.completeLoginAuth();
-                LoginActions.clearLoginFormInfo();
-                storage.set('loginInfo', userInfo);
+                        LoginActions.completeLoginAuth();
+                        LoginActions.clearLoginFormInfo();
+                        storage.set("loginInfo", userInfo);
 
-                LoginActions.setLoginAuthMessage({
-                    type: 'success',
-                    message: 'Hello, ' + userInfo.username + '~!'
-                });
+                        LoginActions.setLoginAuthMessage({
+                            type: "success",
+                            message: "Hello, " + userInfo.username + "~!"
+                        });
 
-                setTimeout( () => {
-                    LoginActions.hideLoginAuthMessage();
-                    setTimeout( () => {
-                        LoginActions.clearLoginAuthMessage();
-                        
-                        this.context.router.push('/');
-                    }, 1000);
-                }, 3000);
+                        setTimeout(() => {
+                            LoginActions.hideLoginAuthMessage();
+                            setTimeout(() => {
+                                LoginActions.clearLoginAuthMessage();
 
+                                this.context.router.push("/");
+                            }, 1000);
+                        }, 3000);
+                    })
+                    .catch(err => {
+                        LoginActions.completeLoginAuth();
+                        if (err.response) {
+                            LoginActions.setLoginAuthMessage({
+                                type: "error",
+                                message: err.response.data.error + "~!"
+                            });
+
+                            setTimeout(() => {
+                                LoginActions.hideLoginAuthMessage();
+                                setTimeout(() => {
+                                    LoginActions.clearLoginAuthMessage();
+                                }, 1000);
+                            }, 3000);
+                        }
+                    });
             })
-            .catch( (err) => {
-                
+            .catch(err => {
                 LoginActions.completeLoginAuth();
+
                 if (err.response) {
                     LoginActions.setLoginAuthMessage({
-                        type: 'error',
-                        message: err.response.data.error + '~!'
+                        type: "error",
+                        message: err.response.data.error + "~!"
                     });
 
-                    setTimeout( () => {
+                    setTimeout(() => {
                         LoginActions.hideLoginAuthMessage();
-                        setTimeout( () => {
+                        setTimeout(() => {
                             LoginActions.clearLoginAuthMessage();
                         }, 1000);
                     }, 3000);
                 }
             });
-        })
-        .catch( (err) => { 
-            LoginActions.completeLoginAuth();
-
-            if (err.response) {
-                LoginActions.setLoginAuthMessage({
-                    type: 'error',
-                    message: err.response.data.error + '~!'
-                });
-
-                setTimeout( () => {
-                    LoginActions.hideLoginAuthMessage();
-                    setTimeout( () => {
-                        LoginActions.clearLoginAuthMessage();
-                    }, 1000);
-                }, 3000);
-            }
-        });
-    }
+    };
 
     render() {
         const { handleChange, handleRemember, handleSubmit } = this;
-        const { status: { login }} = this.props;
-        const checked = login.get('is_remember');
-        const fetching = login.get('fetching');
-        const message = login.getIn(['auth', 'message']);
-        const authtype = login.getIn(['auth', 'type']);
-        const visible = login.getIn(['auth', 'visible']);
+        const {
+            status: { login }
+        } = this.props;
+        const checked = login.get("is_remember");
+        const fetching = login.get("fetching");
+        const message = login.getIn(["auth", "message"]);
+        const authtype = login.getIn(["auth", "type"]);
+        const visible = login.getIn(["auth", "visible"]);
 
         return (
             <div
                 className="login-wrapper"
-                style={{backgroundImage: `url(${backImage})`}}
+                style={{ backgroundImage: `url(${backImage})` }}
             >
                 <div className="login-content">
                     <div className="login-title">
@@ -201,33 +213,41 @@ class LoginRoute extends Component {
                             onTextChange={handleChange}
                         />
                         <div className="login-remember">
-                            <Checkbox label="Remember me" checked={checked} onClick={handleRemember} />
+                            <Checkbox
+                                label="Remember me"
+                                checked={checked}
+                                onClick={handleRemember}
+                            />
                         </div>
                         <div className="login-item">
                             <button
                                 className="login-submit"
                                 tabIndex="3"
                                 onClick={handleSubmit}
-                            >LOGIN</button>
+                            >
+                                LOGIN
+                            </button>
                         </div>
                     </div>
                 </div>
-                {fetching && 
-                    <Dimmer active >
+                {fetching && (
+                    <Dimmer active>
                         <Loader>사용자 정보 인증중...</Loader>
                     </Dimmer>
-                }
-                {message && 
+                )}
+                {message && (
                     <Message
                         icon
                         compact
-                        color={`${authtype === 'success' ? 'green' : 'red'}`}
-                        className={`float-message ${visible ? 'bounceInUp' : 'bounceOutDown'}`}
+                        color={`${authtype === "success" ? "green" : "red"}`}
+                        className={`float-message ${
+                            visible ? "bounceInUp" : "bounceOutDown"
+                        }`}
                     >
-                        <Icon name='info circle' />
+                        <Icon name="info circle" />
                         {message}
                     </Message>
-                }
+                )}
             </div>
         );
     }
@@ -244,6 +264,6 @@ LoginRoute = connect(
         HeaderActions: bindActionCreators(header, dispatch),
         LoginActions: bindActionCreators(login, dispatch)
     })
- )(LoginRoute);
+)(LoginRoute);
 
 export default LoginRoute;
