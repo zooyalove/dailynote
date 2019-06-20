@@ -36,7 +36,7 @@ class SearchRoute extends Component {
 		const date = month.getFullYear() + '-' + (month.getMonth()+1);
 		const res = await api.getMonthNotes(date);
 		const data = res.data.data;
-
+		console.log(data);
 		const monthData = [];
 
 		if (data.length > 0) {
