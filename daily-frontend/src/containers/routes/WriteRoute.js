@@ -344,7 +344,7 @@ class WriteRoute extends Component {
 							compact
 							placeholder="수량"
 							defaultValue={1}
-							options={[1,2,3,4,5].map((v) => { return {'key': v, 'text': v, 'value': v }; })}
+							options={[1,2,3,4,5,6,7,8,9,10].map((v) => { return {'key': v, 'text': v, 'value': v }; })}
 							value={delivery_count}
 							onChange={handleChange} />
 						<Divider />

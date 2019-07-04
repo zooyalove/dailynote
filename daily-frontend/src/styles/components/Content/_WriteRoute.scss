@@ -1,96 +1,98 @@
 .react-datepicker {
-	ul {
-		-webkit-padding-start: 0px !important;
-		padding-right: 0px !important;
+  ul {
+    -webkit-padding-start: 0px !important;
+    padding-right: 0px !important;
 
-		li[class*="item--disabled"] {
-			display: none;
-		}
-	}
+    li[class*="item--disabled"] {
+      display: none;
+    }
+  }
 }
 
 .min-width {
-	min-width: 250px !important;
+  min-width: 250px !important;
 }
 
 .active {
-	&.selected {
-		&.item {
-			background: rgba(255, 0, 76, 0.12);
-		}
-	}
+  &.selected {
+    &.item {
+      background: rgba(255, 0, 76, 0.12);
+    }
+  }
 }
 
 .date_input {
-	min-width: 197px;
-	margin-left: -2px !important;
+  min-width: 197px;
+  margin-left: -2px !important;
 }
 
 .prequired::after {
-	content: '*';
-	margin: -.2em 0 0 .2em;
-	color: #db2828;
-	vertical-align: top;
-	display: inline-block;
+  content: "*";
+  margin: -0.2em 0 0 0.2em;
+  color: #db2828;
+  vertical-align: top;
+  display: inline-block;
 }
 
 .write-action-btns {
-	float: right;
-	margin-right: 3.5rem;
+  float: right;
+  margin-right: 3.5rem;
 }
 
 @include media("<tablet") {
-	.ui.form {
-		.fields:first-child {
-			margin-bottom: 1rem;
-		}
-	}
+  .ui.form {
+    .fields:first-child {
+      margin-bottom: 1rem;
+    }
+  }
 
-	.number,
-	.number>input {
-		min-width: 150px !important;
-		width: 200px !important;
-	}
+  .number,
+  .number > input {
+    min-width: 150px !important;
+    width: 200px !important;
+  }
 
-	.price-button {
-		padding: .5rem 1rem;
-	}
+  .ui.buttons {
+    padding-top: 0.5rem;
+    padding-left: 3rem;
+    margin: 0 auto;
+  }
 
-	.write-action-btns {
-		justify-content: center;
-		float: none;
-	}
+  .price-button {
+    padding: 0.5rem 0.5rem;
+  }
+
+  .write-action-btns {
+    justify-content: center;
+    float: none;
+  }
 }
 
 @include media("<=phone") {
-	.ui.form {
-		.fields:first-child {
-			label:first-child {
-				display: block;
-			}
+  .ui.form {
+    .fields:first-child {
+      label:first-child {
+        display: block;
+      }
 
-			>button {
-				position: absolute;
-				right: 1rem;
-				top: 2.4rem;
-			}
-		}
+      > button {
+        position: absolute;
+        right: 1rem;
+        top: 2.4rem;
+      }
+    }
 
-		.fields {
-			span {
-				margin-right: 0 !important;
-			}
-		}
+    .fields {
+      span {
+        margin-right: 0 !important;
+      }
+    }
 
-		.ui.buttons {
-			margin-top: .5rem;
-			display: block;
-			text-align: center;
-			width: 100%;
-		}
-	}
-
-	.price-button {
-		padding: .5rem .5rem;
-	}
+    .ui.buttons {
+      margin-top: 0.5rem;
+      display: block;
+      text-align: center;
+      width: 100%;
+    }
+  }
 }
