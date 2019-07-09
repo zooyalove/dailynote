@@ -46,6 +46,8 @@ const initialState = {
 
 class WriteRoute extends Component {
 
+	// addr_ref = createRef()
+
 	constructor(props) {
 		super(props);
 		
@@ -68,43 +70,46 @@ class WriteRoute extends Component {
 		});
 	}
 
+	componentWillUnmount() {
+		this.setState({ postcode_open: false });
+	}
+
 	handlePostcode = (e) => {
 		const { postcode_open } = this.state;
 
 		const pc = document.querySelector('#pc_container');
-
 		
 		new window.daum.Postcode({
 			oncomplete: (data) => {
 				let addr = '';
 				let extraAddr = '';
 
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
+				if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+					addr = data.roadAddress;
+				} else { // 사용자가 지번 주소를 선택했을 경우(J)
+					addr = data.jibunAddress;
+				}
 
-                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                if(data.userSelectedType === 'R'){
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                    if(extraAddr !== ''){
-                        extraAddr = ' (' + extraAddr + ')';
-                    }
+				// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+				if (data.userSelectedType === 'R') {
+					// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+					// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+					if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+							extraAddr += data.bname;
+					}
+					// 건물명이 있고, 공동주택일 경우 추가한다.
+					if (data.buildingName !== '' && data.apartment === 'Y') {
+							extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+					}
+					// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+					if (extraAddr !== '') {
+							extraAddr = ' (' + extraAddr + ')';
+					}
 				}
 				
 				this.handleClosePostcode();
-				this.setState({ delivery_address: addr + extraAddr });
-
+				this.addr_ref.value = addr + extraAddr;
+				this.addr_ref.focus();
 			}
 		}).embed(pc);
 
@@ -155,22 +160,21 @@ class WriteRoute extends Component {
 		this.setState({delivery_date: date});
 	}
 
-    handleModal = (() => {
-        const { OrdererActions, status: { orderer } } = this.props;
-        return {
-            open: () => {
-                if (!orderer.getIn(['modal', 'open'])) {
-                    OrdererActions.openAddOrdererModal({open: true, mode: 'add'});
-                }
-            },
+  handleModal = (() => {
+    const { OrdererActions, status: { orderer } } = this.props;
+		return {
+			open: () => {
+				if (!orderer.getIn(['modal', 'open'])) {
+					OrdererActions.openAddOrdererModal({open: true, mode: 'add'});
+				}
+			},
+			close: () => {
+				OrdererActions.openAddOrdererModal({open: false});
+			}
+		};
+  })()
 
-            close: () => {
-                OrdererActions.openAddOrdererModal({open: false});
-            }
-        };
-    })()
-
-    handleOrdererAdd = async (formdata) => {
+  handleOrdererAdd = async (formdata) => {
 		const { OrdererActions } = this.props;
 		const { handleModal } = this;
 
@@ -337,7 +341,6 @@ class WriteRoute extends Component {
 							required
 							inline
 							value={receiver_name}
-							// style={{marginLeft: '0.66em'}}
 							tabIndex="3"
 							onChange={handleChange} />
 						<Form.Input
@@ -410,8 +413,9 @@ class WriteRoute extends Component {
 								placeholder="배송지 주소 또는 위치를 적어주세요"
 								tabIndex="8"
 								value={delivery_address}
-								onChange={handleChange} >
-								<input />
+								onChange={handleChange}
+							>
+								<input ref={(ref) => {this.addr_ref = ref;}} />
 								<div className="addr_btn" onClick={handlePostcode}>주소검색</div>
 							</Form.Input>
 						</Form.Group>
