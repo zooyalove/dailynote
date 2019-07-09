@@ -20,6 +20,7 @@ import {
 import { OrdererDropdown, OrdererAddModal } from 'components/Orderer';
 import Category from 'components/Category';
 import Input from 'components/Input';
+import DaumPostcode from 'components/DaumPostcode';
 
 import * as ordererAction from 'redux/modules/base/orderer';
 import * as api from 'helpers/WebApi/orderer';
@@ -38,7 +39,9 @@ const initialState = {
 	'delivery_address': '',
 	'delivery_text': '',
 	'memo': '',
-	'error': false
+	'error': false,
+	'postcode_open': false,
+	'postcode_position': 0
 };
 
 class WriteRoute extends Component {
@@ -63,6 +66,53 @@ class WriteRoute extends Component {
 		.catch( (err) => {
 			OrdererActions.setOrdererData({orderer: []});            
 		});
+	}
+
+	handlePostcode = (e) => {
+		const { postcode_open } = this.state;
+
+		const pc = document.querySelector('#pc_container');
+
+		
+		new window.daum.Postcode({
+			oncomplete: (data) => {
+				let addr = '';
+				let extraAddr = '';
+
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+				}
+				
+				this.handleClosePostcode();
+				this.setState({ delivery_address: addr + extraAddr });
+
+			}
+		}).embed(pc);
+
+		this.setState({ postcode_open: !postcode_open, postcode_position: e.target.offsetLeft-500});
+	}
+
+	handleClosePostcode = () => {
+		this.setState({ postcode_open: false });
 	}
 
 	handleChange = (e, { name, value }) => {
@@ -223,7 +273,9 @@ class WriteRoute extends Component {
 			handleCancel,
 			handleSubmit,
 			handleOrdererAdd,
-			handleError
+			handleError,
+			handlePostcode,
+			handleClosePostcode
 		} = this;
 
 		const {
@@ -237,7 +289,9 @@ class WriteRoute extends Component {
 			delivery_text,
 			delivery_category,
 			memo,
-			error
+			error,
+			postcode_open,
+			postcode_position
 		} = this.state;
 
 		const { status: { orderer } } = this.props;
@@ -348,13 +402,19 @@ class WriteRoute extends Component {
 							value={delivery_count}
 							onChange={handleChange} />
 						<Divider />
-						<Form.Input
-							name="delivery_address"
-							label="배달장소"
-							placeholder="배송지 주소 또는 위치를 적어주세요"
-							tabIndex="8"
-							value={delivery_address}
-							onChange={handleChange} />
+						<Form.Group inline>
+							<Form.Input
+								fluid
+								name="delivery_address"
+								label="배달장소"
+								placeholder="배송지 주소 또는 위치를 적어주세요"
+								tabIndex="8"
+								value={delivery_address}
+								onChange={handleChange} >
+								<input />
+								<div className="addr_btn" onClick={handlePostcode}>주소검색</div>
+							</Form.Input>
+						</Form.Group>
 						<Form.Input
 							name="delivery_text"
 							label="글 씨"
@@ -384,6 +444,7 @@ class WriteRoute extends Component {
 							onClick={handleSubmit} />
 					</Form.Group>
 				</Form>
+				<DaumPostcode id="pc_container" position={postcode_position} open={postcode_open} onCloseClick={handleClosePostcode} />
 				<OrdererAddModal
 					open={orderer.getIn(['modal', 'open'])}
 					mode={orderer.getIn(['modal', 'mode'])}
