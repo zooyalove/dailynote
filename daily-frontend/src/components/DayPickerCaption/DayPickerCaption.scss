@@ -1,0 +1,12 @@
+.picker_caption {
+    padding: 0 0.5rem;
+    display: table-caption;
+    text-align: left;
+    margin-bottom: 0.5rem;
+
+    .caption {
+        cursor: pointer;
+        user-select: none;
+        display: inline;
+    }
+}
