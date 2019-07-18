@@ -9,4 +9,36 @@
         user-select: none;
         display: inline;
     }
+
+}
+
+.month_picker {
+    .mp_close {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        user-select: none;
+        cursor: pointer;
+    }
+
+    .mp_wrapper {
+        display: inline-flex;
+        margin: 0 auto;
+    }
+}
+
+.caption_buttons {
+    margin-top: 1.5rem;
+
+    >button:first-child {
+        margin-right: 0;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    >button:not(:first-child) {
+        margin-left: -1px;
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
 }
