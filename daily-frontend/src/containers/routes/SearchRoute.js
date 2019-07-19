@@ -113,6 +113,7 @@ class SearchRoute extends Component {
 
     handleCaptionClick = month => {
         this.setState({ month });
+        this.getMonthNotes(month);
     };
 
     render() {
@@ -201,10 +202,9 @@ class SearchRoute extends Component {
                             modifiers={{ existOrder }}
                             selectedDays={selectedDays}
                             todayButton="Go to Today"
-                            captionElement={({ date, localeUtils }) => (
+                            captionElement={({ date }) => (
                                 <DayPickerCaption
                                     date={date}
-                                    localeUtils={localeUtils}
                                     onCaptionClick={handleCaptionClick}
                                 />
                             )}
