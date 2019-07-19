@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Button, Dimmer, Dropdown, Header, Icon } from "semantic-ui-react";
 import classNames from "classnames";
 import styles from "./DayPickerCaption.scss";
@@ -137,5 +138,10 @@ class DayPickerCaption extends Component {
         );
     }
 }
+
+DayPickerCaption.propTypes = {
+    date: PropTypes.object.isRequired,
+    onCaptionClick: PropTypes.func.isRequired
+};
 
 export default DayPickerCaption;
