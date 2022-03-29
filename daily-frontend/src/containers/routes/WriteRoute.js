@@ -241,12 +241,14 @@ class WriteRoute extends Component {
     this.setState({ delivery_price: price });
   };
 
+  // 장부입력 초기화
   handleCancel = (e) => {
     e.preventDefault();
 
     this.setState({ ...initialState, delivery_date: moment() });
   };
 
+  // 장부 등록
   handleSubmit = async (e) => {
     const { OrdererActions } = this.props;
     const {
@@ -308,9 +310,24 @@ class WriteRoute extends Component {
     });
 
     setTimeout(() => {
-      this.setState({ ...initialState, delivery_date: moment() });
+      // this.setState({ ...initialState, delivery_date: moment() });
+      this.setState({
+        ...this.state,
+        receiver_name: "",
+        receiver_phone: "",
+        delivery_date: moment(),
+        delivery_address: "",
+        delivery_count: 1,
+        delivery_category: "",
+        delivery_price: 0,
+        delivery_text: "",
+        memo: "",
+      }); // 장부 등록후 선택된 거래처 기본정보 유지 (날짜 및 시간, 배송지, 가격 최신정보 업데이트)
+
       OrdererActions.fetchingOrdererData({ fetch: false, message: "" });
-    }, 1500);
+
+      document.querySelector("input[name=receiver_name]").focus();
+    }, 1000);
   };
 
   handleError = () => {
