@@ -52,6 +52,7 @@ class OrdererInfoRoute extends Component {
       this.handleOrdererInfo(nextProps.params.userid);
       this.setState({
         hide: true,
+        view_past: false,
         random: Math.floor(Math.random() * 5),
       });
     }
