@@ -194,7 +194,7 @@ class OrdererInfoRoute extends Component {
 
     if (!bViewPast) {
       // 직전년도 데이터 보기를 클릭했을 경우
-      const res = await api.getOrdererPastDataById({ userid });
+      const res = await api.getOrdererPastDataById({ id: userid });
 
       if (res.status === 200 && !!res.data) {
         const { data } = res;
