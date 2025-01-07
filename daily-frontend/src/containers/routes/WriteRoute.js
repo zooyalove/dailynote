@@ -36,7 +36,7 @@ const initialState = {
   delivery_category: "",
   delivery_price: 0,
   delivery_count: 1,
-  delivery_discount: 0,
+  delivery_discount: 0, // 할인금액
   delivery_address: "",
   delivery_text: "",
   memo: "",
