@@ -187,6 +187,11 @@ class OrdererInfoRoute extends Component {
   handleViewPastClick = async (bViewPast) => {
     const { userid } = this.props.params;
 
+    const {
+      OrdererActions,
+      status: { orderer },
+    } = this.props;
+
     if (!bViewPast) {
       // 직전년도 데이터 보기를 클릭했을 경우
       const res = await api.getOrdererPastDataById({ userid });
