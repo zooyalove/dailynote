@@ -192,26 +192,27 @@ class OrdererInfoRoute extends Component {
       status: { orderer },
     } = this.props;
 
+    let res;
+
     if (!bViewPast) {
       // 직전년도 데이터 보기를 클릭했을 경우
-      const res = await api.getOrdererPastDataById({ id: userid });
-
-      if (res.status === 200 && !!res.data) {
-        const { data } = res;
-
-        const i = orderer.get("data").findIndex((d) => d.get("_id") === userid);
-        OrdererActions.setSelectedOrderer(userid);
-
-        this.setState({
-          index: i,
-          data: data.data,
-        });
-      }
+      res = await api.getOrdererPastDataById({ id: userid });
     } else {
-      this.handleOrdererInfo(userid);
+      res = await api.getOrdererById({ id: userid });
     }
 
-    this.setState({ view_past: !bViewPast });
+    if (res.status === 200 && !!res.data) {
+      const { data } = res;
+
+      const i = orderer.get("data").findIndex((d) => d.get("_id") === userid);
+      OrdererActions.setSelectedOrderer(userid);
+
+      this.setState({
+        index: i,
+        data: data.data,
+        view_past: !bViewPast,
+      });
+    }
   };
 
   render() {
