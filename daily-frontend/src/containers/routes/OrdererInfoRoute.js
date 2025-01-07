@@ -192,14 +192,10 @@ class OrdererInfoRoute extends Component {
       status: { orderer },
     } = this.props;
 
-    let res;
-
-    if (!bViewPast) {
-      // 직전년도 데이터 보기를 클릭했을 경우
-      res = await api.getOrdererPastDataById({ id: userid });
-    } else {
-      res = await api.getOrdererById({ id: userid });
-    }
+    // 직전년도 데이터 보기를 클릭했을 경우
+    const res = !bViewPast
+      ? await api.getOrdererPastDataById({ id: userid })
+      : await api.getOrdererById({ id: userid });
 
     if (res.status === 200 && !!res.data) {
       const { data } = res;

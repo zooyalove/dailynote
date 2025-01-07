@@ -20,6 +20,11 @@ class InfoCard extends Component {
     this.setState({ active: !active });
   };
 
+  handleViewPastClick = () => {
+    const { bViewPast, onViewPastClick } = this.props;
+    onViewPastClick(bViewPast);
+  };
+
   render() {
     const {
       backgroundImage,
@@ -29,13 +34,12 @@ class InfoCard extends Component {
       onMoreClick,
       onDelete,
       onModify,
-      onViewPastClick,
       children,
     } = this.props;
 
     const { active } = this.state;
 
-    const { handleMoreClick } = this;
+    const { handleMoreClick, handleViewPastClick } = this;
 
     return (
       <div>
@@ -47,7 +51,7 @@ class InfoCard extends Component {
           <div className="actions">
             <Button
               desc={!bViewPast ? "지난해 리스트 보기" : "올해 리스트 보기"}
-              onClick={onViewPastClick(bViewPast)}
+              onClick={handleViewPastClick}
             >
               {!bViewPast ? (
                 <Icon
