@@ -82,7 +82,7 @@ class WriteRoute extends Component {
 
     const pc = document.querySelector("#pc_container");
 
-    new window.daum.Postcode({
+    new kakao.Postcode({
       oncomplete: (data) => {
         let addr = "";
         let extraAddr = "";
@@ -217,7 +217,7 @@ class WriteRoute extends Component {
       },
       (err) => {
         console.error(err.response.data.error);
-      }
+      },
     );
 
     OrdererActions.fetchingOrdererData({
@@ -636,7 +636,7 @@ WriteRoute = connect(
   }),
   (dispatch) => ({
     OrdererActions: bindActionCreators(ordererAction, dispatch),
-  })
+  }),
 )(WriteRoute);
 
 export default WriteRoute;
